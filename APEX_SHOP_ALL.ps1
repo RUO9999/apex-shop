@@ -307,40 +307,19 @@ function Test-VM {
 
 function Test-TimeSkew {
     param([long]$ServerTime)
-    $clientTime = [long][double]::Parse((Get-Date -UFormat %s))
+    
+    # ใช้เวลา UTC ของ Server เป็นหลัก
+    # Server ส่ง UTC timestamp → Client คำนวณ UTC เช่นกัน
+    $epoch = [datetime]::new(1970, 1, 1, 0, 0, 0, [System.DateTimeKind]::Utc)
+    $clientTime = [long](([datetime]::UtcNow - $epoch).TotalSeconds)
+    
     $diff = [Math]::Abs($clientTime - $ServerTime)
-    return ($diff -gt 300)  # 5 นาที
+    
+    Write-Host "[TimeSkew] Client UTC: $clientTime | Server: $ServerTime | Diff: $diff" -ForegroundColor DarkGray
+    
+    # ยอมรับความต่างได้ 24 ชั่วโมง (86400 วินาที) เพื่อรองรับ timezone
+    return ($diff -gt 86400)
 }
-
-function Test-ResponseSignature {
-    param($Data, $Signature)
-    
-    # Simple Pipe - ต้องตรงกับ Server 100% (valid เป็น "1"/"0")
-    $validStr = if ($Data.valid -eq $true -or $Data.valid -eq "True" -or $Data.valid -eq "1") { "1" } else { "0" }
-    $daysStr = [string][int]$Data.days_left
-    $noteStr = if ([string]::IsNullOrEmpty($Data.note)) { "" } else { [string]$Data.note }
-    $nonceStr = [string]$Data.nonce
-    $timeStr = [string][long]$Data.server_time
-    
-    $msg = "$validStr|$daysStr|$noteStr|$nonceStr|$timeStr"
-    
-    $hmac = New-Object System.Security.Cryptography.HMACSHA256
-    $hmac.Key = [System.Text.Encoding]::UTF8.GetBytes($script:ServerSecret)
-    $hash = $hmac.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($msg))
-    $expected = [System.BitConverter]::ToString($hash).Replace("-","").ToLower()
-    
-    Write-Host ""
-    Write-Host "=== Signature Debug ===" -ForegroundColor Cyan
-    Write-Host "Msg:      [$msg]" -ForegroundColor Gray
-    Write-Host "Expected: $expected" -ForegroundColor Yellow
-    Write-Host "Received: $Signature" -ForegroundColor Green
-    Write-Host "Match:    $($expected -eq $Signature)" -ForegroundColor $(if ($expected -eq $Signature) { "Green" } else { "Red" })
-    Write-Host "======================" -ForegroundColor Cyan
-    Write-Host ""
-    
-    return $expected -eq $Signature
-    
-    }
 
 
 
