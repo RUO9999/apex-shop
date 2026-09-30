@@ -329,6 +329,36 @@ function Add-Tweak {
 }
 
 # ==========================================
+# SAFE HEARTBEAT (No-Kill Mode)
+# ==========================================
+function Start-LicenseHeartbeat {
+    param([int]$IntervalMs = 30000)
+    if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Dispose() }
+    $script:HeartbeatTimer = New-Object System.Threading.Timer(
+        [System.Threading.TimerCallback]{
+            param($state)
+            try {
+                if ($script:LicenseRevoked -or $script:HeartbeatBusy) { return }
+                $script:HeartbeatBusy = $true
+                try {
+                    $cache = Get-CachedLicense
+                    if (-not $cache) { return }
+                    $result = Test-LicenseKey -Key $cache.key -HWID (Get-HWID)
+                    # แค่ log ไม่ปิดโปรแกรม
+                    if (-not $result.valid) {
+                        Write-Host "[License] Warning: $($result.reason)" -ForegroundColor Yellow
+                    }
+                } catch { }
+                finally { $script:HeartbeatBusy = $false }
+            } catch { }
+        },
+        $null, $IntervalMs, $IntervalMs
+    )
+    Write-Host "[License] Heartbeat ON (${IntervalMs}ms, no-kill)" -ForegroundColor Green
+}
+
+
+# ==========================================
 # RUN LICENSE CHECK
 # ==========================================
 if (-not (Confirm-License)) {
