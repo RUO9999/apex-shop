@@ -68,9 +68,37 @@ function Save-LicenseCache {
 function Test-LicenseKey {
     param([string]$Key, [string]$HWID)
     try {
-        $body = @{ license_key = $Key; hwid = $HWID } | ConvertTo-Json
-        $response = Invoke-RestMethod -Uri "$script:LicenseServer/api/validate" -Method POST -Body $body -ContentType "application/json" -TimeoutSec 3 -ErrorAction Stop
-        return $response
+        $clientTime = [long][double]::Parse((Get-Date -UFormat %s))
+        $body = @{
+            license_key = $Key
+            hwid = $HWID
+            client_time = $clientTime
+        } | ConvertTo-Json
+        
+        $response = Invoke-RestMethod -Uri "$script:LicenseServer/api/validate" `
+            -Method POST -Body $body -ContentType "application/json" -TimeoutSec 3 -ErrorAction Stop
+        
+        # ตรวจสอบ Response Structure
+        if (-not $response.data -or -not $response.sig) {
+            return @{ valid = $false; reason = "Malformed response" }
+        }
+        
+        # ตรวจสอบ Signature (ป้องกัน Response ปลอม)
+        if (-not (Test-ResponseSignature -Data $response.data -Signature $response.sig)) {
+            return @{ valid = $false; reason = "Invalid signature" }
+        }
+        
+        # ตรวจสอบ Time Skew
+        if ($response.data.server_time -and (Test-TimeSkew -ServerTime $response.data.server_time)) {
+            return @{ valid = $false; reason = "Time mismatch" }
+        }
+        
+        # คืนค่า data จริง
+        return @{
+            valid = $response.data.valid
+            days_left = $response.data.days_left
+            note = $response.data.note
+        }
     } catch {
         return @{ valid = $false; reason = "Server unreachable" }
     }
@@ -248,6 +276,67 @@ function Start-LicenseHeartbeat {
 
 function Stop-LicenseHeartbeat {
     if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Stop(); $script:HeartbeatTimer.Dispose(); $script:HeartbeatTimer = $null }
+}
+# ==========================================
+# ANTI-CRACK LAYER
+# ==========================================
+
+$script:ServerSecret = "APEX-SHOP-SERVER-KEY-7f3a9b2c4d8e1f6a-2026-CHANGE-ME"
+$script:StartTime = [System.Diagnostics.Stopwatch]::StartNew()
+
+function Test-DebuggerPresent {
+    $suspicious = @("x64dbg","ollydbg","ida","ida64","windbg","dnspy","cheatengine","processhacker","fiddler","charles","httpdebugger","wireshark")
+    try {
+        $running = Get-Process -ErrorAction SilentlyContinue | Where-Object { $suspicious -contains $_.ProcessName.ToLower() }
+        return ($running | Measure-Object).Count -gt 0
+    } catch { return $false }
+}
+
+function Test-VM {
+    try {
+        $vmSigs = @("VMware","VBOX","VirtualBox","QEMU","Xen","Virtual","Parallels")
+        $cs = Get-CimInstance Win32_ComputerSystem -ErrorAction SilentlyContinue
+        $bios = Get-CimInstance Win32_BIOS -ErrorAction SilentlyContinue
+        foreach ($sig in $vmSigs) {
+            if ($cs.Manufacturer -like "*$sig*" -or $cs.Model -like "*$sig*") { return $true }
+            if ($bios.Manufacturer -like "*$sig*") { return $true }
+        }
+        return $false
+    } catch { return $false }
+}
+
+function Test-TimeSkew {
+    param([long]$ServerTime)
+    $clientTime = [long][double]::Parse((Get-Date -UFormat %s))
+    $diff = [Math]::Abs($clientTime - $ServerTime)
+    return ($diff -gt 300)  # 5 นาที
+}
+
+function Test-ResponseSignature {
+    param($Data, $Signature)
+    $msg = ($Data | ConvertTo-Json -Compress -SortObject -Depth 5)
+    # ConvertTo-Json ใน PS 5.1 ต้องจัดเรียง key เอง
+    $sortedData = @{}
+    $Data.PSObject.Properties | Sort-Object Name | ForEach-Object { $sortedData[$_.Name] = $_.Value }
+    $msg = ($sortedData | ConvertTo-Json -Compress)
+    
+    $hmac = New-Object System.Security.Cryptography.HMACSHA256
+    $hmac.Key = [System.Text.Encoding]::UTF8.GetBytes($script:ServerSecret)
+    $hash = $hmac.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($msg))
+    $expected = [System.BitConverter]::ToString($hash).Replace("-","").ToLower()
+    return $expected -eq $Signature
+}
+
+# ---- ตรวจสอบ Anti-Debug + Anti-VM ----
+if (Test-DebuggerPresent) {
+    Write-Host "[Security] Debugger detected" -ForegroundColor Red
+    exit
+}
+
+if (Test-VM) {
+    Write-Host "[Security] Virtual machine detected" -ForegroundColor Red
+    [System.Windows.Forms.MessageBox]::Show("Not supported in VM", "APEX SHOP V3", "OK", "Error")
+    exit
 }
 
 # ==========================================
@@ -711,3 +800,11 @@ Load-Category "GAMING"
 $form.Add_Shown({ $form.Activate() })
 $form.Add_FormClosing({ Stop-LicenseHeartbeat })
 [void]$form.ShowDialog()
+
+# ---- ตรวจสอบ Execution Time ----
+$script:StartTime.Stop()
+if ($script:StartTime.ElapsedMilliseconds -gt 60000) {
+    Write-Host "[Security] Abnormal execution time" -ForegroundColor Red
+}
+
+
