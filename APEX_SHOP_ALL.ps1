@@ -9,7 +9,7 @@ Add-Type -AssemblyName System.Drawing
 # ==========================================
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    $BaseUrl = "https://raw.githubusercontent.com/YOUR-USERNAME/apex-shop/main/APEX_SHOP_ALL.ps1"
+    $BaseUrl = "https://raw.githubusercontent.com/RUO9999/apex-shop/main/APEX_SHOP_ALL.ps1"
     Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -Command `"iwr -useb $BaseUrl | iex`"" -Verb RunAs
     exit
 }
