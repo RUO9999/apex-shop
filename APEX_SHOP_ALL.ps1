@@ -31,6 +31,9 @@ $colGreenDark = [System.Drawing.Color]::FromArgb(0, 180, 70)
 $colRed = [System.Drawing.Color]::FromArgb(255, 80, 80)
 $colTextGray = [System.Drawing.Color]::FromArgb(160, 160, 160)
 $colYellow = [System.Drawing.Color]::FromArgb(255, 200, 0)
+$script:LicenseRevoked = $false
+$script:HeartbeatBusy = $false
+$script:MainForm = $null
 
 function Get-HWID {
     try {
@@ -253,29 +256,64 @@ function Confirm-License {
 }
 
 function Start-LicenseHeartbeat {
-    param([int]$IntervalMs = 1000)
-    if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Stop(); $script:HeartbeatTimer.Dispose() }
-    $script:HeartbeatTimer = New-Object System.Windows.Forms.Timer
-    $script:HeartbeatTimer.Interval = $IntervalMs
-    $script:HeartbeatTimer.Add_Tick({
-        if ($script:LicenseRevoked) { return }
-        $cache = Get-CachedLicense
-        if (-not $cache) { return }
-        $result = Test-LicenseKey -Key $cache.key -HWID (Get-HWID)
-        if (-not $result.valid -and $result.reason -ne "Server unreachable") {
-            $script:LicenseRevoked = $true
-            $script:HeartbeatTimer.Stop()
-            Write-Host "[License] REVOKED" -ForegroundColor Red
-            [System.Windows.Forms.MessageBox]::Show("License revoked: $($result.reason)", "APEX SHOP V3", "OK", "Error") | Out-Null
-            [System.Windows.Forms.Application]::Exit()
-        }
-    })
-    $script:HeartbeatTimer.Start()
-    Write-Host "[License] Heartbeat ON" -ForegroundColor Green
+    param([int]$IntervalMs = 5000)
+    
+    if ($script:HeartbeatTimer) {
+        $script:HeartbeatTimer.Dispose()
+    }
+    
+    # ใช้ System.Threading.Timer (background thread) — ไม่ block UI
+    $script:HeartbeatTimer = New-Object System.Threading.Timer(
+        [System.Threading.TimerCallback]{
+            param($state)
+            
+            if ($script:LicenseRevoked) { return }
+            if ($script:HeartbeatBusy) { return }
+            $script:HeartbeatBusy = $true
+            
+            try {
+                $cache = Get-CachedLicense
+                if (-not $cache) { return }
+                
+                # เรียก API ใน background — UI ไม่ค้าง
+                $result = Test-LicenseKey -Key $cache.key -HWID (Get-HWID)
+                
+                if (-not $result.valid -and $result.reason -ne "Server unreachable") {
+                    $script:LicenseRevoked = $true
+                    Write-Host "[License] REVOKED: $($result.reason)" -ForegroundColor Red
+                    
+                    # เรียก UI จาก main thread
+                    if ($script:MainForm -and $script:MainForm.IsHandleCreated) {
+                        try {
+                            $script:MainForm.Invoke([Action]{
+                                [System.Windows.Forms.MessageBox]::Show(
+                                    "License revoked: $($result.reason)`n`nThe application will close.",
+                                    "APEX SHOP V3", "OK", "Error"
+                                ) | Out-Null
+                                [System.Windows.Forms.Application]::Exit()
+                            })
+                        } catch { }
+                    }
+                }
+            } catch {
+                # Silent fail
+            } finally {
+                $script:HeartbeatBusy = $false
+            }
+        },
+        $null,
+        $IntervalMs,
+        $IntervalMs
+    )
+    
+    Write-Host "[License] Heartbeat ON (background, every ${IntervalMs}ms)" -ForegroundColor Green
 }
 
 function Stop-LicenseHeartbeat {
-    if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Stop(); $script:HeartbeatTimer.Dispose(); $script:HeartbeatTimer = $null }
+    if ($script:HeartbeatTimer) {
+        $script:HeartbeatTimer.Dispose()
+        $script:HeartbeatTimer = $null
+    }
 }
 # ==========================================
 # ANTI-CRACK LAYER
@@ -342,7 +380,7 @@ if (-not (Confirm-License)) {
     [System.Windows.Forms.MessageBox]::Show("Invalid License", "APEX SHOP V3", "OK", "Error")
     exit
 }
-Start-LicenseHeartbeat -IntervalMs 1000
+Start-LicenseHeartbeat -IntervalMs 5000
 
 # ==========================================
 # APEX SHOP - TWEAK DATABASE (150 Tweaks)
