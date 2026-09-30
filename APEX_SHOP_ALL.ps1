@@ -315,8 +315,14 @@ function Test-TimeSkew {
 function Test-ResponseSignature {
     param($Data, $Signature)
     
-    # Simple pipe-separated string (ตรงกับ Server)
-    $msg = "$($Data.valid)|$($Data.days_left)|$($Data.note)|$($Data.nonce)|$($Data.server_time)"
+    # Simple Pipe - ต้องตรงกับ Server 100% (valid เป็น "1"/"0")
+    $validStr = if ($Data.valid -eq $true -or $Data.valid -eq "True" -or $Data.valid -eq "1") { "1" } else { "0" }
+    $daysStr = [string][int]$Data.days_left
+    $noteStr = if ([string]::IsNullOrEmpty($Data.note)) { "" } else { [string]$Data.note }
+    $nonceStr = [string]$Data.nonce
+    $timeStr = [string][long]$Data.server_time
+    
+    $msg = "$validStr|$daysStr|$noteStr|$nonceStr|$timeStr"
     
     $hmac = New-Object System.Security.Cryptography.HMACSHA256
     $hmac.Key = [System.Text.Encoding]::UTF8.GetBytes($script:ServerSecret)
@@ -325,7 +331,7 @@ function Test-ResponseSignature {
     
     Write-Host ""
     Write-Host "=== Signature Debug ===" -ForegroundColor Cyan
-    Write-Host "Msg:      $msg" -ForegroundColor Gray
+    Write-Host "Msg:      [$msg]" -ForegroundColor Gray
     Write-Host "Expected: $expected" -ForegroundColor Yellow
     Write-Host "Received: $Signature" -ForegroundColor Green
     Write-Host "Match:    $($expected -eq $Signature)" -ForegroundColor $(if ($expected -eq $Signature) { "Green" } else { "Red" })
@@ -333,6 +339,8 @@ function Test-ResponseSignature {
     Write-Host ""
     
     return $expected -eq $Signature
+}
+
 }
 # ==========================================
 # RUN LICENSE CHECK
