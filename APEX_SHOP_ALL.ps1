@@ -253,45 +253,6 @@ function Confirm-License {
     return Show-LicenseLogin
 }
 
-function Start-LicenseHeartbeat {
-    param([int]$IntervalMs = 60000)
-    
-    # Heartbeat แบบ Safe Mode — แค่ log ไม่ปิดโปรแกรมเด็ดขาด
-    if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Dispose() }
-    
-    $script:HeartbeatTimer = New-Object System.Threading.Timer(
-        [System.Threading.TimerCallback]{
-            param($state)
-            try {
-                if ($script:HeartbeatBusy) { return }
-                $script:HeartbeatBusy = $true
-                try {
-                    $cache = Get-CachedLicense
-                    if (-not $cache) { return }
-                    
-                    # ดึงข้อมูล
-                    $result = $null
-                    try {
-                        $result = Test-LicenseKey -Key $cache.key -HWID (Get-HWID)
-                    } catch {
-                        Write-Host "[License] Heartbeat: error (ignored)" -ForegroundColor DarkGray
-                        return
-                    }
-                    
-                    # ⚠️ สำคัญ: แค่ log — ห้ามปิดโปรแกรม
-                    if ($result -and -not $result.valid) {
-                        Write-Host "[License] Heartbeat warning: $($result.reason)" -ForegroundColor Yellow
-                    } else {
-                        Write-Host "[License] Heartbeat OK" -ForegroundColor DarkGray
-                    }
-                } catch { }
-                finally { $script:HeartbeatBusy = $false }
-            } catch { }
-        },
-        $null, $IntervalMs, $IntervalMs
-    )
-    Write-Host "[License] Heartbeat ON (${IntervalMs}ms, safe mode)" -ForegroundColor Green
-}
 
 # ==========================================
 # ANTI-CRACK
