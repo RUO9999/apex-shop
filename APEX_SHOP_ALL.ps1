@@ -365,7 +365,7 @@ if (-not (Confirm-License)) {
     [System.Windows.Forms.MessageBox]::Show("Invalid License", "APEX SHOP V3", "OK", "Error")
     exit
 }
-Start-LicenseHeartbeat -IntervalMs 10000
+Start-LicenseHeartbeat -IntervalMs 30000
 
 # ==========================================
 # LOAD TWEAKS FROM GITHUB
