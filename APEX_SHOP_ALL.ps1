@@ -1,5 +1,5 @@
-# APEX SHOP V3 - All-in-One (iex Ready, No External Files)
-# Contains: Auto-Elevate + License Check + HWID Lock + Heartbeat + 150 Tweaks UI
+# APEX SHOP V3 - Main (UI + License)
+# Tweaks loaded from tweaks.ps1
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -73,7 +73,7 @@ function Test-TimeSkew {
     param([long]$ServerTime)
     $clientTime = [long]([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
     $diff = [Math]::Abs($clientTime - $ServerTime)
-    Write-Host "[TimeSkew] Client: $clientTime | Server: $ServerTime | Diff: $diff" -ForegroundColor DarkGray
+    Write-Host "[TimeSkew] Diff: $diff" -ForegroundColor DarkGray
     return ($diff -gt 86400)
 }
 
@@ -85,13 +85,11 @@ function Test-ResponseSignature {
     $nonceStr = [string]$Data.nonce
     $timeStr = [string][long]$Data.server_time
     $msg = "$validStr|$daysStr|$noteStr|$nonceStr|$timeStr"
-    
     $hmac = New-Object System.Security.Cryptography.HMACSHA256
     $hmac.Key = [System.Text.Encoding]::UTF8.GetBytes($script:ServerSecret)
     $hash = $hmac.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($msg))
     $expected = [System.BitConverter]::ToString($hash).Replace("-","").ToLower()
-    
-    Write-Host "[Signature] Match: $($expected -eq $Signature) | Msg: $msg" -ForegroundColor $(if ($expected -eq $Signature) { "Green" } else { "Red" })
+    Write-Host "[Signature] Match: $($expected -eq $Signature)" -ForegroundColor $(if ($expected -eq $Signature) { "Green" } else { "Red" })
     return $expected -eq $Signature
 }
 
@@ -101,11 +99,9 @@ function Test-LicenseKey {
         $clientTime = [long]([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
         $body = @{ license_key = $Key; hwid = $HWID; client_time = $clientTime } | ConvertTo-Json
         $response = Invoke-RestMethod -Uri "$script:LicenseServer/api/validate" -Method POST -Body $body -ContentType "application/json" -TimeoutSec 5 -ErrorAction Stop
-        
         if (-not $response.data -or -not $response.sig) { return @{ valid = $false; reason = "Malformed response" } }
         if (-not (Test-ResponseSignature -Data $response.data -Signature $response.sig)) { return @{ valid = $false; reason = "Invalid signature" } }
         if ($response.data.server_time -and (Test-TimeSkew -ServerTime $response.data.server_time)) { return @{ valid = $false; reason = "Time mismatch" } }
-        
         return @{ valid = $response.data.valid; days_left = $response.data.days_left; note = $response.data.note }
     } catch {
         return @{ valid = $false; reason = "Server unreachable" }
@@ -260,7 +256,6 @@ function Confirm-License {
 function Start-LicenseHeartbeat {
     param([int]$IntervalMs = 10000)
     if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Dispose() }
-    
     $script:HeartbeatTimer = New-Object System.Threading.Timer(
         [System.Threading.TimerCallback]{
             param($state)
@@ -286,7 +281,7 @@ function Start-LicenseHeartbeat {
         },
         $null, $IntervalMs, $IntervalMs
     )
-    Write-Host "[License] Heartbeat ON (background, ${IntervalMs}ms)" -ForegroundColor Green
+    Write-Host "[License] Heartbeat ON (${IntervalMs}ms)" -ForegroundColor Green
 }
 
 function Stop-LicenseHeartbeat {
@@ -310,16 +305,7 @@ if (Test-DebuggerPresent) {
 }
 
 # ==========================================
-# RUN LICENSE CHECK
-# ==========================================
-if (-not (Confirm-License)) {
-    [System.Windows.Forms.MessageBox]::Show("Invalid License", "APEX SHOP V3", "OK", "Error")
-    exit
-}
-Start-LicenseHeartbeat -IntervalMs 10000
-
-# ==========================================
-# TWEAK DATABASE
+# SET-REG & ADD-TWEAK
 # ==========================================
 function Set-Reg {
     param([string]$Path,[string]$Name,$Value,[string]$Type="DWord")
@@ -332,3 +318,297 @@ function Add-Tweak {
     param($Name, $Category, $Action)
     $script:AllTweaks += [PSCustomObject]@{ Name = $Name; Category = $Category; Action = $Action; Checked = $false }
 }
+
+# ==========================================
+# RUN LICENSE CHECK
+# ==========================================
+if (-not (Confirm-License)) {
+    [System.Windows.Forms.MessageBox]::Show("Invalid License", "APEX SHOP V3", "OK", "Error")
+    exit
+}
+Start-LicenseHeartbeat -IntervalMs 10000
+
+# ==========================================
+# LOAD TWEAKS FROM GITHUB
+# ==========================================
+Write-Host "[Tweaks] Loading tweaks.ps1 from GitHub..." -ForegroundColor Cyan
+try {
+    $tweaksUrl = "https://raw.githubusercontent.com/RUO9999/apex-shop/main/tweaks.ps1?t=$(Get-Random)"
+    $tweaksCode = (iwr -useb $tweaksUrl -TimeoutSec 15).Content
+    Invoke-Expression $tweaksCode
+    Write-Host "[Tweaks] Loaded: $($script:AllTweaks.Count) tweaks" -ForegroundColor Green
+} catch {
+    Write-Host "[Tweaks] FAILED: $($_.Exception.Message)" -ForegroundColor Red
+    [System.Windows.Forms.MessageBox]::Show("Failed to load tweaks: $($_.Exception.Message)", "APEX SHOP V3", "OK", "Error")
+    exit
+}
+
+$totalTweaks = $script:AllTweaks.Count
+
+# ==========================================
+# SYSTEM INFO
+# ==========================================
+$cpu = (Get-CimInstance Win32_Processor).Name
+$cpuSpeed = "{0:N2} GHz" -f ((Get-CimInstance Win32_Processor).MaxClockSpeed / 1000)
+$gpu = (Get-CimInstance Win32_VideoController | Select-Object -First 1).Name
+$ram = "{0:N2} GB" -f ((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB)
+$os = (Get-CimInstance Win32_OperatingSystem).Caption -replace "Microsoft ", ""
+
+# ==========================================
+# MAIN UI
+# ==========================================
+$form = New-Object System.Windows.Forms.Form
+$script:MainForm = $form
+$form.Text = "APEX SHOP V3"
+$form.Size = New-Object System.Drawing.Size(1300, 800)
+$form.MinimumSize = New-Object System.Drawing.Size(1100, 700)
+$form.BackColor = $colBgDark
+$form.ForeColor = $colGreen
+$form.StartPosition = "CenterScreen"
+$form.FormBorderStyle = "Sizable"
+$form.MaximizeBox = $true
+
+$header = New-Object System.Windows.Forms.Label
+$header.Text = "APEX SHOP V3"
+$header.Font = New-Object System.Drawing.Font("Segoe UI", 28, [System.Drawing.FontStyle]::Bold)
+$header.ForeColor = $colGreen
+$header.BackColor = $colBgDark
+$header.Size = New-Object System.Drawing.Size(400, 60)
+$header.Location = New-Object System.Drawing.Point(20, 10)
+$header.Anchor = "Top, Left"
+$form.Controls.Add($header)
+
+$infoPanel = New-Object System.Windows.Forms.Panel
+$infoPanel.BackColor = $colBgPanel
+$infoPanel.Size = New-Object System.Drawing.Size(840, 80)
+$infoPanel.Location = New-Object System.Drawing.Point(440, 10)
+$infoPanel.Anchor = "Top, Right"
+$form.Controls.Add($infoPanel)
+
+$lblInfo = New-Object System.Windows.Forms.Label
+$lblInfo.Text = "CPU: $cpu`nCPU Speed: $cpuSpeed`nGPU: $gpu`nRAM: $ram | OS: $os"
+$lblInfo.Font = New-Object System.Drawing.Font("Consolas", 10)
+$lblInfo.ForeColor = $colTextGray
+$lblInfo.BackColor = $colBgPanel
+$lblInfo.Size = New-Object System.Drawing.Size(820, 75)
+$lblInfo.Location = New-Object System.Drawing.Point(10, 5)
+$lblInfo.Anchor = "Top, Left, Right"
+$infoPanel.Controls.Add($lblInfo)
+
+$sidebar = New-Object System.Windows.Forms.Panel
+$sidebar.BackColor = $colBgPanel
+$sidebar.Size = New-Object System.Drawing.Size(200, 600)
+$sidebar.Location = New-Object System.Drawing.Point(20, 90)
+$sidebar.Anchor = "Top, Left, Bottom"
+$form.Controls.Add($sidebar)
+
+$categories = @("GAMING", "CPU & RAM", "VISUAL", "NETWORK", "SERVICES")
+$catButtons = @()
+$y = 10
+foreach ($cat in $categories) {
+    $btn = New-Object System.Windows.Forms.Button
+    $btn.Text = $cat
+    $btn.Font = New-Object System.Drawing.Font("Segoe UI", 11, [System.Drawing.FontStyle]::Bold)
+    $btn.ForeColor = $colTextGray
+    $btn.BackColor = $colBgPanel
+    $btn.FlatStyle = "Flat"
+    $btn.FlatAppearance.BorderSize = 0
+    $btn.Size = New-Object System.Drawing.Size(180, 50)
+    $btn.Location = New-Object System.Drawing.Point(10, $y)
+    $btn.TextAlign = "MiddleLeft"
+    $btn.Padding = New-Object System.Windows.Forms.Padding(15, 0, 0, 0)
+    $btn.Tag = $cat
+    $sidebar.Controls.Add($btn)
+    $catButtons += $btn
+    $y += 60
+}
+
+$list = New-Object System.Windows.Forms.CheckedListBox
+$list.BackColor = $colBgList
+$list.ForeColor = $colGreen
+$list.Font = New-Object System.Drawing.Font("Consolas", 10)
+$list.CheckOnClick = $true
+$list.Size = New-Object System.Drawing.Size(1040, 600)
+$list.Location = New-Object System.Drawing.Point(240, 90)
+$list.BorderStyle = "FixedSingle"
+$list.Anchor = "Top, Bottom, Left, Right"
+$form.Controls.Add($list)
+
+$bottomPanel = New-Object System.Windows.Forms.Panel
+$bottomPanel.BackColor = $colBgDark
+$bottomPanel.Size = New-Object System.Drawing.Size(1260, 70)
+$bottomPanel.Location = New-Object System.Drawing.Point(20, 700)
+$bottomPanel.Anchor = "Bottom, Left, Right"
+$form.Controls.Add($bottomPanel)
+
+$status = New-Object System.Windows.Forms.Label
+$status.Text = "Total Tweaks: $totalTweaks | Selected: 0"
+$status.Font = New-Object System.Drawing.Font("Segoe UI", 11, [System.Drawing.FontStyle]::Bold)
+$status.ForeColor = $colGreen
+$status.BackColor = $colBgDark
+$status.Size = New-Object System.Drawing.Size(400, 30)
+$status.Location = New-Object System.Drawing.Point(10, 20)
+$status.Anchor = "Left"
+$bottomPanel.Controls.Add($status)
+
+function Add-HoverEffect {
+    param($Button, $NormalColor, $HoverColor)
+    $Button.Add_MouseEnter({ $this.BackColor = $HoverColor }.GetNewClosure())
+    $Button.Add_MouseLeave({ $this.BackColor = $NormalColor }.GetNewClosure())
+}
+
+$btnApply = New-Object System.Windows.Forms.Button
+$btnApply.Text = "APPLY"
+$btnApply.BackColor = $colGreen
+$btnApply.ForeColor = $colBgDark
+$btnApply.FlatStyle = "Flat"
+$btnApply.FlatAppearance.BorderSize = 0
+$btnApply.Font = New-Object System.Drawing.Font("Segoe UI", 12, [System.Drawing.FontStyle]::Bold)
+$btnApply.Size = New-Object System.Drawing.Size(120, 45)
+$btnApply.Location = New-Object System.Drawing.Point(1130, 12)
+$btnApply.Anchor = "Right"
+$bottomPanel.Controls.Add($btnApply)
+Add-HoverEffect -Button $btnApply -NormalColor $colGreen -HoverColor $colGreenDark
+
+$btnReset = New-Object System.Windows.Forms.Button
+$btnReset.Text = "RESET"
+$btnReset.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40)
+$btnReset.ForeColor = $colRed
+$btnReset.FlatStyle = "Flat"
+$btnReset.FlatAppearance.BorderSize = 0
+$btnReset.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
+$btnReset.Size = New-Object System.Drawing.Size(80, 45)
+$btnReset.Location = New-Object System.Drawing.Point(1040, 12)
+$btnReset.Anchor = "Right"
+$bottomPanel.Controls.Add($btnReset)
+Add-HoverEffect -Button $btnReset -NormalColor ([System.Drawing.Color]::FromArgb(40, 40, 40)) -HoverColor ([System.Drawing.Color]::FromArgb(60, 20, 20))
+
+$btnRestore = New-Object System.Windows.Forms.Button
+$btnRestore.Text = "RESTORE POINT"
+$btnRestore.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40)
+$btnRestore.ForeColor = $colTextGray
+$btnRestore.FlatStyle = "Flat"
+$btnRestore.FlatAppearance.BorderSize = 0
+$btnRestore.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
+$btnRestore.Size = New-Object System.Drawing.Size(140, 45)
+$btnRestore.Location = New-Object System.Drawing.Point(890, 12)
+$btnRestore.Anchor = "Right"
+$bottomPanel.Controls.Add($btnRestore)
+Add-HoverEffect -Button $btnRestore -NormalColor ([System.Drawing.Color]::FromArgb(40, 40, 40)) -HoverColor ([System.Drawing.Color]::FromArgb(60, 60, 60))
+
+$btnSelectAll = New-Object System.Windows.Forms.Button
+$btnSelectAll.Text = "SELECT ALL"
+$btnSelectAll.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40)
+$btnSelectAll.ForeColor = $colGreen
+$btnSelectAll.FlatStyle = "Flat"
+$btnSelectAll.FlatAppearance.BorderSize = 0
+$btnSelectAll.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
+$btnSelectAll.Size = New-Object System.Drawing.Size(140, 45)
+$btnSelectAll.Location = New-Object System.Drawing.Point(740, 12)
+$btnSelectAll.Anchor = "Right"
+$bottomPanel.Controls.Add($btnSelectAll)
+Add-HoverEffect -Button $btnSelectAll -NormalColor ([System.Drawing.Color]::FromArgb(40, 40, 40)) -HoverColor ([System.Drawing.Color]::FromArgb(60, 60, 60))
+
+$btnDeselectAll = New-Object System.Windows.Forms.Button
+$btnDeselectAll.Text = "DESELECT ALL"
+$btnDeselectAll.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40)
+$btnDeselectAll.ForeColor = $colGreen
+$btnDeselectAll.FlatStyle = "Flat"
+$btnDeselectAll.FlatAppearance.BorderSize = 0
+$btnDeselectAll.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
+$btnDeselectAll.Size = New-Object System.Drawing.Size(150, 45)
+$btnDeselectAll.Location = New-Object System.Drawing.Point(580, 12)
+$btnDeselectAll.Anchor = "Right"
+$bottomPanel.Controls.Add($btnDeselectAll)
+Add-HoverEffect -Button $btnDeselectAll -NormalColor ([System.Drawing.Color]::FromArgb(40, 40, 40)) -HoverColor ([System.Drawing.Color]::FromArgb(60, 60, 60))
+
+# UI Logic
+$script:CurrentCategory = ""
+
+function Update-Status {
+    $checkedCount = ($script:AllTweaks | Where-Object { $_.Checked -eq $true }).Count
+    $status.Text = "Total Tweaks: $totalTweaks | Selected: $checkedCount"
+}
+
+function Load-Category {
+    param($cat)
+    for ($i = 0; $i -lt $list.Items.Count; $i++) {
+        $itemText = $list.Items[$i].ToString()
+        $isChecked = $list.GetItemChecked($i)
+        $tweak = $script:AllTweaks | Where-Object { $_.Name -eq $itemText -and $_.Category -eq $script:CurrentCategory } | Select-Object -First 1
+        if ($tweak) { $tweak.Checked = $isChecked }
+    }
+    $list.Items.Clear()
+    foreach ($t in $script:AllTweaks) {
+        if ($t.Category -eq $cat) { [void]$list.Items.Add($t.Name, $t.Checked) }
+    }
+    $script:CurrentCategory = $cat
+    foreach ($btn in $catButtons) {
+        if ($btn.Tag -eq $cat) { $btn.ForeColor = $colGreen; $btn.BackColor = [System.Drawing.Color]::FromArgb(35, 35, 35) }
+        else { $btn.ForeColor = $colTextGray; $btn.BackColor = $colBgPanel }
+    }
+    Update-Status
+}
+
+foreach ($btn in $catButtons) { $btn.Add_Click({ Load-Category $this.Tag }) }
+
+$list.Add_ItemCheck({
+    Start-Sleep -Milliseconds 10
+    if ($list.SelectedIndex -ge 0) {
+        $script:AllTweaks | Where-Object { $_.Name -eq $list.Items[$list.SelectedIndex].ToString() -and $_.Category -eq $script:CurrentCategory } | ForEach-Object { $_.Checked = $list.GetItemChecked($list.SelectedIndex) }
+    }
+    Update-Status
+})
+
+$btnSelectAll.Add_Click({
+    $script:AllTweaks | ForEach-Object { $_.Checked = $true }
+    for ($i = 0; $i -lt $list.Items.Count; $i++) { $list.SetItemChecked($i, $true) }
+    Update-Status
+})
+
+$btnDeselectAll.Add_Click({
+    $script:AllTweaks | ForEach-Object { $_.Checked = $false }
+    for ($i = 0; $i -lt $list.Items.Count; $i++) { $list.SetItemChecked($i, $false) }
+    Update-Status
+})
+
+$btnReset.Add_Click({
+    $script:AllTweaks | ForEach-Object { $_.Checked = $false }
+    for ($i = 0; $i -lt $list.Items.Count; $i++) { $list.SetItemChecked($i, $false) }
+    Update-Status
+})
+
+$btnRestore.Add_Click({
+    try {
+        Enable-ComputerRestore -Drive "C:\"
+        Checkpoint-Computer -Description "APEX SHOP V3" -RestorePointType "MODIFY_SETTINGS"
+        [System.Windows.Forms.MessageBox]::Show("Restore Point created", "APEX SHOP V3", "OK", "Information")
+    } catch {
+        [System.Windows.Forms.MessageBox]::Show("Failed: $($_.Exception.Message)", "APEX SHOP V3", "OK", "Error")
+    }
+})
+
+$btnApply.Add_Click({
+    $checked = $script:AllTweaks | Where-Object { $_.Checked -eq $true }
+    if ($checked.Count -eq 0) {
+        [System.Windows.Forms.MessageBox]::Show("No tweaks selected", "APEX SHOP V3", "OK", "Information")
+        return
+    }
+    $confirm = [System.Windows.Forms.MessageBox]::Show("Apply $($checked.Count) tweaks?", "APEX SHOP V3", "YesNo", "Warning")
+    if ($confirm -ne "Yes") { return }
+    
+    $log = New-Object System.Text.StringBuilder
+    [void]$log.AppendLine("Applying $($checked.Count) tweaks...")
+    foreach ($t in $checked) {
+        try { & $t.Action; [void]$log.AppendLine("OK: $($t.Name)") }
+        catch { [void]$log.AppendLine("FAIL: $($t.Name)") }
+    }
+    [void]$log.AppendLine("Done. Reboot recommended.")
+    [System.Windows.Forms.MessageBox]::Show($log.ToString(), "APEX SHOP V3", "OK", "Information")
+})
+
+Load-Category "GAMING"
+
+$form.Add_Shown({ $form.Activate() })
+$form.Add_FormClosing({ Stop-LicenseHeartbeat })
+[void]$form.ShowDialog()
