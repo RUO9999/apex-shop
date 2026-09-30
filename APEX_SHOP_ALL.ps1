@@ -341,7 +341,7 @@ function Test-ResponseSignature {
     return $expected -eq $Signature
 
 
-}
+
 # ==========================================
 # RUN LICENSE CHECK
 # ==========================================
