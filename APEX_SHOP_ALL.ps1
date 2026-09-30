@@ -315,6 +315,16 @@ function Start-LicenseHeartbeat {
 }
 
 
+function Stop-LicenseHeartbeat {
+    try {
+        if ($script:HeartbeatTimer) {
+            $script:HeartbeatTimer.Dispose()
+            $script:HeartbeatTimer = $null
+            Write-Host "[License] Heartbeat stopped" -ForegroundColor Gray
+        }
+    } catch { }
+}
+
 # ==========================================
 # RUN LICENSE CHECK
 # ==========================================
