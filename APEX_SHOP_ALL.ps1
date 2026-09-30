@@ -1,621 +1,620 @@
-# APEX SHOP V3 - Main (UI + License)
-# Tweaks loaded from tweaks.ps1
+IyBBUEVYIFNIT1AgVjMgLSBNYWluIChVSSArIExpY2Vuc2Up
+IyBUd2Vha3MgbG9hZGVkIGZyb20gdHdlYWtzLnBzMQ
 
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
+QWRkLVR5cGUgLUFzc2VtYmx5TmFtZSBTeXN0ZW0uV2luZG93cy5Gb3Jtcw
+QWRkLVR5cGUgLUFzc2VtYmx5TmFtZSBTeXN0ZW0uRHJhd2luZw
 
-# ==========================================
-# AUTO ELEVATE
-# ==========================================
-$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    $BaseUrl = "https://raw.githubusercontent.com/RUO9999/apex-shop/main/APEX_SHOP_ALL.ps1"
-    Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -Command `"iwr -useb $BaseUrl | iex`"" -Verb RunAs
-    exit
-}
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBBVVRPIEVMRVZBVEU
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+JGN1cnJlbnRQcmluY2lwYWwgPSBOZXctT2JqZWN0IFNlY3VyaXR5LlByaW5jaXBhbC5XaW5kb3dzUHJpbmNpcGFsKFtTZWN1cml0eS5QcmluY2lwYWwuV2luZG93c0lkZW50aXR5XTo6R2V0Q3VycmVudCgpKQ
+aWYgKC1ub3QgJGN1cnJlbnRQcmluY2lwYWwuSXNJblJvbGUoW1NlY3VyaXR5LlByaW5jaXBhbC5XaW5kb3dzQnVpbHRJblJvbGVdOjpBZG1pbmlzdHJhdG9yKSkgew
+ICAgICRCYXNlVXJsID0gImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9SVU85OTk5L2FwZXgtc2hvcC9tYWluL0FQRVhfU0hPUF9BTEwucHMxIg
+ICAgIFN0YXJ0LVByb2Nlc3MgcG93ZXJzaGVsbC5leGUgIi1Ob1Byb2ZpbGUgLUV4ZWN1dGlvblBvbGljeSBCeXBhc3MgLUNvbW1hbmQgYCJpd3IgLXVzZWIgJEJhc2VVcmwgfCBpZXhgIiIgLVZlcmIgUnVuQXM
+ICAgIGV4aXQ
+fQ
 
-# ==========================================
-# GLOBALS & COLORS
-# ==========================================
-$script:LicenseServer = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("aHR0cDovL2xvY2FsaG9zdDo4MDkw"))
-$script:LicenseCacheFile = "$env:APPDATA\ApexShop\license_cache.json"
-$script:CacheDays = 7
-$script:HeartbeatTimer = $null
-$script:LicenseRevoked = $false
-$script:HeartbeatBusy = $false
-$script:MainForm = $null
-$script:ServerSecret = "APEX-SHOP-SERVER-KEY-7f3a9b2c4d8e1f6a-2026-CHANGE-ME"
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBHTE9CQUxTICYgQ09MT1JT
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+JHNjcmlwdDpMaWNlbnNlU2VydmVyID0gW1N5c3RlbS5UZXh0LkVuY29kaW5nXTo6VVRGOC5HZXRTdHJpbmcoW1N5c3RlbS5Db252ZXJ0XTo6RnJvbUJhc2U2NFN0cmluZygiYUhSMGNEb3ZMMnh2WTJGc2FHOXpkRG80TURrdyIpKQ
+JHNjcmlwdDpMaWNlbnNlQ2FjaGVGaWxlID0gIiRlbnY6QVBQREFUQVxBcGV4U2hvcFxsaWNlbnNlX2NhY2hlLmpzb24i
+JHNjcmlwdDpDYWNoZURheXMgPSA3
+JHNjcmlwdDpIZWFydGJlYXRUaW1lciA9ICRudWxs
+JHNjcmlwdDpMaWNlbnNlUmV2b2tlZCA9ICRmYWxzZQ
+JHNjcmlwdDpIZWFydGJlYXRCdXN5ID0gJGZhbHNl
+JHNjcmlwdDpNYWluRm9ybSA9ICRudWxs
+JHNjcmlwdDpTZXJ2ZXJTZWNyZXQgPSAiQVBFWC1TSE9QLVNFUlZFUi1LRVktN2YzYTliMmM0ZDhlMWY2YS0yMDI2LUNIQU5HRS1NRSI
 
-$colBgDark = [System.Drawing.Color]::FromArgb(12, 12, 12)
-$colBgPanel = [System.Drawing.Color]::FromArgb(22, 22, 22)
-$colBgList = [System.Drawing.Color]::FromArgb(18, 18, 18)
-$colGreen = [System.Drawing.Color]::FromArgb(0, 255, 100)
-$colGreenDark = [System.Drawing.Color]::FromArgb(0, 180, 70)
-$colRed = [System.Drawing.Color]::FromArgb(255, 80, 80)
-$colTextGray = [System.Drawing.Color]::FromArgb(160, 160, 160)
-$colYellow = [System.Drawing.Color]::FromArgb(255, 200, 0)
+JGNvbEJnRGFyayA9IFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDEyLCAxMiwgMTIp
+JGNvbEJnUGFuZWwgPSBbU3lzdGVtLkRyYXdpbmcuQ29sb3JdOjpGcm9tQXJnYigyMiwgMjIsIDIyKQ
+JGNvbEJnTGlzdCA9IFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDE4LCAxOCwgMTgp
+JGNvbEdyZWVuID0gW1N5c3RlbS5EcmF3aW5nLkNvbG9yXTo6RnJvbUFyZ2IoMCwgMjU1LCAxMDAp
+JGNvbEdyZWVuRGFyayA9IFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDAsIDE4MCwgNzAp
+JGNvbFJlZCA9IFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDI1NSwgODAsIDgwKQ
+JGNvbFRleHRHcmF5ID0gW1N5c3RlbS5EcmF3aW5nLkNvbG9yXTo6RnJvbUFyZ2IoMTYwLCAxNjAsIDE2MCk
+JGNvbFllbGxvdyA9IFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDI1NSwgMjAwLCAwKQ
 
-# ==========================================
-# LICENSE FUNCTIONS
-# ==========================================
-function Get-HWID {
-    try {
-        $bb = (Get-CimInstance Win32_BaseBoard -ErrorAction SilentlyContinue).SerialNumber
-        $bios = (Get-CimInstance Win32_BIOS -ErrorAction SilentlyContinue).SerialNumber
-        $cpu = (Get-CimInstance Win32_Processor -ErrorAction SilentlyContinue).ProcessorId
-        $disk = (Get-CimInstance Win32_DiskDrive -ErrorAction SilentlyContinue | Select-Object -First 1).SerialNumber
-        $raw = "$bb|$bios|$cpu|$disk"
-        $sha = [System.Security.Cryptography.SHA256]::Create()
-        $hash = $sha.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($raw))
-        return [System.BitConverter]::ToString($hash).Replace("-","").Substring(0,32)
-    } catch { return "UNKNOWN-HWID" }
-}
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBMSUNFTlNFIEZVTkNUSU9OUw
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+ZnVuY3Rpb24gR2V0LUhXSUQgew
+ICAgIHRyeSB7
+ICAgICAgICAkYmIgPSAoR2V0LUNpbUluc3RhbmNlIFdpbjMyX0Jhc2VCb2FyZCAtRXJyb3JBY3Rpb24gU2lsZW50bHlDb250aW51ZSkuU2VyaWFsTnVtYmVy
+ICAgICAgICAkYmlvcyA9IChHZXQtQ2ltSW5zdGFuY2UgV2luMzJfQklPUyAtRXJyb3JBY3Rpb24gU2lsZW50bHlDb250aW51ZSkuU2VyaWFsTnVtYmVy
+ICAgICAgICAkY3B1ID0gKEdldC1DaW1JbnN0YW5jZSBXaW4zMl9Qcm9jZXNzb3IgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWUpLlByb2Nlc3Nvcklk
+ICAgICAgICAkZGlzayA9IChHZXQtQ2ltSW5zdGFuY2UgV2luMzJfRGlza0RyaXZlIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVlIHwgU2VsZWN0LU9iamVjdCAtRmlyc3QgMSkuU2VyaWFsTnVtYmVy
+ICAgICAgICAkcmF3ID0gIiRiYnwkYmlvc3wkY3B1fCRkaXNrIg
+ICAgICAgICAkc2hhID0gW1N5c3RlbS5TZWN1cml0eS5DcnlwdG9ncmFwaHkuU0hBMjU2XTo6Q3JlYXRlKCk
+ICAgICAgICAkaGFzaCA9ICRzaGEuQ29tcHV0ZUhhc2goW1N5c3RlbS5UZXh0LkVuY29kaW5nXTo6VVRGOC5HZXRCeXRlcygkcmF3KSk
+ICAgICAgICByZXR1cm4gW1N5c3RlbS5CaXRDb252ZXJ0ZXJdOjpUb1N0cmluZygkaGFzaCkuUmVwbGFjZSgiLSIsIiIpLlN1YnN0cmluZygwLDMyKQ
+ICAgIH0gY2F0Y2ggeyByZXR1cm4gIlVOS05PV04tSFdJRCIgfQ
+fQ
 
-function Get-CachedLicense {
-    if (-not (Test-Path $script:LicenseCacheFile)) { return $null }
-    try {
-        $cache = Get-Content $script:LicenseCacheFile -Raw | ConvertFrom-Json
-        $cachedTime = [DateTime]::Parse($cache.timestamp)
-        if (([DateTime]::Now - $cachedTime).TotalDays -gt $script:CacheDays) { return $null }
-        if ($cache.hwid -ne (Get-HWID)) { return $null }
-        return $cache
-    } catch { return $null }
-}
+ZnVuY3Rpb24gR2V0LUNhY2hlZExpY2Vuc2Ugew
+ICAgIGlmICgtbm90IChUZXN0LVBhdGggJHNjcmlwdDpMaWNlbnNlQ2FjaGVGaWxlKSkgeyByZXR1cm4gJG51bGwgfQ
+ICAgIHRyeSB7
+ICAgICAgICAkY2FjaGUgPSBHZXQtQ29udGVudCAkc2NyaXB0OkxpY2Vuc2VDYWNoZUZpbGUgLVJhdyB8IENvbnZlcnRGcm9tLUpzb24
+ICAgICAgICAkY2FjaGVkVGltZSA9IFtEYXRlVGltZV06OlBhcnNlKCRjYWNoZS50aW1lc3RhbXAp
+ICAgICAgICBpZiAoKFtEYXRlVGltZV06Ok5vdyAtICRjYWNoZWRUaW1lKS5Ub3RhbERheXMgLWd0ICRzY3JpcHQ6Q2FjaGVEYXlzKSB7IHJldHVybiAkbnVsbCB9
+ICAgICAgICBpZiAoJGNhY2hlLmh3aWQgLW5lIChHZXQtSFdJRCkpIHsgcmV0dXJuICRudWxsIH0
+ICAgICAgICByZXR1cm4gJGNhY2hl
+ICAgIH0gY2F0Y2ggeyByZXR1cm4gJG51bGwgfQ
+fQ
 
-function Save-LicenseCache {
-    param($Key, $DaysLeft)
-    $dir = Split-Path $script:LicenseCacheFile -Parent
-    if (-not (Test-Path $dir)) { New-Item -Path $dir -ItemType Directory -Force | Out-Null }
-    @{ key = $Key; hwid = (Get-HWID); days_left = $DaysLeft; timestamp = [DateTime]::Now.ToString("o") } | ConvertTo-Json | Set-Content $script:LicenseCacheFile -Encoding UTF8
-}
+ZnVuY3Rpb24gU2F2ZS1MaWNlbnNlQ2FjaGUgew
+ICAgIHBhcmFtKCRLZXksICREYXlzTGVmdCk
+ICAgICRkaXIgPSBTcGxpdC1QYXRoICRzY3JpcHQ6TGljZW5zZUNhY2hlRmlsZSAtUGFyZW50
+ICAgIGlmICgtbm90IChUZXN0LVBhdGggJGRpcikpIHsgTmV3LUl0ZW0gLVBhdGggJGRpciAtSXRlbVR5cGUgRGlyZWN0b3J5IC1Gb3JjZSB8IE91dC1OdWxsIH0
+ICAgIEB7IGtleSA9ICRLZXk7IGh3aWQgPSAoR2V0LUhXSUQpOyBkYXlzX2xlZnQgPSAkRGF5c0xlZnQ7IHRpbWVzdGFtcCA9IFtEYXRlVGltZV06Ok5vdy5Ub1N0cmluZygibyIpIH0gfCBDb252ZXJ0VG8tSnNvbiB8IFNldC1Db250ZW50ICRzY3JpcHQ6TGljZW5zZUNhY2hlRmlsZSAtRW5jb2RpbmcgVVRGOA
+fQ
 
-function Test-TimeSkew {
-    param([long]$ServerTime)
-    $clientTime = [long]([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
-    $diff = [Math]::Abs($clientTime - $ServerTime)
-    Write-Host "[TimeSkew] Diff: $diff" -ForegroundColor DarkGray
-    return ($diff -gt 86400)
-}
+ZnVuY3Rpb24gVGVzdC1UaW1lU2tldyB7
+ICAgIHBhcmFtKFtsb25nXSRTZXJ2ZXJUaW1lKQ
+ICAgICRjbGllbnRUaW1lID0gW2xvbmddKFtEYXRlVGltZU9mZnNldF06OlV0Y05vdy5Ub1VuaXhUaW1lU2Vjb25kcygpKQ
+ICAgICRkaWZmID0gW01hdGhdOjpBYnMoJGNsaWVudFRpbWUgLSAkU2VydmVyVGltZSk
+ICAgIFdyaXRlLUhvc3QgIltUaW1lU2tld10gRGlmZjogJGRpZmYiIC1Gb3JlZ3JvdW5kQ29sb3IgRGFya0dyYXk
+ICAgIHJldHVybiAoJGRpZmYgLWd0IDg2NDAwKQ
+fQ
 
-function Test-ResponseSignature {
-    param($Data, $Signature)
-    $validStr = if ($Data.valid -eq $true -or "$($Data.valid)" -eq "True" -or "$($Data.valid)" -eq "1") { "1" } else { "0" }
-    $daysStr = [string][int]$Data.days_left
-    $noteStr = if ($null -eq $Data.note) { "" } else { [string]$Data.note }
-    $nonceStr = [string]$Data.nonce
-    $timeStr = [string][long]$Data.server_time
-    $msg = "$validStr|$daysStr|$noteStr|$nonceStr|$timeStr"
-    $hmac = New-Object System.Security.Cryptography.HMACSHA256
-    $hmac.Key = [System.Text.Encoding]::UTF8.GetBytes($script:ServerSecret)
-    $hash = $hmac.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($msg))
-    $expected = [System.BitConverter]::ToString($hash).Replace("-","").ToLower()
-    Write-Host "[Signature] Match: $($expected -eq $Signature)" -ForegroundColor $(if ($expected -eq $Signature) { "Green" } else { "Red" })
-    return $expected -eq $Signature
-}
+ZnVuY3Rpb24gVGVzdC1SZXNwb25zZVNpZ25hdHVyZSB7
+ICAgIHBhcmFtKCREYXRhLCAkU2lnbmF0dXJlKQ
+ICAgICR2YWxpZFN0ciA9IGlmICgkRGF0YS52YWxpZCAtZXEgJHRydWUgLW9yICIkKCREYXRhLnZhbGlkKSIgLWVxICJUcnVlIiAtb3IgIiQoJERhdGEudmFsaWQpIiAtZXEgIjEiKSB7ICIxIiB9IGVsc2UgeyAiMCIgfQ
+ICAgICRkYXlzU3RyID0gW3N0cmluZ11baW50XSREYXRhLmRheXNfbGVmdA
+ICAgICRub3RlU3RyID0gaWYgKCRudWxsIC1lcSAkRGF0YS5ub3RlKSB7ICIiIH0gZWxzZSB7IFtzdHJpbmddJERhdGEubm90ZSB9
+ICAgICRub25jZVN0ciA9IFtzdHJpbmddJERhdGEubm9uY2U
+ICAgICR0aW1lU3RyID0gW3N0cmluZ11bbG9uZ10kRGF0YS5zZXJ2ZXJfdGltZQ
+ICAgICRtc2cgPSAiJHZhbGlkU3RyfCRkYXlzU3RyfCRub3RlU3RyfCRub25jZVN0cnwkdGltZVN0ciI
+ICAgICRobWFjID0gTmV3LU9iamVjdCBTeXN0ZW0uU2VjdXJpdHkuQ3J5cHRvZ3JhcGh5LkhNQUNTSEEyNTY
+ICAgICRobWFjLktleSA9IFtTeXN0ZW0uVGV4dC5FbmNvZGluZ106OlVURjguR2V0Qnl0ZXMoJHNjcmlwdDpTZXJ2ZXJTZWNyZXQp
+ICAgICRoYXNoID0gJGhtYWMuQ29tcHV0ZUhhc2goW1N5c3RlbS5UZXh0LkVuY29kaW5nXTo6VVRGOC5HZXRCeXRlcygkbXNnKSk
+ICAgICRleHBlY3RlZCA9IFtTeXN0ZW0uQml0Q29udmVydGVyXTo6VG9TdHJpbmcoJGhhc2gpLlJlcGxhY2UoIi0iLCIiKS5Ub0xvd2VyKCk
+ICAgIFdyaXRlLUhvc3QgIltTaWduYXR1cmVdIE1hdGNoOiAkKCRleHBlY3RlZCAtZXEgJFNpZ25hdHVyZSkiIC1Gb3JlZ3JvdW5kQ29sb3IgJChpZiAoJGV4cGVjdGVkIC1lcSAkU2lnbmF0dXJlKSB7ICJHcmVlbiIgfSBlbHNlIHsgIlJlZCIgfSk
+ICAgIHJldHVybiAkZXhwZWN0ZWQgLWVxICRTaWduYXR1cmU
+fQ
 
-function Test-LicenseKey {
-    param([string]$Key, [string]$HWID)
-    try {
-        $clientTime = [long]([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
-        $body = @{ license_key = $Key; hwid = $HWID; client_time = $clientTime } | ConvertTo-Json
-        $response = Invoke-RestMethod -Uri "$script:LicenseServer/api/validate" -Method POST -Body $body -ContentType "application/json" -TimeoutSec 5 -ErrorAction Stop
-        if (-not $response.data -or -not $response.sig) { return @{ valid = $false; reason = "Malformed response" } }
-        if (-not (Test-ResponseSignature -Data $response.data -Signature $response.sig)) { return @{ valid = $false; reason = "Invalid signature" } }
-        if ($response.data.server_time -and (Test-TimeSkew -ServerTime $response.data.server_time)) { return @{ valid = $false; reason = "Time mismatch" } }
-        return @{ valid = $response.data.valid; days_left = $response.data.days_left; note = $response.data.note }
-    } catch {
-        return @{ valid = $false; reason = "Server unreachable" }
-    }
-}
+ZnVuY3Rpb24gVGVzdC1MaWNlbnNlS2V5IHs
+ICAgIHBhcmFtKFtzdHJpbmddJEtleSwgW3N0cmluZ10kSFdJRCk
+ICAgIHRyeSB7
+ICAgICAgICAkY2xpZW50VGltZSA9IFtsb25nXShbRGF0ZVRpbWVPZmZzZXRdOjpVdGNOb3cuVG9Vbml4VGltZVNlY29uZHMoKSk
+ICAgICAgICAkYm9keSA9IEB7IGxpY2Vuc2Vfa2V5ID0gJEtleTsgaHdpZCA9ICRIV0lEOyBjbGllbnRfdGltZSA9ICRjbGllbnRUaW1lIH0gfCBDb252ZXJ0VG8tSnNvbg
+ICAgICAgICAkcmVzcG9uc2UgPSBJbnZva2UtUmVzdE1ldGhvZCAtVXJpICIkc2NyaXB0OkxpY2Vuc2VTZXJ2ZXIvYXBpL3ZhbGlkYXRlIiAtTWV0aG9kIFBPU1QgLUJvZHkgJGJvZHkgLUNvbnRlbnRUeXBlICJhcHBsaWNhdGlvbi9qc29uIiAtVGltZW91dFNlYyA1IC1FcnJvckFjdGlvbiBTdG9w
+ICAgICAgICBpZiAoLW5vdCAkcmVzcG9uc2UuZGF0YSAtb3IgLW5vdCAkcmVzcG9uc2Uuc2lnKSB7IHJldHVybiBAeyB2YWxpZCA9ICRmYWxzZTsgcmVhc29uID0gIk1hbGZvcm1lZCByZXNwb25zZSIgfSB9
+ICAgICAgICBpZiAoLW5vdCAoVGVzdC1SZXNwb25zZVNpZ25hdHVyZSAtRGF0YSAkcmVzcG9uc2UuZGF0YSAtU2lnbmF0dXJlICRyZXNwb25zZS5zaWcpKSB7IHJldHVybiBAeyB2YWxpZCA9ICRmYWxzZTsgcmVhc29uID0gIkludmFsaWQgc2lnbmF0dXJlIiB9IH0
+ICAgICAgICBpZiAoJHJlc3BvbnNlLmRhdGEuc2VydmVyX3RpbWUgLWFuZCAoVGVzdC1UaW1lU2tldyAtU2VydmVyVGltZSAkcmVzcG9uc2UuZGF0YS5zZXJ2ZXJfdGltZSkpIHsgcmV0dXJuIEB7IHZhbGlkID0gJGZhbHNlOyByZWFzb24gPSAiVGltZSBtaXNtYXRjaCIgfSB9
+ICAgICAgICByZXR1cm4gQHsgdmFsaWQgPSAkcmVzcG9uc2UuZGF0YS52YWxpZDsgZGF5c19sZWZ0ID0gJHJlc3BvbnNlLmRhdGEuZGF5c19sZWZ0OyBub3RlID0gJHJlc3BvbnNlLmRhdGEubm90ZSB9
+ICAgIH0gY2F0Y2ggew
+ICAgICAgICByZXR1cm4gQHsgdmFsaWQgPSAkZmFsc2U7IHJlYXNvbiA9ICJTZXJ2ZXIgdW5yZWFjaGFibGUiIH0
+ICAgIH0
+fQ
 
-function Show-LicenseLogin {
-    $form = New-Object System.Windows.Forms.Form
-    $form.Text = "APEX SHOP - License Verification"
-    $form.Size = New-Object System.Drawing.Size(500, 280)
-    $form.BackColor = $colBgDark
-    $form.ForeColor = $colGreen
-    $form.StartPosition = "CenterScreen"
-    $form.FormBorderStyle = "FixedDialog"
-    $form.MaximizeBox = $false
-    $form.MinimizeBox = $false
-    
-    $title = New-Object System.Windows.Forms.Label
-    $title.Text = "APEX SHOP V3"
-    $title.Font = New-Object System.Drawing.Font("Segoe UI", 22, [System.Drawing.FontStyle]::Bold)
-    $title.ForeColor = $colGreen
-    $title.Size = New-Object System.Drawing.Size(460, 40)
-    $title.Location = New-Object System.Drawing.Point(20, 15)
-    $title.TextAlign = "MiddleCenter"
-    $form.Controls.Add($title)
-    
-    $sub = New-Object System.Windows.Forms.Label
-    $sub.Text = "Please enter your License Key"
-    $sub.Font = New-Object System.Drawing.Font("Segoe UI", 10)
-    $sub.ForeColor = $colTextGray
-    $sub.Size = New-Object System.Drawing.Size(460, 25)
-    $sub.Location = New-Object System.Drawing.Point(20, 60)
-    $sub.TextAlign = "MiddleCenter"
-    $form.Controls.Add($sub)
-    
-    $lbl = New-Object System.Windows.Forms.Label
-    $lbl.Text = "License Key:"
-    $lbl.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
-    $lbl.ForeColor = $colGreen
-    $lbl.Size = New-Object System.Drawing.Size(460, 20)
-    $lbl.Location = New-Object System.Drawing.Point(20, 100)
-    $form.Controls.Add($lbl)
-    
-    $script:keyInput = New-Object System.Windows.Forms.TextBox
-    $script:keyInput.Font = New-Object System.Drawing.Font("Consolas", 14)
-    $script:keyInput.BackColor = $colBgPanel
-    $script:keyInput.ForeColor = $colGreen
-    $script:keyInput.Size = New-Object System.Drawing.Size(440, 35)
-    $script:keyInput.Location = New-Object System.Drawing.Point(20, 125)
-    $script:keyInput.BorderStyle = "FixedSingle"
-    $script:keyInput.CharacterCasing = "Upper"
-    $script:keyInput.TextAlign = "Center"
-    $form.Controls.Add($script:keyInput)
-    
-    $status = New-Object System.Windows.Forms.Label
-    $status.Text = ""
-    $status.Font = New-Object System.Drawing.Font("Segoe UI", 10)
-    $status.ForeColor = $colRed
-    $status.Size = New-Object System.Drawing.Size(460, 25)
-    $status.Location = New-Object System.Drawing.Point(20, 170)
-    $status.TextAlign = "MiddleCenter"
-    $form.Controls.Add($status)
-    
-    $btnOk = New-Object System.Windows.Forms.Button
-    $btnOk.Text = "ACTIVATE"
-    $btnOk.Font = New-Object System.Drawing.Font("Segoe UI", 12, [System.Drawing.FontStyle]::Bold)
-    $btnOk.BackColor = $colGreen
-    $btnOk.ForeColor = $colBgDark
-    $btnOk.FlatStyle = "Flat"
-    $btnOk.FlatAppearance.BorderSize = 0
-    $btnOk.Size = New-Object System.Drawing.Size(210, 45)
-    $btnOk.Location = New-Object System.Drawing.Point(20, 205)
-    $form.Controls.Add($btnOk)
-    
-    $btnExit = New-Object System.Windows.Forms.Button
-    $btnExit.Text = "EXIT"
-    $btnExit.Font = New-Object System.Drawing.Font("Segoe UI", 12, [System.Drawing.FontStyle]::Bold)
-    $btnExit.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40)
-    $btnExit.ForeColor = $colRed
-    $btnExit.FlatStyle = "Flat"
-    $btnExit.FlatAppearance.BorderSize = 0
-    $btnExit.Size = New-Object System.Drawing.Size(210, 45)
-    $btnExit.Location = New-Object System.Drawing.Point(250, 205)
-    $form.Controls.Add($btnExit)
-    
-    $script:LicenseValid = $false
-    
-    $btnOk.Add_Click({
-        $key = $script:keyInput.Text.Trim()
-        if ([string]::IsNullOrWhiteSpace($key)) {
-            $status.Text = "Please enter a License Key"
-            $status.ForeColor = $colRed
-            return
-        }
-        $status.Text = "Checking..."
-        $status.ForeColor = $colYellow
-        $btnOk.Enabled = $false
-        [System.Windows.Forms.Application]::DoEvents()
-        
-        $result = Test-LicenseKey -Key $key -HWID (Get-HWID)
-        if ($result.valid) {
-            $status.Text = "Success! $($result.days_left) days remaining"
-            $status.ForeColor = $colGreen
-            Save-LicenseCache -Key $key -DaysLeft $result.days_left
-            $script:LicenseValid = $true
-            Start-Sleep -Milliseconds 800
-            $form.Close()
-        } else {
-            $status.Text = "Failed: $($result.reason)"
-            $status.ForeColor = $colRed
-            $btnOk.Enabled = $true
-        }
-    })
-    
-    $script:keyInput.Add_KeyDown({ if ($_.KeyCode -eq "Enter") { $btnOk.PerformClick() } })
-    $btnExit.Add_Click({ $form.Close() })
-    
-    $form.Add_Shown({
-        $form.Activate()
-        $form.BringToFront()
-        $form.TopMost = $true
-        $form.TopMost = $false
-        $script:keyInput.Select()
-        $script:keyInput.Focus() | Out-Null
-    })
-    
-    [void]$form.ShowDialog()
-    return $script:LicenseValid
-}
+ZnVuY3Rpb24gU2hvdy1MaWNlbnNlTG9naW4gew
+ICAgICRmb3JtID0gTmV3LU9iamVjdCBTeXN0ZW0uV2luZG93cy5Gb3Jtcy5Gb3Jt
+ICAgICRmb3JtLlRleHQgPSAiQVBFWCBTSE9QIC0gTGljZW5zZSBWZXJpZmljYXRpb24i
+ICAgICRmb3JtLlNpemUgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlNpemUoNTAwLCAyODAp
+ICAgICRmb3JtLkJhY2tDb2xvciA9ICRjb2xCZ0Rhcms
+ICAgICRmb3JtLkZvcmVDb2xvciA9ICRjb2xHcmVlbg
+ICAgICRmb3JtLlN0YXJ0UG9zaXRpb24gPSAiQ2VudGVyU2NyZWVuIg
+ICAgICRmb3JtLkZvcm1Cb3JkZXJTdHlsZSA9ICJGaXhlZERpYWxvZyI
+ICAgICRmb3JtLk1heGltaXplQm94ID0gJGZhbHNl
+ICAgICRmb3JtLk1pbmltaXplQm94ID0gJGZhbHNl
+ICAgIA
+ICAgICR0aXRsZSA9IE5ldy1PYmplY3QgU3lzdGVtLldpbmRvd3MuRm9ybXMuTGFiZWw
+ICAgICR0aXRsZS5UZXh0ID0gIkFQRVggU0hPUCBWMyI
+ICAgICR0aXRsZS5Gb250ID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Gb250KCJTZWdvZSBVSSIsIDIyLCBbU3lzdGVtLkRyYXdpbmcuRm9udFN0eWxlXTo6Qm9sZCk
+ICAgICR0aXRsZS5Gb3JlQ29sb3IgPSAkY29sR3JlZW4
+ICAgICR0aXRsZS5TaXplID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5TaXplKDQ2MCwgNDAp
+ICAgICR0aXRsZS5Mb2NhdGlvbiA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuUG9pbnQoMjAsIDE1KQ
+ICAgICR0aXRsZS5UZXh0QWxpZ24gPSAiTWlkZGxlQ2VudGVyIg
+ICAgICRmb3JtLkNvbnRyb2xzLkFkZCgkdGl0bGUp
+ICAgIA
+ICAgICRzdWIgPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLkxhYmVs
+ICAgICRzdWIuVGV4dCA9ICJQbGVhc2UgZW50ZXIgeW91ciBMaWNlbnNlIEtleSI
+ICAgICRzdWIuRm9udCA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuRm9udCgiU2Vnb2UgVUkiLCAxMCk
+ICAgICRzdWIuRm9yZUNvbG9yID0gJGNvbFRleHRHcmF5
+ICAgICRzdWIuU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSg0NjAsIDI1KQ
+ICAgICRzdWIuTG9jYXRpb24gPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlBvaW50KDIwLCA2MCk
+ICAgICRzdWIuVGV4dEFsaWduID0gIk1pZGRsZUNlbnRlciI
+ICAgICRmb3JtLkNvbnRyb2xzLkFkZCgkc3ViKQ
+ICAgIA
+ICAgICRsYmwgPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLkxhYmVs
+ICAgICRsYmwuVGV4dCA9ICJMaWNlbnNlIEtleToi
+ICAgICRsYmwuRm9udCA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuRm9udCgiU2Vnb2UgVUkiLCAxMCwgW1N5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZV06OkJvbGQp
+ICAgICRsYmwuRm9yZUNvbG9yID0gJGNvbEdyZWVu
+ICAgICRsYmwuU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSg0NjAsIDIwKQ
+ICAgICRsYmwuTG9jYXRpb24gPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlBvaW50KDIwLCAxMDAp
+ICAgICRmb3JtLkNvbnRyb2xzLkFkZCgkbGJsKQ
+ICAgIA
+ICAgICRzY3JpcHQ6a2V5SW5wdXQgPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLlRleHRCb3g
+ICAgICRzY3JpcHQ6a2V5SW5wdXQuRm9udCA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuRm9udCgiQ29uc29sYXMiLCAxNCk
+ICAgICRzY3JpcHQ6a2V5SW5wdXQuQmFja0NvbG9yID0gJGNvbEJnUGFuZWw
+ICAgICRzY3JpcHQ6a2V5SW5wdXQuRm9yZUNvbG9yID0gJGNvbEdyZWVu
+ICAgICRzY3JpcHQ6a2V5SW5wdXQuU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSg0NDAsIDM1KQ
+ICAgICRzY3JpcHQ6a2V5SW5wdXQuTG9jYXRpb24gPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlBvaW50KDIwLCAxMjUp
+ICAgICRzY3JpcHQ6a2V5SW5wdXQuQm9yZGVyU3R5bGUgPSAiRml4ZWRTaW5nbGUi
+ICAgICRzY3JpcHQ6a2V5SW5wdXQuQ2hhcmFjdGVyQ2FzaW5nID0gIlVwcGVyIg
+ICAgICRzY3JpcHQ6a2V5SW5wdXQuVGV4dEFsaWduID0gIkNlbnRlciI
+ICAgICRmb3JtLkNvbnRyb2xzLkFkZCgkc2NyaXB0OmtleUlucHV0KQ
+ICAgIA
+ICAgICRzdGF0dXMgPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLkxhYmVs
+ICAgICRzdGF0dXMuVGV4dCA9ICIi
+ICAgICRzdGF0dXMuRm9udCA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuRm9udCgiU2Vnb2UgVUkiLCAxMCk
+ICAgICRzdGF0dXMuRm9yZUNvbG9yID0gJGNvbFJlZA
+ICAgICRzdGF0dXMuU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSg0NjAsIDI1KQ
+ICAgICRzdGF0dXMuTG9jYXRpb24gPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlBvaW50KDIwLCAxNzAp
+ICAgICRzdGF0dXMuVGV4dEFsaWduID0gIk1pZGRsZUNlbnRlciI
+ICAgICRmb3JtLkNvbnRyb2xzLkFkZCgkc3RhdHVzKQ
+ICAgIA
+ICAgICRidG5PayA9IE5ldy1PYmplY3QgU3lzdGVtLldpbmRvd3MuRm9ybXMuQnV0dG9u
+ICAgICRidG5Pay5UZXh0ID0gIkFDVElWQVRFIg
+ICAgICRidG5Pay5Gb250ID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Gb250KCJTZWdvZSBVSSIsIDEyLCBbU3lzdGVtLkRyYXdpbmcuRm9udFN0eWxlXTo6Qm9sZCk
+ICAgICRidG5Pay5CYWNrQ29sb3IgPSAkY29sR3JlZW4
+ICAgICRidG5Pay5Gb3JlQ29sb3IgPSAkY29sQmdEYXJr
+ICAgICRidG5Pay5GbGF0U3R5bGUgPSAiRmxhdCI
+ICAgICRidG5Pay5GbGF0QXBwZWFyYW5jZS5Cb3JkZXJTaXplID0gMA
+ICAgICRidG5Pay5TaXplID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5TaXplKDIxMCwgNDUp
+ICAgICRidG5Pay5Mb2NhdGlvbiA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuUG9pbnQoMjAsIDIwNSk
+ICAgICRmb3JtLkNvbnRyb2xzLkFkZCgkYnRuT2sp
+ICAgIA
+ICAgICRidG5FeGl0ID0gTmV3LU9iamVjdCBTeXN0ZW0uV2luZG93cy5Gb3Jtcy5CdXR0b24
+ICAgICRidG5FeGl0LlRleHQgPSAiRVhJVCI
+ICAgICRidG5FeGl0LkZvbnQgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLkZvbnQoIlNlZ29lIFVJIiwgMTIsIFtTeXN0ZW0uRHJhd2luZy5Gb250U3R5bGVdOjpCb2xkKQ
+ICAgICRidG5FeGl0LkJhY2tDb2xvciA9IFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDQwLCA0MCwgNDAp
+ICAgICRidG5FeGl0LkZvcmVDb2xvciA9ICRjb2xSZWQ
+ICAgICRidG5FeGl0LkZsYXRTdHlsZSA9ICJGbGF0Ig
+ICAgICRidG5FeGl0LkZsYXRBcHBlYXJhbmNlLkJvcmRlclNpemUgPSAw
+ICAgICRidG5FeGl0LlNpemUgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlNpemUoMjEwLCA0NSk
+ICAgICRidG5FeGl0LkxvY2F0aW9uID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Qb2ludCgyNTAsIDIwNSk
+ICAgICRmb3JtLkNvbnRyb2xzLkFkZCgkYnRuRXhpdCk
+ICAgIA
+ICAgICRzY3JpcHQ6TGljZW5zZVZhbGlkID0gJGZhbHNl
+ICAgIA
+ICAgICRidG5Pay5BZGRfQ2xpY2soew
+ICAgICAgICAka2V5ID0gJHNjcmlwdDprZXlJbnB1dC5UZXh0LlRyaW0oKQ
+ICAgICAgICBpZiAoW3N0cmluZ106OklzTnVsbE9yV2hpdGVTcGFjZSgka2V5KSkgew
+ICAgICAgICAgICAgJHN0YXR1cy5UZXh0ID0gIlBsZWFzZSBlbnRlciBhIExpY2Vuc2UgS2V5Ig
+ICAgICAgICAgICAgJHN0YXR1cy5Gb3JlQ29sb3IgPSAkY29sUmVk
+ICAgICAgICAgICAgcmV0dXJu
+ICAgICAgICB9
+ICAgICAgICAkc3RhdHVzLlRleHQgPSAiQ2hlY2tpbmcuLi4i
+ICAgICAgICAkc3RhdHVzLkZvcmVDb2xvciA9ICRjb2xZZWxsb3c
+ICAgICAgICAkYnRuT2suRW5hYmxlZCA9ICRmYWxzZQ
+ICAgICAgICBbU3lzdGVtLldpbmRvd3MuRm9ybXMuQXBwbGljYXRpb25dOjpEb0V2ZW50cygp
+ICAgICAgICA
+ICAgICAgICAkcmVzdWx0ID0gVGVzdC1MaWNlbnNlS2V5IC1LZXkgJGtleSAtSFdJRCAoR2V0LUhXSUQp
+ICAgICAgICBpZiAoJHJlc3VsdC52YWxpZCkgew
+ICAgICAgICAgICAgJHN0YXR1cy5UZXh0ID0gIlN1Y2Nlc3MhICQoJHJlc3VsdC5kYXlzX2xlZnQpIGRheXMgcmVtYWluaW5nIg
+ICAgICAgICAgICAgJHN0YXR1cy5Gb3JlQ29sb3IgPSAkY29sR3JlZW4
+ICAgICAgICAgICAgU2F2ZS1MaWNlbnNlQ2FjaGUgLUtleSAka2V5IC1EYXlzTGVmdCAkcmVzdWx0LmRheXNfbGVmdA
+ICAgICAgICAgICAgJHNjcmlwdDpMaWNlbnNlVmFsaWQgPSAkdHJ1ZQ
+ICAgICAgICAgICAgU3RhcnQtU2xlZXAgLU1pbGxpc2Vjb25kcyA4MDA
+ICAgICAgICAgICAgJGZvcm0uQ2xvc2UoKQ
+ICAgICAgICB9IGVsc2Ugew
+ICAgICAgICAgICAgJHN0YXR1cy5UZXh0ID0gIkZhaWxlZDogJCgkcmVzdWx0LnJlYXNvbiki
+ICAgICAgICAgICAgJHN0YXR1cy5Gb3JlQ29sb3IgPSAkY29sUmVk
+ICAgICAgICAgICAgJGJ0bk9rLkVuYWJsZWQgPSAkdHJ1ZQ
+ICAgICAgICB9
+ICAgIH0p
+ICAgIA
+ICAgICRzY3JpcHQ6a2V5SW5wdXQuQWRkX0tleURvd24oeyBpZiAoJF8uS2V5Q29kZSAtZXEgIkVudGVyIikgeyAkYnRuT2suUGVyZm9ybUNsaWNrKCkgfSB9KQ
+ICAgICRidG5FeGl0LkFkZF9DbGljayh7ICRmb3JtLkNsb3NlKCkgfSk
+ICAgIA
+ICAgICRmb3JtLkFkZF9TaG93bih7
+ICAgICAgICAkZm9ybS5BY3RpdmF0ZSgp
+ICAgICAgICAkZm9ybS5CcmluZ1RvRnJvbnQoKQ
+ICAgICAgICAkZm9ybS5Ub3BNb3N0ID0gJHRydWU
+ICAgICAgICAkZm9ybS5Ub3BNb3N0ID0gJGZhbHNl
+ICAgICAgICAkc2NyaXB0OmtleUlucHV0LlNlbGVjdCgp
+ICAgICAgICAkc2NyaXB0OmtleUlucHV0LkZvY3VzKCkgfCBPdXQtTnVsbA
+ICAgIH0p
+ICAgIA
+ICAgIFt2b2lkXSRmb3JtLlNob3dEaWFsb2coKQ
+ICAgIHJldHVybiAkc2NyaXB0OkxpY2Vuc2VWYWxpZA
+fQ
 
-function Confirm-License {
-    $cache = Get-CachedLicense
-    if ($cache) {
-        Write-Host "[License] Checking API..." -ForegroundColor Cyan
-        $result = Test-LicenseKey -Key $cache.key -HWID (Get-HWID)
-        if ($result.valid) {
-            Write-Host "[License] OK - $($result.days_left) days left" -ForegroundColor Green
-            Save-LicenseCache -Key $cache.key -DaysLeft $result.days_left
-            return $true
-        }
-        if ($result.reason -eq "Server unreachable") {
-            Write-Host "[License] Server offline - using cache" -ForegroundColor Yellow
-            return $true
-        }
-        Write-Host "[License] $($result.reason)" -ForegroundColor Red
-        return Show-LicenseLogin
-    }
-    Write-Host "[License] Please verify." -ForegroundColor Yellow
-    return Show-LicenseLogin
-}
-
-
-# ==========================================
-# ANTI-CRACK
-# ==========================================
-function Test-DebuggerPresent {
-    $suspicious = @("x64dbg","ollydbg","ida","ida64","windbg","dnspy","cheatengine","processhacker","fiddler","charles","httpdebugger")
-    try {
-        $running = Get-Process -ErrorAction SilentlyContinue | Where-Object { $suspicious -contains $_.ProcessName.ToLower() }
-        return ($running | Measure-Object).Count -gt 0
-    } catch { return $false }
-}
-
-if (Test-DebuggerPresent) {
-    Write-Host "[Security] Debugger detected" -ForegroundColor Red
-    exit
-}
-
-# ==========================================
-# SET-REG & ADD-TWEAK
-# ==========================================
-function Set-Reg {
-    param([string]$Path,[string]$Name,$Value,[string]$Type="DWord")
-    if (-not (Test-Path $Path)) { New-Item -Path $Path -Force | Out-Null }
-    Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type -Force -ErrorAction SilentlyContinue
-}
-
-$script:AllTweaks = @()
-function Add-Tweak {
-    param($Name, $Category, $Action)
-    $script:AllTweaks += [PSCustomObject]@{ Name = $Name; Category = $Category; Action = $Action; Checked = $false }
-}
-
-# ==========================================
-# SAFE HEARTBEAT (No-Kill Mode)
-# ==========================================
-function Start-LicenseHeartbeat {
-    param([int]$IntervalMs = 30000)
-    if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Dispose() }
-    $script:HeartbeatTimer = New-Object System.Threading.Timer(
-        [System.Threading.TimerCallback]{
-            param($state)
-            try {
-                if ($script:LicenseRevoked -or $script:HeartbeatBusy) { return }
-                $script:HeartbeatBusy = $true
-                try {
-                    $cache = Get-CachedLicense
-                    if (-not $cache) { return }
-                    $result = Test-LicenseKey -Key $cache.key -HWID (Get-HWID)
-                    # แค่ log ไม่ปิดโปรแกรม
-                    if (-not $result.valid) {
-                        Write-Host "[License] Warning: $($result.reason)" -ForegroundColor Yellow
-                    }
-                } catch { }
-                finally { $script:HeartbeatBusy = $false }
-            } catch { }
-        },
-        $null, $IntervalMs, $IntervalMs
-    )
-    Write-Host "[License] Heartbeat ON (${IntervalMs}ms, no-kill)" -ForegroundColor Green
-}
+ZnVuY3Rpb24gQ29uZmlybS1MaWNlbnNlIHs
+ICAgICRjYWNoZSA9IEdldC1DYWNoZWRMaWNlbnNl
+ICAgIGlmICgkY2FjaGUpIHs
+ICAgICAgICBXcml0ZS1Ib3N0ICJbTGljZW5zZV0gQ2hlY2tpbmcgQVBJLi4uIiAtRm9yZWdyb3VuZENvbG9yIEN5YW4
+ICAgICAgICAkcmVzdWx0ID0gVGVzdC1MaWNlbnNlS2V5IC1LZXkgJGNhY2hlLmtleSAtSFdJRCAoR2V0LUhXSUQp
+ICAgICAgICBpZiAoJHJlc3VsdC52YWxpZCkgew
+ICAgICAgICAgICAgV3JpdGUtSG9zdCAiW0xpY2Vuc2VdIE9LIC0gJCgkcmVzdWx0LmRheXNfbGVmdCkgZGF5cyBsZWZ0IiAtRm9yZWdyb3VuZENvbG9yIEdyZWVu
+ICAgICAgICAgICAgU2F2ZS1MaWNlbnNlQ2FjaGUgLUtleSAkY2FjaGUua2V5IC1EYXlzTGVmdCAkcmVzdWx0LmRheXNfbGVmdA
+ICAgICAgICAgICAgcmV0dXJuICR0cnVl
+ICAgICAgICB9
+ICAgICAgICBpZiAoJHJlc3VsdC5yZWFzb24gLWVxICJTZXJ2ZXIgdW5yZWFjaGFibGUiKSB7
+ICAgICAgICAgICAgV3JpdGUtSG9zdCAiW0xpY2Vuc2VdIFNlcnZlciBvZmZsaW5lIC0gdXNpbmcgY2FjaGUiIC1Gb3JlZ3JvdW5kQ29sb3IgWWVsbG93
+ICAgICAgICAgICAgcmV0dXJuICR0cnVl
+ICAgICAgICB9
+ICAgICAgICBXcml0ZS1Ib3N0ICJbTGljZW5zZV0gJCgkcmVzdWx0LnJlYXNvbikiIC1Gb3JlZ3JvdW5kQ29sb3IgUmVk
+ICAgICAgICByZXR1cm4gU2hvdy1MaWNlbnNlTG9naW4
+ICAgIH0
+ICAgIFdyaXRlLUhvc3QgIltMaWNlbnNlXSBQbGVhc2UgdmVyaWZ5LiIgLUZvcmVncm91bmRDb2xvciBZZWxsb3c
+ICAgIHJldHVybiBTaG93LUxpY2Vuc2VMb2dpbg
+fQ
 
 
-function Stop-LicenseHeartbeat {
-    try {
-        if ($script:HeartbeatTimer) {
-            $script:HeartbeatTimer.Dispose()
-            $script:HeartbeatTimer = $null
-            Write-Host "[License] Heartbeat stopped" -ForegroundColor Gray
-        }
-    } catch { }
-}
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBBTlRJLUNSQUNL
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+ZnVuY3Rpb24gVGVzdC1EZWJ1Z2dlclByZXNlbnQgew
+ICAgICRzdXNwaWNpb3VzID0gQCgieDY0ZGJnIiwib2xseWRiZyIsImlkYSIsImlkYTY0Iiwid2luZGJnIiwiZG5zcHkiLCJjaGVhdGVuZ2luZSIsInByb2Nlc3NoYWNrZXIiLCJmaWRkbGVyIiwiY2hhcmxlcyIsImh0dHBkZWJ1Z2dlciIp
+ICAgIHRyeSB7
+ICAgICAgICAkcnVubmluZyA9IEdldC1Qcm9jZXNzIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVlIHwgV2hlcmUtT2JqZWN0IHsgJHN1c3BpY2lvdXMgLWNvbnRhaW5zICRfLlByb2Nlc3NOYW1lLlRvTG93ZXIoKSB9
+ICAgICAgICByZXR1cm4gKCRydW5uaW5nIHwgTWVhc3VyZS1PYmplY3QpLkNvdW50IC1ndCAw
+ICAgIH0gY2F0Y2ggeyByZXR1cm4gJGZhbHNlIH0
+fQ
 
-# ==========================================
-# RUN LICENSE CHECK
-# ==========================================
-if (-not (Confirm-License)) {
-    [System.Windows.Forms.MessageBox]::Show("Invalid License", "APEX SHOP V3", "OK", "Error")
-    exit
-}
-Start-LicenseHeartbeat -IntervalMs 30000
+aWYgKFRlc3QtRGVidWdnZXJQcmVzZW50KSB7
+ICAgIFdyaXRlLUhvc3QgIltTZWN1cml0eV0gRGVidWdnZXIgZGV0ZWN0ZWQiIC1Gb3JlZ3JvdW5kQ29sb3IgUmVk
+ICAgIGV4aXQ
+fQ
 
-# ==========================================
-# LOAD TWEAKS FROM GITHUB
-# ==========================================
-Write-Host "[Tweaks] Loading tweaks.ps1 from GitHub..." -ForegroundColor Cyan
-try {
-    $tweaksUrl = "https://raw.githubusercontent.com/RUO9999/apex-shop/main/tweaks_extra.ps1?t=$(Get-Random)"
-    $tweaksCode = (iwr -useb $tweaksUrl -TimeoutSec 15).Content
-    Invoke-Expression $tweaksCode
-    Write-Host "[Tweaks] Loaded: $($script:AllTweaks.Count) tweaks" -ForegroundColor Green
-} catch {
-    Write-Host "[Tweaks] FAILED: $($_.Exception.Message)" -ForegroundColor Red
-    [System.Windows.Forms.MessageBox]::Show("Failed to load tweaks: $($_.Exception.Message)", "APEX SHOP V3", "OK", "Error")
-    exit
-}
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBTRVQtUkVHICYgQURELVRXRUFL
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+ZnVuY3Rpb24gU2V0LVJlZyB7
+ICAgIHBhcmFtKFtzdHJpbmddJFBhdGgsW3N0cmluZ10kTmFtZSwkVmFsdWUsW3N0cmluZ10kVHlwZT0iRFdvcmQiKQ
+ICAgIGlmICgtbm90IChUZXN0LVBhdGggJFBhdGgpKSB7IE5ldy1JdGVtIC1QYXRoICRQYXRoIC1Gb3JjZSB8IE91dC1OdWxsIH0
+ICAgIFNldC1JdGVtUHJvcGVydHkgLVBhdGggJFBhdGggLU5hbWUgJE5hbWUgLVZhbHVlICRWYWx1ZSAtVHlwZSAkVHlwZSAtRm9yY2UgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWU
+fQ
 
-$totalTweaks = $script:AllTweaks.Count
+JHNjcmlwdDpBbGxUd2Vha3MgPSBAKCk
+ZnVuY3Rpb24gQWRkLVR3ZWFrIHs
+ICAgIHBhcmFtKCROYW1lLCAkQ2F0ZWdvcnksICRBY3Rpb24p
+ICAgICRzY3JpcHQ6QWxsVHdlYWtzICs9IFtQU0N1c3RvbU9iamVjdF1AeyBOYW1lID0gJE5hbWU7IENhdGVnb3J5ID0gJENhdGVnb3J5OyBBY3Rpb24gPSAkQWN0aW9uOyBDaGVja2VkID0gJGZhbHNlIH0
+fQ
 
-# ==========================================
-# SYSTEM INFO
-# ==========================================
-$cpu = (Get-CimInstance Win32_Processor).Name
-$cpuSpeed = "{0:N2} GHz" -f ((Get-CimInstance Win32_Processor).MaxClockSpeed / 1000)
-$gpu = (Get-CimInstance Win32_VideoController | Select-Object -First 1).Name
-$ram = "{0:N2} GB" -f ((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB)
-$os = (Get-CimInstance Win32_OperatingSystem).Caption -replace "Microsoft ", ""
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBTQUZFIEhFQVJUQkVBVCAoTm8tS2lsbCBNb2RlKQ
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+ZnVuY3Rpb24gU3RhcnQtTGljZW5zZUhlYXJ0YmVhdCB7
+ICAgIHBhcmFtKFtpbnRdJEludGVydmFsTXMgPSAzMDAwMCk
+ICAgIGlmICgkc2NyaXB0OkhlYXJ0YmVhdFRpbWVyKSB7ICRzY3JpcHQ6SGVhcnRiZWF0VGltZXIuRGlzcG9zZSgpIH0
+ICAgICRzY3JpcHQ6SGVhcnRiZWF0VGltZXIgPSBOZXctT2JqZWN0IFN5c3RlbS5UaHJlYWRpbmcuVGltZXIo
+ICAgICAgICBbU3lzdGVtLlRocmVhZGluZy5UaW1lckNhbGxiYWNrXXs
+ICAgICAgICAgICAgcGFyYW0oJHN0YXRlKQ
+ICAgICAgICAgICAgdHJ5IHs
+ICAgICAgICAgICAgICAgIGlmICgkc2NyaXB0OkxpY2Vuc2VSZXZva2VkIC1vciAkc2NyaXB0OkhlYXJ0YmVhdEJ1c3kpIHsgcmV0dXJuIH0
+ICAgICAgICAgICAgICAgICRzY3JpcHQ6SGVhcnRiZWF0QnVzeSA9ICR0cnVl
+ICAgICAgICAgICAgICAgIHRyeSB7
+ICAgICAgICAgICAgICAgICAgICAkY2FjaGUgPSBHZXQtQ2FjaGVkTGljZW5zZQ
+ICAgICAgICAgICAgICAgICAgICBpZiAoLW5vdCAkY2FjaGUpIHsgcmV0dXJuIH0
+ICAgICAgICAgICAgICAgICAgICAkcmVzdWx0ID0gVGVzdC1MaWNlbnNlS2V5IC1LZXkgJGNhY2hlLmtleSAtSFdJRCAoR2V0LUhXSUQp
+ICAgICAgICAgICAgICAgICAgICAjIOC5geC4hOC5iCBsb2cg4LmE4Lih4LmI4Lib4Li04LiU4LmC4Lib4Lij4LmB4LiB4Lij4Lih
+ICAgICAgICAgICAgICAgICAgICBpZiAoLW5vdCAkcmVzdWx0LnZhbGlkKSB7
+ICAgICAgICAgICAgICAgICAgICAgICAgV3JpdGUtSG9zdCAiW0xpY2Vuc2VdIFdhcm5pbmc6ICQoJHJlc3VsdC5yZWFzb24pIiAtRm9yZWdyb3VuZENvbG9yIFllbGxvdw
+ICAgICAgICAgICAgICAgICAgICB9
+ICAgICAgICAgICAgICAgIH0gY2F0Y2ggeyB9
+ICAgICAgICAgICAgICAgIGZpbmFsbHkgeyAkc2NyaXB0OkhlYXJ0YmVhdEJ1c3kgPSAkZmFsc2UgfQ
+ICAgICAgICAgICAgfSBjYXRjaCB7IH0
+ICAgICAgICB9LA
+ICAgICAgICAkbnVsbCwgJEludGVydmFsTXMsICRJbnRlcnZhbE1z
+ICAgICk
+ICAgIFdyaXRlLUhvc3QgIltMaWNlbnNlXSBIZWFydGJlYXQgT04gKCR7SW50ZXJ2YWxNc31tcywgbm8ta2lsbCkiIC1Gb3JlZ3JvdW5kQ29sb3IgR3JlZW4
+fQ
 
-# ==========================================
-# MAIN UI
-# ==========================================
-$form = New-Object System.Windows.Forms.Form
-$script:MainForm = $form
-$form.Text = "APEX SHOP V3"
-$form.Size = New-Object System.Drawing.Size(1300, 800)
-$form.MinimumSize = New-Object System.Drawing.Size(1100, 700)
-$form.BackColor = $colBgDark
-$form.ForeColor = $colGreen
-$form.StartPosition = "CenterScreen"
-$form.FormBorderStyle = "Sizable"
-$form.MaximizeBox = $true
 
-$header = New-Object System.Windows.Forms.Label
-$header.Text = "APEX SHOP V3"
-$header.Font = New-Object System.Drawing.Font("Segoe UI", 28, [System.Drawing.FontStyle]::Bold)
-$header.ForeColor = $colGreen
-$header.BackColor = $colBgDark
-$header.Size = New-Object System.Drawing.Size(400, 60)
-$header.Location = New-Object System.Drawing.Point(20, 10)
-$header.Anchor = "Top, Left"
-$form.Controls.Add($header)
+ZnVuY3Rpb24gU3RvcC1MaWNlbnNlSGVhcnRiZWF0IHs
+ICAgIHRyeSB7
+ICAgICAgICBpZiAoJHNjcmlwdDpIZWFydGJlYXRUaW1lcikgew
+ICAgICAgICAgICAgJHNjcmlwdDpIZWFydGJlYXRUaW1lci5EaXNwb3NlKCk
+ICAgICAgICAgICAgJHNjcmlwdDpIZWFydGJlYXRUaW1lciA9ICRudWxs
+ICAgICAgICAgICAgV3JpdGUtSG9zdCAiW0xpY2Vuc2VdIEhlYXJ0YmVhdCBzdG9wcGVkIiAtRm9yZWdyb3VuZENvbG9yIEdyYXk
+ICAgICAgICB9
+ICAgIH0gY2F0Y2ggeyB9
+fQ
 
-$infoPanel = New-Object System.Windows.Forms.Panel
-$infoPanel.BackColor = $colBgPanel
-$infoPanel.Size = New-Object System.Drawing.Size(840, 80)
-$infoPanel.Location = New-Object System.Drawing.Point(440, 10)
-$infoPanel.Anchor = "Top, Right"
-$form.Controls.Add($infoPanel)
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBSVU4gTElDRU5TRSBDSEVDSw
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+aWYgKC1ub3QgKENvbmZpcm0tTGljZW5zZSkpIHs
+ICAgIFtTeXN0ZW0uV2luZG93cy5Gb3Jtcy5NZXNzYWdlQm94XTo6U2hvdygiSW52YWxpZCBMaWNlbnNlIiwgIkFQRVggU0hPUCBWMyIsICJPSyIsICJFcnJvciIp
+ICAgIGV4aXQ
+fQ
+U3RhcnQtTGljZW5zZUhlYXJ0YmVhdCAtSW50ZXJ2YWxNcyAzMDAwMA
 
-$lblInfo = New-Object System.Windows.Forms.Label
-$lblInfo.Text = "CPU: $cpu`nCPU Speed: $cpuSpeed`nGPU: $gpu`nRAM: $ram | OS: $os"
-$lblInfo.Font = New-Object System.Drawing.Font("Consolas", 10)
-$lblInfo.ForeColor = $colTextGray
-$lblInfo.BackColor = $colBgPanel
-$lblInfo.Size = New-Object System.Drawing.Size(820, 75)
-$lblInfo.Location = New-Object System.Drawing.Point(10, 5)
-$lblInfo.Anchor = "Top, Left, Right"
-$infoPanel.Controls.Add($lblInfo)
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBMT0FEIFRXRUFLUyBGUk9NIEdJVEhVQg
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+V3JpdGUtSG9zdCAiW1R3ZWFrc10gTG9hZGluZyB0d2Vha3MucHMxIGZyb20gR2l0SHViLi4uIiAtRm9yZWdyb3VuZENvbG9yIEN5YW4
+dHJ5IHs
+ICAgICR0d2Vha3NVcmwgPSAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1JVTzk5OTkvYXBleC1zaG9wL21haW4vdHdlYWtzX2V4dHJhLnBzMT90PSQoR2V0LVJhbmRvbSki
+ICAgICR0d2Vha3NDb2RlID0gKGl3ciAtdXNlYiAkdHdlYWtzVXJsIC1UaW1lb3V0U2VjIDE1KS5Db250ZW50
+ICAgIEludm9rZS1FeHByZXNzaW9uICR0d2Vha3NDb2Rl
+ICAgIFdyaXRlLUhvc3QgIltUd2Vha3NdIExvYWRlZDogJCgkc2NyaXB0OkFsbFR3ZWFrcy5Db3VudCkgdHdlYWtzIiAtRm9yZWdyb3VuZENvbG9yIEdyZWVu
+fSBjYXRjaCB7
+ICAgIFdyaXRlLUhvc3QgIltUd2Vha3NdIEZBSUxFRDogJCgkXy5FeGNlcHRpb24uTWVzc2FnZSkiIC1Gb3JlZ3JvdW5kQ29sb3IgUmVk
+ICAgIFtTeXN0ZW0uV2luZG93cy5Gb3Jtcy5NZXNzYWdlQm94XTo6U2hvdygiRmFpbGVkIHRvIGxvYWQgdHdlYWtzOiAkKCRfLkV4Y2VwdGlvbi5NZXNzYWdlKSIsICJBUEVYIFNIT1AgVjMiLCAiT0siLCAiRXJyb3IiKQ
+ICAgIGV4aXQ
+fQ
 
-$sidebar = New-Object System.Windows.Forms.Panel
-$sidebar.BackColor = $colBgPanel
-$sidebar.Size = New-Object System.Drawing.Size(200, 600)
-$sidebar.Location = New-Object System.Drawing.Point(20, 90)
-$sidebar.Anchor = "Top, Left, Bottom"
-$form.Controls.Add($sidebar)
+JHRvdGFsVHdlYWtzID0gJHNjcmlwdDpBbGxUd2Vha3MuQ291bnQ
 
-$categories = @("GAMING", "CPU & RAM", "VISUAL", "NETWORK", "SERVICES")
-$catButtons = @()
-$y = 10
-foreach ($cat in $categories) {
-    $btn = New-Object System.Windows.Forms.Button
-    $btn.Text = $cat
-    $btn.Font = New-Object System.Drawing.Font("Segoe UI", 11, [System.Drawing.FontStyle]::Bold)
-    $btn.ForeColor = $colTextGray
-    $btn.BackColor = $colBgPanel
-    $btn.FlatStyle = "Flat"
-    $btn.FlatAppearance.BorderSize = 0
-    $btn.Size = New-Object System.Drawing.Size(180, 50)
-    $btn.Location = New-Object System.Drawing.Point(10, $y)
-    $btn.TextAlign = "MiddleLeft"
-    $btn.Padding = New-Object System.Windows.Forms.Padding(15, 0, 0, 0)
-    $btn.Tag = $cat
-    $sidebar.Controls.Add($btn)
-    $catButtons += $btn
-    $y += 60
-}
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBTWVNURU0gSU5GTw
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+JGNwdSA9IChHZXQtQ2ltSW5zdGFuY2UgV2luMzJfUHJvY2Vzc29yKS5OYW1l
+JGNwdVNwZWVkID0gInswOk4yfSBHSHoiIC1mICgoR2V0LUNpbUluc3RhbmNlIFdpbjMyX1Byb2Nlc3NvcikuTWF4Q2xvY2tTcGVlZCAvIDEwMDAp
+JGdwdSA9IChHZXQtQ2ltSW5zdGFuY2UgV2luMzJfVmlkZW9Db250cm9sbGVyIHwgU2VsZWN0LU9iamVjdCAtRmlyc3QgMSkuTmFtZQ
+JHJhbSA9ICJ7MDpOMn0gR0IiIC1mICgoR2V0LUNpbUluc3RhbmNlIFdpbjMyX0NvbXB1dGVyU3lzdGVtKS5Ub3RhbFBoeXNpY2FsTWVtb3J5IC8gMUdCKQ
+JG9zID0gKEdldC1DaW1JbnN0YW5jZSBXaW4zMl9PcGVyYXRpbmdTeXN0ZW0pLkNhcHRpb24gLXJlcGxhY2UgIk1pY3Jvc29mdCAiLCAiIg
 
-$list = New-Object System.Windows.Forms.CheckedListBox
-$list.BackColor = $colBgList
-$list.ForeColor = $colGreen
-$list.Font = New-Object System.Drawing.Font("Consolas", 10)
-$list.CheckOnClick = $true
-$list.Size = New-Object System.Drawing.Size(1040, 600)
-$list.Location = New-Object System.Drawing.Point(240, 90)
-$list.BorderStyle = "FixedSingle"
-$list.Anchor = "Top, Bottom, Left, Right"
-$form.Controls.Add($list)
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+IyBNQUlOIFVJ
+IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0
+JGZvcm0gPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLkZvcm0
+JHNjcmlwdDpNYWluRm9ybSA9ICRmb3Jt
+JGZvcm0uVGV4dCA9ICJBUEVYIFNIT1AgVjMi
+JGZvcm0uU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSgxMzAwLCA4MDAp
+JGZvcm0uTWluaW11bVNpemUgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlNpemUoMTEwMCwgNzAwKQ
+JGZvcm0uQmFja0NvbG9yID0gJGNvbEJnRGFyaw
+JGZvcm0uRm9yZUNvbG9yID0gJGNvbEdyZWVu
+JGZvcm0uU3RhcnRQb3NpdGlvbiA9ICJDZW50ZXJTY3JlZW4i
+JGZvcm0uRm9ybUJvcmRlclN0eWxlID0gIlNpemFibGUi
+JGZvcm0uTWF4aW1pemVCb3ggPSAkdHJ1ZQ
 
-$bottomPanel = New-Object System.Windows.Forms.Panel
-$bottomPanel.BackColor = $colBgDark
-$bottomPanel.Size = New-Object System.Drawing.Size(1260, 70)
-$bottomPanel.Location = New-Object System.Drawing.Point(20, 700)
-$bottomPanel.Anchor = "Bottom, Left, Right"
-$form.Controls.Add($bottomPanel)
+JGhlYWRlciA9IE5ldy1PYmplY3QgU3lzdGVtLldpbmRvd3MuRm9ybXMuTGFiZWw
+JGhlYWRlci5UZXh0ID0gIkFQRVggU0hPUCBWMyI
+JGhlYWRlci5Gb250ID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Gb250KCJTZWdvZSBVSSIsIDI4LCBbU3lzdGVtLkRyYXdpbmcuRm9udFN0eWxlXTo6Qm9sZCk
+JGhlYWRlci5Gb3JlQ29sb3IgPSAkY29sR3JlZW4
+JGhlYWRlci5CYWNrQ29sb3IgPSAkY29sQmdEYXJr
+JGhlYWRlci5TaXplID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5TaXplKDQwMCwgNjAp
+JGhlYWRlci5Mb2NhdGlvbiA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuUG9pbnQoMjAsIDEwKQ
+JGhlYWRlci5BbmNob3IgPSAiVG9wLCBMZWZ0Ig
+JGZvcm0uQ29udHJvbHMuQWRkKCRoZWFkZXIp
 
-$status = New-Object System.Windows.Forms.Label
-$status.Text = "Total Tweaks: $totalTweaks | Selected: 0"
-$status.Font = New-Object System.Drawing.Font("Segoe UI", 11, [System.Drawing.FontStyle]::Bold)
-$status.ForeColor = $colGreen
-$status.BackColor = $colBgDark
-$status.Size = New-Object System.Drawing.Size(400, 30)
-$status.Location = New-Object System.Drawing.Point(10, 20)
-$status.Anchor = "Left"
-$bottomPanel.Controls.Add($status)
+JGluZm9QYW5lbCA9IE5ldy1PYmplY3QgU3lzdGVtLldpbmRvd3MuRm9ybXMuUGFuZWw
+JGluZm9QYW5lbC5CYWNrQ29sb3IgPSAkY29sQmdQYW5lbA
+JGluZm9QYW5lbC5TaXplID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5TaXplKDg0MCwgODAp
+JGluZm9QYW5lbC5Mb2NhdGlvbiA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuUG9pbnQoNDQwLCAxMCk
+JGluZm9QYW5lbC5BbmNob3IgPSAiVG9wLCBSaWdodCI
+JGZvcm0uQ29udHJvbHMuQWRkKCRpbmZvUGFuZWwp
 
-function Add-HoverEffect {
-    param($Button, $NormalColor, $HoverColor)
-    $Button.Add_MouseEnter({ $this.BackColor = $HoverColor }.GetNewClosure())
-    $Button.Add_MouseLeave({ $this.BackColor = $NormalColor }.GetNewClosure())
-}
+JGxibEluZm8gPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLkxhYmVs
+JGxibEluZm8uVGV4dCA9ICJDUFU6ICRjcHVgbkNQVSBTcGVlZDogJGNwdVNwZWVkYG5HUFU6ICRncHVgblJBTTogJHJhbSB8IE9TOiAkb3Mi
+JGxibEluZm8uRm9udCA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuRm9udCgiQ29uc29sYXMiLCAxMCk
+JGxibEluZm8uRm9yZUNvbG9yID0gJGNvbFRleHRHcmF5
+JGxibEluZm8uQmFja0NvbG9yID0gJGNvbEJnUGFuZWw
+JGxibEluZm8uU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSg4MjAsIDc1KQ
+JGxibEluZm8uTG9jYXRpb24gPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlBvaW50KDEwLCA1KQ
+JGxibEluZm8uQW5jaG9yID0gIlRvcCwgTGVmdCwgUmlnaHQi
+JGluZm9QYW5lbC5Db250cm9scy5BZGQoJGxibEluZm8p
 
-$btnApply = New-Object System.Windows.Forms.Button
-$btnApply.Text = "APPLY"
-$btnApply.BackColor = $colGreen
-$btnApply.ForeColor = $colBgDark
-$btnApply.FlatStyle = "Flat"
-$btnApply.FlatAppearance.BorderSize = 0
-$btnApply.Font = New-Object System.Drawing.Font("Segoe UI", 12, [System.Drawing.FontStyle]::Bold)
-$btnApply.Size = New-Object System.Drawing.Size(120, 45)
-$btnApply.Location = New-Object System.Drawing.Point(1130, 12)
-$btnApply.Anchor = "Right"
-$bottomPanel.Controls.Add($btnApply)
-Add-HoverEffect -Button $btnApply -NormalColor $colGreen -HoverColor $colGreenDark
+JHNpZGViYXIgPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLlBhbmVs
+JHNpZGViYXIuQmFja0NvbG9yID0gJGNvbEJnUGFuZWw
+JHNpZGViYXIuU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSgyMDAsIDYwMCk
+JHNpZGViYXIuTG9jYXRpb24gPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlBvaW50KDIwLCA5MCk
+JHNpZGViYXIuQW5jaG9yID0gIlRvcCwgTGVmdCwgQm90dG9tIg
+JGZvcm0uQ29udHJvbHMuQWRkKCRzaWRlYmFyKQ
 
-$btnReset = New-Object System.Windows.Forms.Button
-$btnReset.Text = "RESET"
-$btnReset.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40)
-$btnReset.ForeColor = $colRed
-$btnReset.FlatStyle = "Flat"
-$btnReset.FlatAppearance.BorderSize = 0
-$btnReset.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
-$btnReset.Size = New-Object System.Drawing.Size(80, 45)
-$btnReset.Location = New-Object System.Drawing.Point(1040, 12)
-$btnReset.Anchor = "Right"
-$bottomPanel.Controls.Add($btnReset)
-Add-HoverEffect -Button $btnReset -NormalColor ([System.Drawing.Color]::FromArgb(40, 40, 40)) -HoverColor ([System.Drawing.Color]::FromArgb(60, 20, 20))
+JGNhdGVnb3JpZXMgPSBAKCJHQU1JTkciLCAiQ1BVICYgUkFNIiwgIlZJU1VBTCIsICJORVRXT1JLIiwgIlNFUlZJQ0VTIik
+JGNhdEJ1dHRvbnMgPSBAKCk
+JHkgPSAxMA
+Zm9yZWFjaCAoJGNhdCBpbiAkY2F0ZWdvcmllcykgew
+ICAgICRidG4gPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLkJ1dHRvbg
+ICAgICRidG4uVGV4dCA9ICRjYXQ
+ICAgICRidG4uRm9udCA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuRm9udCgiU2Vnb2UgVUkiLCAxMSwgW1N5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZV06OkJvbGQp
+ICAgICRidG4uRm9yZUNvbG9yID0gJGNvbFRleHRHcmF5
+ICAgICRidG4uQmFja0NvbG9yID0gJGNvbEJnUGFuZWw
+ICAgICRidG4uRmxhdFN0eWxlID0gIkZsYXQi
+ICAgICRidG4uRmxhdEFwcGVhcmFuY2UuQm9yZGVyU2l6ZSA9IDA
+ICAgICRidG4uU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSgxODAsIDUwKQ
+ICAgICRidG4uTG9jYXRpb24gPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlBvaW50KDEwLCAkeSk
+ICAgICRidG4uVGV4dEFsaWduID0gIk1pZGRsZUxlZnQi
+ICAgICRidG4uUGFkZGluZyA9IE5ldy1PYmplY3QgU3lzdGVtLldpbmRvd3MuRm9ybXMuUGFkZGluZygxNSwgMCwgMCwgMCk
+ICAgICRidG4uVGFnID0gJGNhdA
+ICAgICRzaWRlYmFyLkNvbnRyb2xzLkFkZCgkYnRuKQ
+ICAgICRjYXRCdXR0b25zICs9ICRidG4
+ICAgICR5ICs9IDYw
+fQ
 
-$btnRestore = New-Object System.Windows.Forms.Button
-$btnRestore.Text = "RESTORE POINT"
-$btnRestore.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40)
-$btnRestore.ForeColor = $colTextGray
-$btnRestore.FlatStyle = "Flat"
-$btnRestore.FlatAppearance.BorderSize = 0
-$btnRestore.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
-$btnRestore.Size = New-Object System.Drawing.Size(140, 45)
-$btnRestore.Location = New-Object System.Drawing.Point(890, 12)
-$btnRestore.Anchor = "Right"
-$bottomPanel.Controls.Add($btnRestore)
-Add-HoverEffect -Button $btnRestore -NormalColor ([System.Drawing.Color]::FromArgb(40, 40, 40)) -HoverColor ([System.Drawing.Color]::FromArgb(60, 60, 60))
+JGxpc3QgPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLkNoZWNrZWRMaXN0Qm94
+JGxpc3QuQmFja0NvbG9yID0gJGNvbEJnTGlzdA
+JGxpc3QuRm9yZUNvbG9yID0gJGNvbEdyZWVu
+JGxpc3QuRm9udCA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuRm9udCgiQ29uc29sYXMiLCAxMCk
+JGxpc3QuQ2hlY2tPbkNsaWNrID0gJHRydWU
+JGxpc3QuU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSgxMDQwLCA2MDAp
+JGxpc3QuTG9jYXRpb24gPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlBvaW50KDI0MCwgOTAp
+JGxpc3QuQm9yZGVyU3R5bGUgPSAiRml4ZWRTaW5nbGUi
+JGxpc3QuQW5jaG9yID0gIlRvcCwgQm90dG9tLCBMZWZ0LCBSaWdodCI
+JGZvcm0uQ29udHJvbHMuQWRkKCRsaXN0KQ
 
-$btnSelectAll = New-Object System.Windows.Forms.Button
-$btnSelectAll.Text = "SELECT ALL"
-$btnSelectAll.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40)
-$btnSelectAll.ForeColor = $colGreen
-$btnSelectAll.FlatStyle = "Flat"
-$btnSelectAll.FlatAppearance.BorderSize = 0
-$btnSelectAll.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
-$btnSelectAll.Size = New-Object System.Drawing.Size(140, 45)
-$btnSelectAll.Location = New-Object System.Drawing.Point(740, 12)
-$btnSelectAll.Anchor = "Right"
-$bottomPanel.Controls.Add($btnSelectAll)
-Add-HoverEffect -Button $btnSelectAll -NormalColor ([System.Drawing.Color]::FromArgb(40, 40, 40)) -HoverColor ([System.Drawing.Color]::FromArgb(60, 60, 60))
+JGJvdHRvbVBhbmVsID0gTmV3LU9iamVjdCBTeXN0ZW0uV2luZG93cy5Gb3Jtcy5QYW5lbA
+JGJvdHRvbVBhbmVsLkJhY2tDb2xvciA9ICRjb2xCZ0Rhcms
+JGJvdHRvbVBhbmVsLlNpemUgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlNpemUoMTI2MCwgNzAp
+JGJvdHRvbVBhbmVsLkxvY2F0aW9uID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Qb2ludCgyMCwgNzAwKQ
+JGJvdHRvbVBhbmVsLkFuY2hvciA9ICJCb3R0b20sIExlZnQsIFJpZ2h0Ig
+JGZvcm0uQ29udHJvbHMuQWRkKCRib3R0b21QYW5lbCk
 
-$btnDeselectAll = New-Object System.Windows.Forms.Button
-$btnDeselectAll.Text = "DESELECT ALL"
-$btnDeselectAll.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40)
-$btnDeselectAll.ForeColor = $colGreen
-$btnDeselectAll.FlatStyle = "Flat"
-$btnDeselectAll.FlatAppearance.BorderSize = 0
-$btnDeselectAll.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
-$btnDeselectAll.Size = New-Object System.Drawing.Size(150, 45)
-$btnDeselectAll.Location = New-Object System.Drawing.Point(580, 12)
-$btnDeselectAll.Anchor = "Right"
-$bottomPanel.Controls.Add($btnDeselectAll)
-Add-HoverEffect -Button $btnDeselectAll -NormalColor ([System.Drawing.Color]::FromArgb(40, 40, 40)) -HoverColor ([System.Drawing.Color]::FromArgb(60, 60, 60))
+JHN0YXR1cyA9IE5ldy1PYmplY3QgU3lzdGVtLldpbmRvd3MuRm9ybXMuTGFiZWw
+JHN0YXR1cy5UZXh0ID0gIlRvdGFsIFR3ZWFrczogJHRvdGFsVHdlYWtzIHwgU2VsZWN0ZWQ6IDAi
+JHN0YXR1cy5Gb250ID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Gb250KCJTZWdvZSBVSSIsIDExLCBbU3lzdGVtLkRyYXdpbmcuRm9udFN0eWxlXTo6Qm9sZCk
+JHN0YXR1cy5Gb3JlQ29sb3IgPSAkY29sR3JlZW4
+JHN0YXR1cy5CYWNrQ29sb3IgPSAkY29sQmdEYXJr
+JHN0YXR1cy5TaXplID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5TaXplKDQwMCwgMzAp
+JHN0YXR1cy5Mb2NhdGlvbiA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuUG9pbnQoMTAsIDIwKQ
+JHN0YXR1cy5BbmNob3IgPSAiTGVmdCI
+JGJvdHRvbVBhbmVsLkNvbnRyb2xzLkFkZCgkc3RhdHVzKQ
 
-# UI Logic
-$script:CurrentCategory = ""
+ZnVuY3Rpb24gQWRkLUhvdmVyRWZmZWN0IHs
+ICAgIHBhcmFtKCRCdXR0b24sICROb3JtYWxDb2xvciwgJEhvdmVyQ29sb3Ip
+ICAgICRCdXR0b24uQWRkX01vdXNlRW50ZXIoeyAkdGhpcy5CYWNrQ29sb3IgPSAkSG92ZXJDb2xvciB9LkdldE5ld0Nsb3N1cmUoKSk
+ICAgICRCdXR0b24uQWRkX01vdXNlTGVhdmUoeyAkdGhpcy5CYWNrQ29sb3IgPSAkTm9ybWFsQ29sb3IgfS5HZXROZXdDbG9zdXJlKCkp
+fQ
 
-function Update-Status {
-    $checkedCount = ($script:AllTweaks | Where-Object { $_.Checked -eq $true }).Count
-    $status.Text = "Total Tweaks: $totalTweaks | Selected: $checkedCount"
-}
+JGJ0bkFwcGx5ID0gTmV3LU9iamVjdCBTeXN0ZW0uV2luZG93cy5Gb3Jtcy5CdXR0b24
+JGJ0bkFwcGx5LlRleHQgPSAiQVBQTFki
+JGJ0bkFwcGx5LkJhY2tDb2xvciA9ICRjb2xHcmVlbg
+JGJ0bkFwcGx5LkZvcmVDb2xvciA9ICRjb2xCZ0Rhcms
+JGJ0bkFwcGx5LkZsYXRTdHlsZSA9ICJGbGF0Ig
+JGJ0bkFwcGx5LkZsYXRBcHBlYXJhbmNlLkJvcmRlclNpemUgPSAw
+JGJ0bkFwcGx5LkZvbnQgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLkZvbnQoIlNlZ29lIFVJIiwgMTIsIFtTeXN0ZW0uRHJhd2luZy5Gb250U3R5bGVdOjpCb2xkKQ
+JGJ0bkFwcGx5LlNpemUgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlNpemUoMTIwLCA0NSk
+JGJ0bkFwcGx5LkxvY2F0aW9uID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Qb2ludCgxMTMwLCAxMik
+JGJ0bkFwcGx5LkFuY2hvciA9ICJSaWdodCI
+JGJvdHRvbVBhbmVsLkNvbnRyb2xzLkFkZCgkYnRuQXBwbHkp
+QWRkLUhvdmVyRWZmZWN0IC1CdXR0b24gJGJ0bkFwcGx5IC1Ob3JtYWxDb2xvciAkY29sR3JlZW4gLUhvdmVyQ29sb3IgJGNvbEdyZWVuRGFyaw
 
-function Load-Category {
-    param($cat)
-    for ($i = 0; $i -lt $list.Items.Count; $i++) {
-        $itemText = $list.Items[$i].ToString()
-        $isChecked = $list.GetItemChecked($i)
-        $tweak = $script:AllTweaks | Where-Object { $_.Name -eq $itemText -and $_.Category -eq $script:CurrentCategory } | Select-Object -First 1
-        if ($tweak) { $tweak.Checked = $isChecked }
-    }
-    $list.Items.Clear()
-    foreach ($t in $script:AllTweaks) {
-        if ($t.Category -eq $cat) { [void]$list.Items.Add($t.Name, $t.Checked) }
-    }
-    $script:CurrentCategory = $cat
-    foreach ($btn in $catButtons) {
-        if ($btn.Tag -eq $cat) { $btn.ForeColor = $colGreen; $btn.BackColor = [System.Drawing.Color]::FromArgb(35, 35, 35) }
-        else { $btn.ForeColor = $colTextGray; $btn.BackColor = $colBgPanel }
-    }
-    Update-Status
-}
+JGJ0blJlc2V0ID0gTmV3LU9iamVjdCBTeXN0ZW0uV2luZG93cy5Gb3Jtcy5CdXR0b24
+JGJ0blJlc2V0LlRleHQgPSAiUkVTRVQi
+JGJ0blJlc2V0LkJhY2tDb2xvciA9IFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDQwLCA0MCwgNDAp
+JGJ0blJlc2V0LkZvcmVDb2xvciA9ICRjb2xSZWQ
+JGJ0blJlc2V0LkZsYXRTdHlsZSA9ICJGbGF0Ig
+JGJ0blJlc2V0LkZsYXRBcHBlYXJhbmNlLkJvcmRlclNpemUgPSAw
+JGJ0blJlc2V0LkZvbnQgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLkZvbnQoIlNlZ29lIFVJIiwgMTAsIFtTeXN0ZW0uRHJhd2luZy5Gb250U3R5bGVdOjpCb2xkKQ
+JGJ0blJlc2V0LlNpemUgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlNpemUoODAsIDQ1KQ
+JGJ0blJlc2V0LkxvY2F0aW9uID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Qb2ludCgxMDQwLCAxMik
+JGJ0blJlc2V0LkFuY2hvciA9ICJSaWdodCI
+JGJvdHRvbVBhbmVsLkNvbnRyb2xzLkFkZCgkYnRuUmVzZXQp
+QWRkLUhvdmVyRWZmZWN0IC1CdXR0b24gJGJ0blJlc2V0IC1Ob3JtYWxDb2xvciAoW1N5c3RlbS5EcmF3aW5nLkNvbG9yXTo6RnJvbUFyZ2IoNDAsIDQwLCA0MCkpIC1Ib3ZlckNvbG9yIChbU3lzdGVtLkRyYXdpbmcuQ29sb3JdOjpGcm9tQXJnYig2MCwgMjAsIDIwKSk
 
-foreach ($btn in $catButtons) { $btn.Add_Click({ Load-Category $this.Tag }) }
+JGJ0blJlc3RvcmUgPSBOZXctT2JqZWN0IFN5c3RlbS5XaW5kb3dzLkZvcm1zLkJ1dHRvbg
+JGJ0blJlc3RvcmUuVGV4dCA9ICJSRVNUT1JFIFBPSU5UIg
+JGJ0blJlc3RvcmUuQmFja0NvbG9yID0gW1N5c3RlbS5EcmF3aW5nLkNvbG9yXTo6RnJvbUFyZ2IoNDAsIDQwLCA0MCk
+JGJ0blJlc3RvcmUuRm9yZUNvbG9yID0gJGNvbFRleHRHcmF5
+JGJ0blJlc3RvcmUuRmxhdFN0eWxlID0gIkZsYXQi
+JGJ0blJlc3RvcmUuRmxhdEFwcGVhcmFuY2UuQm9yZGVyU2l6ZSA9IDA
+JGJ0blJlc3RvcmUuRm9udCA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuRm9udCgiU2Vnb2UgVUkiLCAxMCwgW1N5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZV06OkJvbGQp
+JGJ0blJlc3RvcmUuU2l6ZSA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuU2l6ZSgxNDAsIDQ1KQ
+JGJ0blJlc3RvcmUuTG9jYXRpb24gPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlBvaW50KDg5MCwgMTIp
+JGJ0blJlc3RvcmUuQW5jaG9yID0gIlJpZ2h0Ig
+JGJvdHRvbVBhbmVsLkNvbnRyb2xzLkFkZCgkYnRuUmVzdG9yZSk
+QWRkLUhvdmVyRWZmZWN0IC1CdXR0b24gJGJ0blJlc3RvcmUgLU5vcm1hbENvbG9yIChbU3lzdGVtLkRyYXdpbmcuQ29sb3JdOjpGcm9tQXJnYig0MCwgNDAsIDQwKSkgLUhvdmVyQ29sb3IgKFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDYwLCA2MCwgNjApKQ
 
-$list.Add_ItemCheck({
-    Start-Sleep -Milliseconds 10
-    if ($list.SelectedIndex -ge 0) {
-        $script:AllTweaks | Where-Object { $_.Name -eq $list.Items[$list.SelectedIndex].ToString() -and $_.Category -eq $script:CurrentCategory } | ForEach-Object { $_.Checked = $list.GetItemChecked($list.SelectedIndex) }
-    }
-    Update-Status
-})
+JGJ0blNlbGVjdEFsbCA9IE5ldy1PYmplY3QgU3lzdGVtLldpbmRvd3MuRm9ybXMuQnV0dG9u
+JGJ0blNlbGVjdEFsbC5UZXh0ID0gIlNFTEVDVCBBTEwi
+JGJ0blNlbGVjdEFsbC5CYWNrQ29sb3IgPSBbU3lzdGVtLkRyYXdpbmcuQ29sb3JdOjpGcm9tQXJnYig0MCwgNDAsIDQwKQ
+JGJ0blNlbGVjdEFsbC5Gb3JlQ29sb3IgPSAkY29sR3JlZW4
+JGJ0blNlbGVjdEFsbC5GbGF0U3R5bGUgPSAiRmxhdCI
+JGJ0blNlbGVjdEFsbC5GbGF0QXBwZWFyYW5jZS5Cb3JkZXJTaXplID0gMA
+JGJ0blNlbGVjdEFsbC5Gb250ID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Gb250KCJTZWdvZSBVSSIsIDEwLCBbU3lzdGVtLkRyYXdpbmcuRm9udFN0eWxlXTo6Qm9sZCk
+JGJ0blNlbGVjdEFsbC5TaXplID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5TaXplKDE0MCwgNDUp
+JGJ0blNlbGVjdEFsbC5Mb2NhdGlvbiA9IE5ldy1PYmplY3QgU3lzdGVtLkRyYXdpbmcuUG9pbnQoNzQwLCAxMik
+JGJ0blNlbGVjdEFsbC5BbmNob3IgPSAiUmlnaHQi
+JGJvdHRvbVBhbmVsLkNvbnRyb2xzLkFkZCgkYnRuU2VsZWN0QWxsKQ
+QWRkLUhvdmVyRWZmZWN0IC1CdXR0b24gJGJ0blNlbGVjdEFsbCAtTm9ybWFsQ29sb3IgKFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDQwLCA0MCwgNDApKSAtSG92ZXJDb2xvciAoW1N5c3RlbS5EcmF3aW5nLkNvbG9yXTo6RnJvbUFyZ2IoNjAsIDYwLCA2MCkp
 
-$btnSelectAll.Add_Click({
-    $script:AllTweaks | ForEach-Object { $_.Checked = $true }
-    for ($i = 0; $i -lt $list.Items.Count; $i++) { $list.SetItemChecked($i, $true) }
-    Update-Status
-})
+JGJ0bkRlc2VsZWN0QWxsID0gTmV3LU9iamVjdCBTeXN0ZW0uV2luZG93cy5Gb3Jtcy5CdXR0b24
+JGJ0bkRlc2VsZWN0QWxsLlRleHQgPSAiREVTRUxFQ1QgQUxMIg
+JGJ0bkRlc2VsZWN0QWxsLkJhY2tDb2xvciA9IFtTeXN0ZW0uRHJhd2luZy5Db2xvcl06OkZyb21BcmdiKDQwLCA0MCwgNDAp
+JGJ0bkRlc2VsZWN0QWxsLkZvcmVDb2xvciA9ICRjb2xHcmVlbg
+JGJ0bkRlc2VsZWN0QWxsLkZsYXRTdHlsZSA9ICJGbGF0Ig
+JGJ0bkRlc2VsZWN0QWxsLkZsYXRBcHBlYXJhbmNlLkJvcmRlclNpemUgPSAw
+JGJ0bkRlc2VsZWN0QWxsLkZvbnQgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLkZvbnQoIlNlZ29lIFVJIiwgMTAsIFtTeXN0ZW0uRHJhd2luZy5Gb250U3R5bGVdOjpCb2xkKQ
+JGJ0bkRlc2VsZWN0QWxsLlNpemUgPSBOZXctT2JqZWN0IFN5c3RlbS5EcmF3aW5nLlNpemUoMTUwLCA0NSk
+JGJ0bkRlc2VsZWN0QWxsLkxvY2F0aW9uID0gTmV3LU9iamVjdCBTeXN0ZW0uRHJhd2luZy5Qb2ludCg1ODAsIDEyKQ
+JGJ0bkRlc2VsZWN0QWxsLkFuY2hvciA9ICJSaWdodCI
+JGJvdHRvbVBhbmVsLkNvbnRyb2xzLkFkZCgkYnRuRGVzZWxlY3RBbGwp
+QWRkLUhvdmVyRWZmZWN0IC1CdXR0b24gJGJ0bkRlc2VsZWN0QWxsIC1Ob3JtYWxDb2xvciAoW1N5c3RlbS5EcmF3aW5nLkNvbG9yXTo6RnJvbUFyZ2IoNDAsIDQwLCA0MCkpIC1Ib3ZlckNvbG9yIChbU3lzdGVtLkRyYXdpbmcuQ29sb3JdOjpGcm9tQXJnYig2MCwgNjAsIDYwKSk
 
-$btnDeselectAll.Add_Click({
-    $script:AllTweaks | ForEach-Object { $_.Checked = $false }
-    for ($i = 0; $i -lt $list.Items.Count; $i++) { $list.SetItemChecked($i, $false) }
-    Update-Status
-})
+IyBVSSBMb2dpYw
+JHNjcmlwdDpDdXJyZW50Q2F0ZWdvcnkgPSAiIg
 
-$btnReset.Add_Click({
-    $script:AllTweaks | ForEach-Object { $_.Checked = $false }
-    for ($i = 0; $i -lt $list.Items.Count; $i++) { $list.SetItemChecked($i, $false) }
-    Update-Status
-})
+ZnVuY3Rpb24gVXBkYXRlLVN0YXR1cyB7
+ICAgICRjaGVja2VkQ291bnQgPSAoJHNjcmlwdDpBbGxUd2Vha3MgfCBXaGVyZS1PYmplY3QgeyAkXy5DaGVja2VkIC1lcSAkdHJ1ZSB9KS5Db3VudA
+ICAgICRzdGF0dXMuVGV4dCA9ICJUb3RhbCBUd2Vha3M6ICR0b3RhbFR3ZWFrcyB8IFNlbGVjdGVkOiAkY2hlY2tlZENvdW50Ig
+fQ
 
-$btnRestore.Add_Click({
-    try {
-        Enable-ComputerRestore -Drive "C:\"
-        Checkpoint-Computer -Description "APEX SHOP V3" -RestorePointType "MODIFY_SETTINGS"
-        [System.Windows.Forms.MessageBox]::Show("Restore Point created", "APEX SHOP V3", "OK", "Information")
-    } catch {
-        [System.Windows.Forms.MessageBox]::Show("Failed: $($_.Exception.Message)", "APEX SHOP V3", "OK", "Error")
-    }
-})
+ZnVuY3Rpb24gTG9hZC1DYXRlZ29yeSB7
+ICAgIHBhcmFtKCRjYXQp
+ICAgIGZvciAoJGkgPSAwOyAkaSAtbHQgJGxpc3QuSXRlbXMuQ291bnQ7ICRpKyspIHs
+ICAgICAgICAkaXRlbVRleHQgPSAkbGlzdC5JdGVtc1skaV0uVG9TdHJpbmcoKQ
+ICAgICAgICAkaXNDaGVja2VkID0gJGxpc3QuR2V0SXRlbUNoZWNrZWQoJGkp
+ICAgICAgICAkdHdlYWsgPSAkc2NyaXB0OkFsbFR3ZWFrcyB8IFdoZXJlLU9iamVjdCB7ICRfLk5hbWUgLWVxICRpdGVtVGV4dCAtYW5kICRfLkNhdGVnb3J5IC1lcSAkc2NyaXB0OkN1cnJlbnRDYXRlZ29yeSB9IHwgU2VsZWN0LU9iamVjdCAtRmlyc3QgMQ
+ICAgICAgICBpZiAoJHR3ZWFrKSB7ICR0d2Vhay5DaGVja2VkID0gJGlzQ2hlY2tlZCB9
+ICAgIH0
+ICAgICRsaXN0Lkl0ZW1zLkNsZWFyKCk
+ICAgIGZvcmVhY2ggKCR0IGluICRzY3JpcHQ6QWxsVHdlYWtzKSB7
+ICAgICAgICBpZiAoJHQuQ2F0ZWdvcnkgLWVxICRjYXQpIHsgW3ZvaWRdJGxpc3QuSXRlbXMuQWRkKCR0Lk5hbWUsICR0LkNoZWNrZWQpIH0
+ICAgIH0
+ICAgICRzY3JpcHQ6Q3VycmVudENhdGVnb3J5ID0gJGNhdA
+ICAgIGZvcmVhY2ggKCRidG4gaW4gJGNhdEJ1dHRvbnMpIHs
+ICAgICAgICBpZiAoJGJ0bi5UYWcgLWVxICRjYXQpIHsgJGJ0bi5Gb3JlQ29sb3IgPSAkY29sR3JlZW47ICRidG4uQmFja0NvbG9yID0gW1N5c3RlbS5EcmF3aW5nLkNvbG9yXTo6RnJvbUFyZ2IoMzUsIDM1LCAzNSkgfQ
+ICAgICAgICBlbHNlIHsgJGJ0bi5Gb3JlQ29sb3IgPSAkY29sVGV4dEdyYXk7ICRidG4uQmFja0NvbG9yID0gJGNvbEJnUGFuZWwgfQ
+ICAgIH0
+ICAgIFVwZGF0ZS1TdGF0dXM
+fQ
 
-$btnApply.Add_Click({
-    $checked = $script:AllTweaks | Where-Object { $_.Checked -eq $true }
-    if ($checked.Count -eq 0) {
-        [System.Windows.Forms.MessageBox]::Show("No tweaks selected", "APEX SHOP V3", "OK", "Information")
-        return
-    }
-    $confirm = [System.Windows.Forms.MessageBox]::Show("Apply $($checked.Count) tweaks?", "APEX SHOP V3", "YesNo", "Warning")
-    if ($confirm -ne "Yes") { return }
-    
-    $log = New-Object System.Text.StringBuilder
-    [void]$log.AppendLine("Applying $($checked.Count) tweaks...")
-    foreach ($t in $checked) {
-        try { & $t.Action; [void]$log.AppendLine("OK: $($t.Name)") }
-        catch { [void]$log.AppendLine("FAIL: $($t.Name)") }
-    }
-    [void]$log.AppendLine("Done. Reboot recommended.")
-    [System.Windows.Forms.MessageBox]::Show($log.ToString(), "APEX SHOP V3", "OK", "Information")
-})
+Zm9yZWFjaCAoJGJ0biBpbiAkY2F0QnV0dG9ucykgeyAkYnRuLkFkZF9DbGljayh7IExvYWQtQ2F0ZWdvcnkgJHRoaXMuVGFnIH0pIH0
 
-Load-Category "GAMING"
+JGxpc3QuQWRkX0l0ZW1DaGVjayh7
+ICAgIFN0YXJ0LVNsZWVwIC1NaWxsaXNlY29uZHMgMTA
+ICAgIGlmICgkbGlzdC5TZWxlY3RlZEluZGV4IC1nZSAwKSB7
+ICAgICAgICAkc2NyaXB0OkFsbFR3ZWFrcyB8IFdoZXJlLU9iamVjdCB7ICRfLk5hbWUgLWVxICRsaXN0Lkl0ZW1zWyRsaXN0LlNlbGVjdGVkSW5kZXhdLlRvU3RyaW5nKCkgLWFuZCAkXy5DYXRlZ29yeSAtZXEgJHNjcmlwdDpDdXJyZW50Q2F0ZWdvcnkgfSB8IEZvckVhY2gtT2JqZWN0IHsgJF8uQ2hlY2tlZCA9ICRsaXN0LkdldEl0ZW1DaGVja2VkKCRsaXN0LlNlbGVjdGVkSW5kZXgpIH0
+ICAgIH0
+ICAgIFVwZGF0ZS1TdGF0dXM
+fSk
 
-$form.Add_Shown({ $form.Activate() })
-$form.Add_FormClosing({ Stop-LicenseHeartbeat })
-[void]$form.ShowDialog()
+JGJ0blNlbGVjdEFsbC5BZGRfQ2xpY2soew
+ICAgICRzY3JpcHQ6QWxsVHdlYWtzIHwgRm9yRWFjaC1PYmplY3QgeyAkXy5DaGVja2VkID0gJHRydWUgfQ
+ICAgIGZvciAoJGkgPSAwOyAkaSAtbHQgJGxpc3QuSXRlbXMuQ291bnQ7ICRpKyspIHsgJGxpc3QuU2V0SXRlbUNoZWNrZWQoJGksICR0cnVlKSB9
+ICAgIFVwZGF0ZS1TdGF0dXM
+fSk
 
+JGJ0bkRlc2VsZWN0QWxsLkFkZF9DbGljayh7
+ICAgICRzY3JpcHQ6QWxsVHdlYWtzIHwgRm9yRWFjaC1PYmplY3QgeyAkXy5DaGVja2VkID0gJGZhbHNlIH0
+ICAgIGZvciAoJGkgPSAwOyAkaSAtbHQgJGxpc3QuSXRlbXMuQ291bnQ7ICRpKyspIHsgJGxpc3QuU2V0SXRlbUNoZWNrZWQoJGksICRmYWxzZSkgfQ
+ICAgIFVwZGF0ZS1TdGF0dXM
+fSk
+
+JGJ0blJlc2V0LkFkZF9DbGljayh7
+ICAgICRzY3JpcHQ6QWxsVHdlYWtzIHwgRm9yRWFjaC1PYmplY3QgeyAkXy5DaGVja2VkID0gJGZhbHNlIH0
+ICAgIGZvciAoJGkgPSAwOyAkaSAtbHQgJGxpc3QuSXRlbXMuQ291bnQ7ICRpKyspIHsgJGxpc3QuU2V0SXRlbUNoZWNrZWQoJGksICRmYWxzZSkgfQ
+ICAgIFVwZGF0ZS1TdGF0dXM
+fSk
+
+JGJ0blJlc3RvcmUuQWRkX0NsaWNrKHs
+ICAgIHRyeSB7
+ICAgICAgICBFbmFibGUtQ29tcHV0ZXJSZXN0b3JlIC1Ecml2ZSAiQzpcIg
+ICAgICAgICBDaGVja3BvaW50LUNvbXB1dGVyIC1EZXNjcmlwdGlvbiAiQVBFWCBTSE9QIFYzIiAtUmVzdG9yZVBvaW50VHlwZSAiTU9ESUZZX1NFVFRJTkdTIg
+ICAgICAgICBbU3lzdGVtLldpbmRvd3MuRm9ybXMuTWVzc2FnZUJveF06OlNob3coIlJlc3RvcmUgUG9pbnQgY3JlYXRlZCIsICJBUEVYIFNIT1AgVjMiLCAiT0siLCAiSW5mb3JtYXRpb24iKQ
+ICAgIH0gY2F0Y2ggew
+ICAgICAgICBbU3lzdGVtLldpbmRvd3MuRm9ybXMuTWVzc2FnZUJveF06OlNob3coIkZhaWxlZDogJCgkXy5FeGNlcHRpb24uTWVzc2FnZSkiLCAiQVBFWCBTSE9QIFYzIiwgIk9LIiwgIkVycm9yIik
+ICAgIH0
+fSk
+
+JGJ0bkFwcGx5LkFkZF9DbGljayh7
+ICAgICRjaGVja2VkID0gJHNjcmlwdDpBbGxUd2Vha3MgfCBXaGVyZS1PYmplY3QgeyAkXy5DaGVja2VkIC1lcSAkdHJ1ZSB9
+ICAgIGlmICgkY2hlY2tlZC5Db3VudCAtZXEgMCkgew
+ICAgICAgICBbU3lzdGVtLldpbmRvd3MuRm9ybXMuTWVzc2FnZUJveF06OlNob3coIk5vIHR3ZWFrcyBzZWxlY3RlZCIsICJBUEVYIFNIT1AgVjMiLCAiT0siLCAiSW5mb3JtYXRpb24iKQ
+ICAgICAgICByZXR1cm4
+ICAgIH0
+ICAgICRjb25maXJtID0gW1N5c3RlbS5XaW5kb3dzLkZvcm1zLk1lc3NhZ2VCb3hdOjpTaG93KCJBcHBseSAkKCRjaGVja2VkLkNvdW50KSB0d2Vha3M_IiwgIkFQRVggU0hPUCBWMyIsICJZZXNObyIsICJXYXJuaW5nIik
+ICAgIGlmICgkY29uZmlybSAtbmUgIlllcyIpIHsgcmV0dXJuIH0
+ICAgIA
+ICAgICRsb2cgPSBOZXctT2JqZWN0IFN5c3RlbS5UZXh0LlN0cmluZ0J1aWxkZXI
+ICAgIFt2b2lkXSRsb2cuQXBwZW5kTGluZSgiQXBwbHlpbmcgJCgkY2hlY2tlZC5Db3VudCkgdHdlYWtzLi4uIik
+ICAgIGZvcmVhY2ggKCR0IGluICRjaGVja2VkKSB7
+ICAgICAgICB0cnkgeyAmICR0LkFjdGlvbjsgW3ZvaWRdJGxvZy5BcHBlbmRMaW5lKCJPSzogJCgkdC5OYW1lKSIpIH0
+ICAgICAgICBjYXRjaCB7IFt2b2lkXSRsb2cuQXBwZW5kTGluZSgiRkFJTDogJCgkdC5OYW1lKSIpIH0
+ICAgIH0
+ICAgIFt2b2lkXSRsb2cuQXBwZW5kTGluZSgiRG9uZS4gUmVib290IHJlY29tbWVuZGVkLiIp
+ICAgIFtTeXN0ZW0uV2luZG93cy5Gb3Jtcy5NZXNzYWdlQm94XTo6U2hvdygkbG9nLlRvU3RyaW5nKCksICJBUEVYIFNIT1AgVjMiLCAiT0siLCAiSW5mb3JtYXRpb24iKQ
+fSk
+
+TG9hZC1DYXRlZ29yeSAiR0FNSU5HIg
+
+JGZvcm0uQWRkX1Nob3duKHsgJGZvcm0uQWN0aXZhdGUoKSB9KQ
+JGZvcm0uQWRkX0Zvcm1DbG9zaW5nKHsgU3RvcC1MaWNlbnNlSGVhcnRiZWF0IH0p
+W3ZvaWRdJGZvcm0uU2hvd0RpYWxvZygp
