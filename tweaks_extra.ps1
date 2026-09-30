@@ -1,286 +1,286 @@
-# tweaks.ps1 - 250 Tweaks for APEX SHOP V3
+IyB0d2Vha3MucHMxIC0gMjUwIFR3ZWFrcyBmb3IgQVBFWCBTSE9QIFYz
 
-# ---- GAMING (50) ----
-Add-Tweak "Disable Game DVR" "GAMING" { Set-Reg "HKCU:\System\GameConfigStore" "GameDVR_Enabled" 0; Set-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" "AllowGameDVR" 0 }
-Add-Tweak "Disable Game Bar" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "AppCaptureEnabled" 0 }
-Add-Tweak "Enable Game Mode" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\GameBar" "AllowAutoGameMode" 1; Set-Reg "HKCU:\Software\Microsoft\GameBar" "AutoGameModeEnabled" 1 }
-Add-Tweak "Disable Fullscreen Opt" "GAMING" { Set-Reg "HKCU:\System\GameConfigStore" "GameDVR_FSEBehaviorMode" 2 }
-Add-Tweak "Set GPU Priority High" "GAMING" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" "GPU Priority" 8 }
-Add-Tweak "Set GPU Task Priority" "GAMING" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" "Priority" 6 }
-Add-Tweak "Set CPU Scheduling" "GAMING" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" "Scheduling Category" "High" }
-Add-Tweak "Set SFIO Priority" "GAMING" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" "SFIO Priority" "High" }
-Add-Tweak "Disable Xbox Auth" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\XblAuthManager" "Start" 4 }
-Add-Tweak "Disable Xbox Save" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\XblGameSave" "Start" 4 }
-Add-Tweak "Disable Xbox Net API" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\XboxNetApiSvc" "Start" 4 }
-Add-Tweak "Disable Xbox GIP" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\XboxGipSvc" "Start" 4 }
-Add-Tweak "Disable DVR Policy" "GAMING" { Set-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" "AllowGameDVR" 0 }
-Add-Tweak "Disable Game Bar Tips" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\GameBar" "ShowStartupPanel" 0 }
-Add-Tweak "Disable Game Input" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\GameInput" "Start" 4 }
-Add-Tweak "Disable Gaming Services" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\GamingServices" "Start" 4 }
-Add-Tweak "Disable Gaming Services Net" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\GamingServicesNet" "Start" 4 }
-Add-Tweak "Disable HW GPU Scheduling" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" "HwSchMode" 0 }
-Add-Tweak "Set GPU Scheduling" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" "Scheduling" 1 }
-Add-Tweak "Disable GPU Throttling" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" "DisableThrottling" 1 }
-Add-Tweak "Disable GPU Power Mgmt" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" "DisablePowerManagement" 1 }
-Add-Tweak "Disable GPU Energy Saving" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" "DisableEnergySaving" 1 }
-Add-Tweak "Disable DX VSync" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\DirectX\UserGpuPreferences" "DirectXUserGlobalSettings" "SwapEffectUpgradeEnable=0;" "String" }
-Add-Tweak "Disable Game Bar Overlay" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "OverlayEnabled" 0 }
-Add-Tweak "Disable Game Bar Presence" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "PresenceEnabled" 0 }
-Add-Tweak "Disable Game Bar Controller" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "ControllerEnabled" 0 }
-Add-Tweak "Disable Game Bar Mic" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "MicrophoneEnabled" 0 }
-Add-Tweak "Disable Game Bar Webcam" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "WebcamEnabled" 0 }
-Add-Tweak "Disable Game Bar Chat" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "ChatEnabled" 0 }
-Add-Tweak "Disable Game Bar Capture" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "CaptureEnabled" 0 }
-Add-Tweak "Disable Xbox Monitoring" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\XboxGipSvc" "Start" 4 }
-Add-Tweak "Disable Xbox Live Auth 2" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\XblAuthManager" "Start" 4 }
-Add-Tweak "Disable Game Bar Widgets" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "WidgetsEnabled" 0 }
-Add-Tweak "Disable Game Bar Screenshot" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "ScreenshotEnabled" 0 }
-Add-Tweak "Disable Game Bar Record 2" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "RecordingEnabled" 0 }
-Add-Tweak "Disable Game Bar Broadcast 2" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "BroadcastEnabled" 0 }
-Add-Tweak "Disable Game Bar Stream 2" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "StreamingEnabled" 0 }
-Add-Tweak "Disable Game Bar Social 2" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "SocialEnabled" 0 }
-Add-Tweak "Disable Game Bar Gallery" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "GalleryEnabled" 0 }
-Add-Tweak "Disable Game Bar Home" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "HomeEnabled" 0 }
-Add-Tweak "Disable Game Bar Tour" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "TourEnabled" 0 }
-Add-Tweak "Disable Game Bar Tips 2" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "TipsEnabled" 0 }
-Add-Tweak "Disable Game Bar Updates" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "UpdatesEnabled" 0 }
-Add-Tweak "Disable Game Bar Audio 2" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" "AudioCaptureEnabled" 0 }
-Add-Tweak "Set GPU Priority Max" "GAMING" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" "GPU Priority" 8 }
-Add-Tweak "Set Scheduling Category 2" "GAMING" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" "Scheduling Category" "High" }
-Add-Tweak "Set HwSchMode On" "GAMING" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" "HwSchMode" 1 }
-Add-Tweak "Set DirectX User Settings" "GAMING" { Set-Reg "HKCU:\Software\Microsoft\DirectX\UserGpuPreferences" "DirectXUserGlobalSettings" "VRROptimizeEnable=0;SwapEffectUpgradeEnable=0;" "String" }
-Add-Tweak "Disable FSE Behavior" "GAMING" { Set-Reg "HKCU:\System\GameConfigStore" "GameDVR_FSEBehaviorMode" 2 }
-Add-Tweak "Disable DXGI FSE" "GAMING" { Set-Reg "HKCU:\System\GameConfigStore" "GameDVR_DXGIHonorFSEWindowsCompatible" 1 }
+IyAtLS0tIEdBTUlORyAoNTApIC0tLS0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgRFZSIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFN5c3RlbVxHYW1lQ29uZmlnU3RvcmUiICJHYW1lRFZSX0VuYWJsZWQiIDA7IFNldC1SZWcgIkhLTE06XFNPRlRXQVJFXFBvbGljaWVzXE1pY3Jvc29mdFxXaW5kb3dzXEdhbWVEVlIiICJBbGxvd0dhbWVEVlIiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEdhbWVEVlIiICJBcHBDYXB0dXJlRW5hYmxlZCIgMCB9
+QWRkLVR3ZWFrICJFbmFibGUgR2FtZSBNb2RlIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxHYW1lQmFyIiAiQWxsb3dBdXRvR2FtZU1vZGUiIDE7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxHYW1lQmFyIiAiQXV0b0dhbWVNb2RlRW5hYmxlZCIgMSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEZ1bGxzY3JlZW4gT3B0IiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFN5c3RlbVxHYW1lQ29uZmlnU3RvcmUiICJHYW1lRFZSX0ZTRUJlaGF2aW9yTW9kZSIgMiB9
+QWRkLVR3ZWFrICJTZXQgR1BVIFByaW9yaXR5IEhpZ2giICJHQU1JTkciIHsgU2V0LVJlZyAiSEtMTTpcU09GVFdBUkVcTWljcm9zb2Z0XFdpbmRvd3MgTlRcQ3VycmVudFZlcnNpb25cTXVsdGltZWRpYVxTeXN0ZW1Qcm9maWxlXFRhc2tzXEdhbWVzIiAiR1BVIFByaW9yaXR5IiA4IH0
+QWRkLVR3ZWFrICJTZXQgR1BVIFRhc2sgUHJpb3JpdHkiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtMTTpcU09GVFdBUkVcTWljcm9zb2Z0XFdpbmRvd3MgTlRcQ3VycmVudFZlcnNpb25cTXVsdGltZWRpYVxTeXN0ZW1Qcm9maWxlXFRhc2tzXEdhbWVzIiAiUHJpb3JpdHkiIDYgfQ
+QWRkLVR3ZWFrICJTZXQgQ1BVIFNjaGVkdWxpbmciICJHQU1JTkciIHsgU2V0LVJlZyAiSEtMTTpcU09GVFdBUkVcTWljcm9zb2Z0XFdpbmRvd3MgTlRcQ3VycmVudFZlcnNpb25cTXVsdGltZWRpYVxTeXN0ZW1Qcm9maWxlXFRhc2tzXEdhbWVzIiAiU2NoZWR1bGluZyBDYXRlZ29yeSIgIkhpZ2giIH0
+QWRkLVR3ZWFrICJTZXQgU0ZJTyBQcmlvcml0eSIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0xNOlxTT0ZUV0FSRVxNaWNyb3NvZnRcV2luZG93cyBOVFxDdXJyZW50VmVyc2lvblxNdWx0aW1lZGlhXFN5c3RlbVByb2ZpbGVcVGFza3NcR2FtZXMiICJTRklPIFByaW9yaXR5IiAiSGlnaCIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFhib3ggQXV0aCIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcWGJsQXV0aE1hbmFnZXIiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFhib3ggU2F2ZSIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcWGJsR2FtZVNhdmUiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFhib3ggTmV0IEFQSSIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcWGJveE5ldEFwaVN2YyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFhib3ggR0lQIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xYYm94R2lwU3ZjIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIERWUiBQb2xpY3kiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtMTTpcU09GVFdBUkVcUG9saWNpZXNcTWljcm9zb2Z0XFdpbmRvd3NcR2FtZURWUiIgIkFsbG93R2FtZURWUiIgMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFRpcHMiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XEdhbWVCYXIiICJTaG93U3RhcnR1cFBhbmVsIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgSW5wdXQiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXEdhbWVJbnB1dCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWluZyBTZXJ2aWNlcyIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcR2FtaW5nU2VydmljZXMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWluZyBTZXJ2aWNlcyBOZXQiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXEdhbWluZ1NlcnZpY2VzTmV0IiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEhXIEdQVSBTY2hlZHVsaW5nIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXEdyYXBoaWNzRHJpdmVycyIgIkh3U2NoTW9kZSIgMCB9
+QWRkLVR3ZWFrICJTZXQgR1BVIFNjaGVkdWxpbmciICJHQU1JTkciIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcR3JhcGhpY3NEcml2ZXJzIiAiU2NoZWR1bGluZyIgMSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEdQVSBUaHJvdHRsaW5nIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXEdyYXBoaWNzRHJpdmVycyIgIkRpc2FibGVUaHJvdHRsaW5nIiAxIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdQVSBQb3dlciBNZ210IiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXEdyYXBoaWNzRHJpdmVycyIgIkRpc2FibGVQb3dlck1hbmFnZW1lbnQiIDEgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEdQVSBFbmVyZ3kgU2F2aW5nIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXEdyYXBoaWNzRHJpdmVycyIgIkRpc2FibGVFbmVyZ3lTYXZpbmciIDEgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIERYIFZTeW5jIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxEaXJlY3RYXFVzZXJHcHVQcmVmZXJlbmNlcyIgIkRpcmVjdFhVc2VyR2xvYmFsU2V0dGluZ3MiICJTd2FwRWZmZWN0VXBncmFkZUVuYWJsZT0wOyIgIlN0cmluZyIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIE92ZXJsYXkiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIk92ZXJsYXlFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFByZXNlbmNlIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEdhbWVEVlIiICJQcmVzZW5jZUVuYWJsZWQiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIENvbnRyb2xsZXIiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIkNvbnRyb2xsZXJFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIE1pYyIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxHYW1lRFZSIiAiTWljcm9waG9uZUVuYWJsZWQiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFdlYmNhbSIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxHYW1lRFZSIiAiV2ViY2FtRW5hYmxlZCIgMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIENoYXQiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIkNoYXRFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIENhcHR1cmUiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIkNhcHR1cmVFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFhib3ggTW9uaXRvcmluZyIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcWGJveEdpcFN2YyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFhib3ggTGl2ZSBBdXRoIDIiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFhibEF1dGhNYW5hZ2VyIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFdpZGdldHMiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIldpZGdldHNFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFNjcmVlbnNob3QiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIlNjcmVlbnNob3RFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFJlY29yZCAyIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEdhbWVEVlIiICJSZWNvcmRpbmdFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIEJyb2FkY2FzdCAyIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEdhbWVEVlIiICJCcm9hZGNhc3RFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFN0cmVhbSAyIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEdhbWVEVlIiICJTdHJlYW1pbmdFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFNvY2lhbCAyIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEdhbWVEVlIiICJTb2NpYWxFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIEdhbGxlcnkiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIkdhbGxlcnlFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIEhvbWUiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIkhvbWVFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFRvdXIiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIlRvdXJFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFRpcHMgMiIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxHYW1lRFZSIiAiVGlwc0VuYWJsZWQiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIFVwZGF0ZXMiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIlVwZGF0ZXNFbmFibGVkIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEdhbWUgQmFyIEF1ZGlvIDIiICJHQU1JTkciIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cR2FtZURWUiIgIkF1ZGlvQ2FwdHVyZUVuYWJsZWQiIDAgfQ
+QWRkLVR3ZWFrICJTZXQgR1BVIFByaW9yaXR5IE1heCIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0xNOlxTT0ZUV0FSRVxNaWNyb3NvZnRcV2luZG93cyBOVFxDdXJyZW50VmVyc2lvblxNdWx0aW1lZGlhXFN5c3RlbVByb2ZpbGVcVGFza3NcR2FtZXMiICJHUFUgUHJpb3JpdHkiIDggfQ
+QWRkLVR3ZWFrICJTZXQgU2NoZWR1bGluZyBDYXRlZ29yeSAyIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLTE06XFNPRlRXQVJFXE1pY3Jvc29mdFxXaW5kb3dzIE5UXEN1cnJlbnRWZXJzaW9uXE11bHRpbWVkaWFcU3lzdGVtUHJvZmlsZVxUYXNrc1xHYW1lcyIgIlNjaGVkdWxpbmcgQ2F0ZWdvcnkiICJIaWdoIiB9
+QWRkLVR3ZWFrICJTZXQgSHdTY2hNb2RlIE9uIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXEdyYXBoaWNzRHJpdmVycyIgIkh3U2NoTW9kZSIgMSB9
+QWRkLVR3ZWFrICJTZXQgRGlyZWN0WCBVc2VyIFNldHRpbmdzIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxEaXJlY3RYXFVzZXJHcHVQcmVmZXJlbmNlcyIgIkRpcmVjdFhVc2VyR2xvYmFsU2V0dGluZ3MiICJWUlJPcHRpbWl6ZUVuYWJsZT0wO1N3YXBFZmZlY3RVcGdyYWRlRW5hYmxlPTA7IiAiU3RyaW5nIiB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEZTRSBCZWhhdmlvciIgIkdBTUlORyIgeyBTZXQtUmVnICJIS0NVOlxTeXN0ZW1cR2FtZUNvbmZpZ1N0b3JlIiAiR2FtZURWUl9GU0VCZWhhdmlvck1vZGUiIDIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIERYR0kgRlNFIiAiR0FNSU5HIiB7IFNldC1SZWcgIkhLQ1U6XFN5c3RlbVxHYW1lQ29uZmlnU3RvcmUiICJHYW1lRFZSX0RYR0lIb25vckZTRVdpbmRvd3NDb21wYXRpYmxlIiAxIH0
 
-# ---- CPU & RAM (50) ----
-Add-Tweak "Win32PrioritySeparation" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl" "Win32PrioritySeparation" 38 }
-Add-Tweak "Disable Memory Compression" "CPU & RAM" { Disable-MMAgent -MemoryCompression -ErrorAction SilentlyContinue }
-Add-Tweak "Large System Cache" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "LargeSystemCache" 1 }
-Add-Tweak "Disable Paging Executive" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisablePagingExecutive" 1 }
-Add-Tweak "Clear Page File" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "ClearPageFileAtShutdown" 1 }
-Add-Tweak "IoPageLockLimit" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "IoPageLockLimit" 0x10000 }
-Add-Tweak "Second Level Cache" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "SecondLevelDataCache" 1024 }
-Add-Tweak "Disable Boot Optimize" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "BootOptimizeFunction" 0 }
-Add-Tweak "Disable Superfetch" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0 }
-Add-Tweak "Disable Prefetch" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnablePrefetcher" 0 }
-Add-Tweak "Disable SysMain" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SysMain" "Start" 4 }
-Add-Tweak "Disable NTFS Last Access" "CPU & RAM" { fsutil behavior set disablelastaccess 1 | Out-Null }
-Add-Tweak "Disable 8.3 Names" "CPU & RAM" { fsutil behavior set disable8dot3 1 | Out-Null }
-Add-Tweak "NTFS Memory Usage" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" "NtfsMemoryUsage" 2 }
-Add-Tweak "MFT Zone" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" "NtfsMftZoneReservation" 2 }
-Add-Tweak "Memory Priority" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "MemoryPriority" 5 }
-Add-Tweak "Disable CPU Throttling" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583" "ValueMax" 0 }
-Add-Tweak "Disable CPU Core Parking" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583" "ValueMin" 100 }
-Add-Tweak "Disable CPU Migration" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Executive" "AdditionalCriticalWorkerThreads" 0 }
-Add-Tweak "Disable CPU Idle" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\5d76a2ca-e8c0-402f-a133-2158492d58ad" "ValueMax" 0 }
-Add-Tweak "Set CPU Performance" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\be337238-0d82-4146-a960-4f3749d470c7" "ValueMax" 100 }
-Add-Tweak "Disable CPU C-States" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583" "ValueMin" 0 }
-Add-Tweak "Set CPU Turbo" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\be337238-0d82-4146-a960-4f3749d470c7" "ValueMax" 100 }
-Add-Tweak "Disable CPU Thermal" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583" "ValueMin" 100 }
-Add-Tweak "Set CPU Affinity" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Executive" "AdditionalDelayedWorkerThreads" 0 }
-Add-Tweak "Disable CPU Frequency Scaling" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\be337238-0d82-4146-a960-4f3749d470c7" "ValueMax" 100 }
-Add-Tweak "Disable CPU Limits" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Executive" "AdditionalCriticalWorkerThreads" 0 }
-Add-Tweak "Disable CPU Branch Prediction" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisablePagingExecutive" 1 }
-Add-Tweak "Disable Kernel Paging" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisablePagingExecutive" 1 }
-Add-Tweak "Disable Driver Paging" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisablePagingExecutive" 1 }
-Add-Tweak "Disable Heap Decompression" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisablePagingExecutive" 1 }
-Add-Tweak "Set System Cache" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "LargeSystemCache" 1 }
-Add-Tweak "Disable Prefetch 2" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnablePrefetcher" 0 }
-Add-Tweak "Disable Superfetch 2" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0 }
-Add-Tweak "Disable Boot Optimize 2" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "BootOptimizeFunction" 0 }
-Add-Tweak "Set CPU Cache" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "SecondLevelDataCache" 1024 }
-Add-Tweak "Disable CPU Parking" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583" "ValueMin" 100 }
-Add-Tweak "Set CPU Boost" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\be337238-0d82-4146-a960-4f3749d470c7" "ValueMax" 100 }
-Add-Tweak "Set Large System Cache 2" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "LargeSystemCache" 1 }
-Add-Tweak "Set IoPageLockLimit 2" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "IoPageLockLimit" 0x10000 }
-Add-Tweak "Disable Heap Decomp 2" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisablePagingExecutive" 1 }
-Add-Tweak "Set Second Level Cache 2" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "SecondLevelDataCache" 1024 }
-Add-Tweak "Set Memory Priority 5" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "MemoryPriority" 5 }
-Add-Tweak "Disable NTFS Last Access 2" "CPU & RAM" { fsutil behavior set disablelastaccess 1 | Out-Null }
-Add-Tweak "Set MFT Zone Reservation" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" "NtfsMftZoneReservation" 2 }
-Add-Tweak "Disable 8.3 Names 2" "CPU & RAM" { fsutil behavior set disable8dot3 1 | Out-Null }
-Add-Tweak "Set NTFS Memory Usage 2" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" "NtfsMemoryUsage" 2 }
-Add-Tweak "Set Session Pool" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "SessionPoolSize" 32 }
-Add-Tweak "Disable Paging Executive 3" "CPU & RAM" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisablePagingExecutive" 1 }
+IyAtLS0tIENQVSAmIFJBTSAoNTApIC0tLS0
+QWRkLVR3ZWFrICJXaW4zMlByaW9yaXR5U2VwYXJhdGlvbiIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxQcmlvcml0eUNvbnRyb2wiICJXaW4zMlByaW9yaXR5U2VwYXJhdGlvbiIgMzggfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIE1lbW9yeSBDb21wcmVzc2lvbiIgIkNQVSAmIFJBTSIgeyBEaXNhYmxlLU1NQWdlbnQgLU1lbW9yeUNvbXByZXNzaW9uIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVlIH0
+QWRkLVR3ZWFrICJMYXJnZSBTeXN0ZW0gQ2FjaGUiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiTGFyZ2VTeXN0ZW1DYWNoZSIgMSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFBhZ2luZyBFeGVjdXRpdmUiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiRGlzYWJsZVBhZ2luZ0V4ZWN1dGl2ZSIgMSB9
+QWRkLVR3ZWFrICJDbGVhciBQYWdlIEZpbGUiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiQ2xlYXJQYWdlRmlsZUF0U2h1dGRvd24iIDEgfQ
+QWRkLVR3ZWFrICJJb1BhZ2VMb2NrTGltaXQiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiSW9QYWdlTG9ja0xpbWl0IiAweDEwMDAwIH0
+QWRkLVR3ZWFrICJTZWNvbmQgTGV2ZWwgQ2FjaGUiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiU2Vjb25kTGV2ZWxEYXRhQ2FjaGUiIDEwMjQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEJvb3QgT3B0aW1pemUiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50XFByZWZldGNoUGFyYW1ldGVycyIgIkJvb3RPcHRpbWl6ZUZ1bmN0aW9uIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFN1cGVyZmV0Y2giICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50XFByZWZldGNoUGFyYW1ldGVycyIgIkVuYWJsZVN1cGVyZmV0Y2giIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFByZWZldGNoIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFNlc3Npb24gTWFuYWdlclxNZW1vcnkgTWFuYWdlbWVudFxQcmVmZXRjaFBhcmFtZXRlcnMiICJFbmFibGVQcmVmZXRjaGVyIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFN5c01haW4iICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFN5c01haW4iICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIE5URlMgTGFzdCBBY2Nlc3MiICJDUFUgJiBSQU0iIHsgZnN1dGlsIGJlaGF2aW9yIHNldCBkaXNhYmxlbGFzdGFjY2VzcyAxIHwgT3V0LU51bGwgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIDguMyBOYW1lcyIgIkNQVSAmIFJBTSIgeyBmc3V0aWwgYmVoYXZpb3Igc2V0IGRpc2FibGU4ZG90MyAxIHwgT3V0LU51bGwgfQ
+QWRkLVR3ZWFrICJOVEZTIE1lbW9yeSBVc2FnZSIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxGaWxlU3lzdGVtIiAiTnRmc01lbW9yeVVzYWdlIiAyIH0
+QWRkLVR3ZWFrICJNRlQgWm9uZSIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxGaWxlU3lzdGVtIiAiTnRmc01mdFpvbmVSZXNlcnZhdGlvbiIgMiB9
+QWRkLVR3ZWFrICJNZW1vcnkgUHJpb3JpdHkiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiTWVtb3J5UHJpb3JpdHkiIDUgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBUaHJvdHRsaW5nIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFBvd2VyXFBvd2VyU2V0dGluZ3NcNTQ1MzMyNTEtODJiZS00ODI0LTk2YzEtNDdiNjBiNzQwZDAwXDBjYzViNjQ3LWMxZGYtNDYzNy04OTFhLWRlYzM1YzMxODU4MyIgIlZhbHVlTWF4IiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBDb3JlIFBhcmtpbmciICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcUG93ZXJcUG93ZXJTZXR0aW5nc1w1NDUzMzI1MS04MmJlLTQ4MjQtOTZjMS00N2I2MGI3NDBkMDBcMGNjNWI2NDctYzFkZi00NjM3LTg5MWEtZGVjMzVjMzE4NTgzIiAiVmFsdWVNaW4iIDEwMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBNaWdyYXRpb24iICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXEV4ZWN1dGl2ZSIgIkFkZGl0aW9uYWxDcml0aWNhbFdvcmtlclRocmVhZHMiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBJZGxlIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFBvd2VyXFBvd2VyU2V0dGluZ3NcNTQ1MzMyNTEtODJiZS00ODI0LTk2YzEtNDdiNjBiNzQwZDAwXDVkNzZhMmNhLWU4YzAtNDAyZi1hMTMzLTIxNTg0OTJkNThhZCIgIlZhbHVlTWF4IiAwIH0
+QWRkLVR3ZWFrICJTZXQgQ1BVIFBlcmZvcm1hbmNlIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFBvd2VyXFBvd2VyU2V0dGluZ3NcNTQ1MzMyNTEtODJiZS00ODI0LTk2YzEtNDdiNjBiNzQwZDAwXGJlMzM3MjM4LTBkODItNDE0Ni1hOTYwLTRmMzc0OWQ0NzBjNyIgIlZhbHVlTWF4IiAxMDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBDLVN0YXRlcyIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxQb3dlclxQb3dlclNldHRpbmdzXDU0NTMzMjUxLTgyYmUtNDgyNC05NmMxLTQ3YjYwYjc0MGQwMFwwY2M1YjY0Ny1jMWRmLTQ2MzctODkxYS1kZWMzNWMzMTg1ODMiICJWYWx1ZU1pbiIgMCB9
+QWRkLVR3ZWFrICJTZXQgQ1BVIFR1cmJvIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFBvd2VyXFBvd2VyU2V0dGluZ3NcNTQ1MzMyNTEtODJiZS00ODI0LTk2YzEtNDdiNjBiNzQwZDAwXGJlMzM3MjM4LTBkODItNDE0Ni1hOTYwLTRmMzc0OWQ0NzBjNyIgIlZhbHVlTWF4IiAxMDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBUaGVybWFsIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFBvd2VyXFBvd2VyU2V0dGluZ3NcNTQ1MzMyNTEtODJiZS00ODI0LTk2YzEtNDdiNjBiNzQwZDAwXDBjYzViNjQ3LWMxZGYtNDYzNy04OTFhLWRlYzM1YzMxODU4MyIgIlZhbHVlTWluIiAxMDAgfQ
+QWRkLVR3ZWFrICJTZXQgQ1BVIEFmZmluaXR5IiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFNlc3Npb24gTWFuYWdlclxFeGVjdXRpdmUiICJBZGRpdGlvbmFsRGVsYXllZFdvcmtlclRocmVhZHMiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBGcmVxdWVuY3kgU2NhbGluZyIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxQb3dlclxQb3dlclNldHRpbmdzXDU0NTMzMjUxLTgyYmUtNDgyNC05NmMxLTQ3YjYwYjc0MGQwMFxiZTMzNzIzOC0wZDgyLTQxNDYtYTk2MC00ZjM3NDlkNDcwYzciICJWYWx1ZU1heCIgMTAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBMaW1pdHMiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXEV4ZWN1dGl2ZSIgIkFkZGl0aW9uYWxDcml0aWNhbFdvcmtlclRocmVhZHMiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBCcmFuY2ggUHJlZGljdGlvbiIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxTZXNzaW9uIE1hbmFnZXJcTWVtb3J5IE1hbmFnZW1lbnQiICJEaXNhYmxlUGFnaW5nRXhlY3V0aXZlIiAxIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEtlcm5lbCBQYWdpbmciICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiRGlzYWJsZVBhZ2luZ0V4ZWN1dGl2ZSIgMSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIERyaXZlciBQYWdpbmciICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiRGlzYWJsZVBhZ2luZ0V4ZWN1dGl2ZSIgMSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEhlYXAgRGVjb21wcmVzc2lvbiIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxTZXNzaW9uIE1hbmFnZXJcTWVtb3J5IE1hbmFnZW1lbnQiICJEaXNhYmxlUGFnaW5nRXhlY3V0aXZlIiAxIH0
+QWRkLVR3ZWFrICJTZXQgU3lzdGVtIENhY2hlIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFNlc3Npb24gTWFuYWdlclxNZW1vcnkgTWFuYWdlbWVudCIgIkxhcmdlU3lzdGVtQ2FjaGUiIDEgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFByZWZldGNoIDIiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50XFByZWZldGNoUGFyYW1ldGVycyIgIkVuYWJsZVByZWZldGNoZXIiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFN1cGVyZmV0Y2ggMiIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxTZXNzaW9uIE1hbmFnZXJcTWVtb3J5IE1hbmFnZW1lbnRcUHJlZmV0Y2hQYXJhbWV0ZXJzIiAiRW5hYmxlU3VwZXJmZXRjaCIgMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEJvb3QgT3B0aW1pemUgMiIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxTZXNzaW9uIE1hbmFnZXJcTWVtb3J5IE1hbmFnZW1lbnRcUHJlZmV0Y2hQYXJhbWV0ZXJzIiAiQm9vdE9wdGltaXplRnVuY3Rpb24iIDAgfQ
+QWRkLVR3ZWFrICJTZXQgQ1BVIENhY2hlIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFNlc3Npb24gTWFuYWdlclxNZW1vcnkgTWFuYWdlbWVudCIgIlNlY29uZExldmVsRGF0YUNhY2hlIiAxMDI0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIENQVSBQYXJraW5nIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFBvd2VyXFBvd2VyU2V0dGluZ3NcNTQ1MzMyNTEtODJiZS00ODI0LTk2YzEtNDdiNjBiNzQwZDAwXDBjYzViNjQ3LWMxZGYtNDYzNy04OTFhLWRlYzM1YzMxODU4MyIgIlZhbHVlTWluIiAxMDAgfQ
+QWRkLVR3ZWFrICJTZXQgQ1BVIEJvb3N0IiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFBvd2VyXFBvd2VyU2V0dGluZ3NcNTQ1MzMyNTEtODJiZS00ODI0LTk2YzEtNDdiNjBiNzQwZDAwXGJlMzM3MjM4LTBkODItNDE0Ni1hOTYwLTRmMzc0OWQ0NzBjNyIgIlZhbHVlTWF4IiAxMDAgfQ
+QWRkLVR3ZWFrICJTZXQgTGFyZ2UgU3lzdGVtIENhY2hlIDIiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiTGFyZ2VTeXN0ZW1DYWNoZSIgMSB9
+QWRkLVR3ZWFrICJTZXQgSW9QYWdlTG9ja0xpbWl0IDIiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiSW9QYWdlTG9ja0xpbWl0IiAweDEwMDAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEhlYXAgRGVjb21wIDIiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiRGlzYWJsZVBhZ2luZ0V4ZWN1dGl2ZSIgMSB9
+QWRkLVR3ZWFrICJTZXQgU2Vjb25kIExldmVsIENhY2hlIDIiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiU2Vjb25kTGV2ZWxEYXRhQ2FjaGUiIDEwMjQgfQ
+QWRkLVR3ZWFrICJTZXQgTWVtb3J5IFByaW9yaXR5IDUiICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcU2Vzc2lvbiBNYW5hZ2VyXE1lbW9yeSBNYW5hZ2VtZW50IiAiTWVtb3J5UHJpb3JpdHkiIDUgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIE5URlMgTGFzdCBBY2Nlc3MgMiIgIkNQVSAmIFJBTSIgeyBmc3V0aWwgYmVoYXZpb3Igc2V0IGRpc2FibGVsYXN0YWNjZXNzIDEgfCBPdXQtTnVsbCB9
+QWRkLVR3ZWFrICJTZXQgTUZUIFpvbmUgUmVzZXJ2YXRpb24iICJDUFUgJiBSQU0iIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcRmlsZVN5c3RlbSIgIk50ZnNNZnRab25lUmVzZXJ2YXRpb24iIDIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIDguMyBOYW1lcyAyIiAiQ1BVICYgUkFNIiB7IGZzdXRpbCBiZWhhdmlvciBzZXQgZGlzYWJsZThkb3QzIDEgfCBPdXQtTnVsbCB9
+QWRkLVR3ZWFrICJTZXQgTlRGUyBNZW1vcnkgVXNhZ2UgMiIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxGaWxlU3lzdGVtIiAiTnRmc01lbW9yeVVzYWdlIiAyIH0
+QWRkLVR3ZWFrICJTZXQgU2Vzc2lvbiBQb29sIiAiQ1BVICYgUkFNIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXFNlc3Npb24gTWFuYWdlclxNZW1vcnkgTWFuYWdlbWVudCIgIlNlc3Npb25Qb29sU2l6ZSIgMzIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFBhZ2luZyBFeGVjdXRpdmUgMyIgIkNQVSAmIFJBTSIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcQ29udHJvbFxTZXNzaW9uIE1hbmFnZXJcTWVtb3J5IE1hbmFnZW1lbnQiICJEaXNhYmxlUGFnaW5nRXhlY3V0aXZlIiAxIH0
 
-# ---- VISUAL (50) ----
-Add-Tweak "Disable Animations" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop\WindowMetrics" "MinAnimate" "0" "String" }
-Add-Tweak "Disable Transparency" "VISUAL" { Set-Reg "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" "EnableTransparency" 0 }
-Add-Tweak "Menu Delay Zero" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop" "MenuShowDelay" "0" "String" }
-Add-Tweak "Disable Mouse Accel" "VISUAL" { Set-Reg "HKCU:\Control Panel\Mouse" "MouseSpeed" "0" "String"; Set-Reg "HKCU:\Control Panel\Mouse" "MouseThreshold1" "0" "String"; Set-Reg "HKCU:\Control Panel\Mouse" "MouseThreshold2" "0" "String" }
-Add-Tweak "Disable Sticky Keys" "VISUAL" { Set-Reg "HKCU:\Control Panel\Accessibility\StickyKeys" "Flags" "506" "String" }
-Add-Tweak "Disable Filter Keys" "VISUAL" { Set-Reg "HKCU:\Control Panel\Accessibility\Keyboard Response" "Flags" "122" "String" }
-Add-Tweak "Disable Toggle Keys" "VISUAL" { Set-Reg "HKCU:\Control Panel\Accessibility\ToggleKeys" "Flags" "58" "String" }
-Add-Tweak "Disable Lock Screen" "VISUAL" { Set-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" "NoLockScreen" 1 }
-Add-Tweak "Disable Screensaver" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop" "ScreenSaveActive" "0" "String" }
-Add-Tweak "Disable Aero Shake" "VISUAL" { Set-Reg "HKCU:\Software\Policies\Microsoft\Windows\Explorer" "NoWindowMinimizingShortcuts" 1 }
-Add-Tweak "Disable Aero Snap" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop" "WindowArrangementActive" "0" "String" }
-Add-Tweak "Disable Aero Peek" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\DWM" "EnableAeroPeek" 0 }
-Add-Tweak "Disable Jump Lists" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Start_TrackDocs" 0 }
-Add-Tweak "Disable Recent Files" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Start_TrackProgs" 0 }
-Add-Tweak "Disable Background Apps" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" "GlobalUserDisabled" 1 }
-Add-Tweak "Disable Taskbar Anim" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarAnimations" 0 }
-Add-Tweak "Disable Font Smoothing" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop" "FontSmoothing" "0" "String" }
-Add-Tweak "Disable ClearType" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop" "FontSmoothingType" 0 }
-Add-Tweak "Disable Thumbnails" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "IconsOnly" 1 }
-Add-Tweak "Disable List Shadow" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ListviewShadow" 0 }
-Add-Tweak "Disable List Watermark" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ListviewWatermark" 0 }
-Add-Tweak "Disable Start Menu Anim" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop" "UserPreferencesMask" ([byte[]](0x90,0x12,0x03,0x80,0x10,0x00,0x00,0x00)) "Binary" }
-Add-Tweak "Disable Fade Anim" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop" "UserPreferencesMask" ([byte[]](0x90,0x12,0x03,0x80,0x10,0x00,0x00,0x00)) "Binary" }
-Add-Tweak "Disable DWM Comp" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\DWM" "Composition" 0 }
-Add-Tweak "Disable Theme Service" "VISUAL" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Themes" "Start" 4 }
-Add-Tweak "Disable Visual Effects" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" "VisualFXSetting" 2 }
-Add-Tweak "Disable Shadow Effects" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ListviewShadow" 0 }
-Add-Tweak "Disable Cursor Shadow" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop" "CursorShadow" 0 }
-Add-Tweak "Disable Icon Cache" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" "Max Cached Icons" "2048" "String" }
-Add-Tweak "Disable Font Cache" "VISUAL" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\FontCache" "Start" 4 }
-Add-Tweak "Disable High Contrast" "VISUAL" { Set-Reg "HKCU:\Control Panel\Accessibility\HighContrast" "Flags" "126" "String" }
-Add-Tweak "Disable Narrator" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Narrator\NoRoam" "RunningState" 0 }
-Add-Tweak "Disable Magnifier" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\ScreenMagnifier" "RunningState" 0 }
-Add-Tweak "Disable On-Screen KB" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Osk" "RunningState" 0 }
-Add-Tweak "Disable Touch KB" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\TabletTip\1.7" "EnableDesktopModeAutoInvoke" 0 }
-Add-Tweak "Disable Handwriting" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\InputPersonalization" "RestrictImplicitTextCollection" 1 }
-Add-Tweak "Disable Start Recs" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Start_IrisRecommendations" 0 }
-Add-Tweak "Disable Taskbar Widgets" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarDa" 0 }
-Add-Tweak "Disable Taskbar Chat" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarMn" 0 }
-Add-Tweak "Disable Taskbar Search" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SearchboxTaskbarMode" 0 }
-Add-Tweak "Disable Taskbar View" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarSmallIcons" 1 }
-Add-Tweak "Disable Taskbar Transparency 2" "VISUAL" { Set-Reg "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" "EnableTransparency" 0 }
-Add-Tweak "Disable Start Web Search" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" "BingSearchEnabled" 0 }
-Add-Tweak "Disable Cortana Consent" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" "CortanaConsent" 0 }
-Add-Tweak "Disable Taskbar News" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Feeds" "ShellFeedsTaskbarViewMode" 2 }
-Add-Tweak "Disable Window Snapping 2" "VISUAL" { Set-Reg "HKCU:\Control Panel\Desktop" "WindowArrangementActive" "0" "String" }
-Add-Tweak "Disable Snap Assist 2" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SnapAssist" 0 }
-Add-Tweak "Disable Snap Assist Corner" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SnapAssistCorner" 0 }
-Add-Tweak "Disable Snap Assist DND" "VISUAL" { Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SnapAssistDoNotDisturb" 0 }
-Add-Tweak "Disable Ink Workspace" "VISUAL" { Set-Reg "HKLM:\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace" "AllowWindowsInkWorkspace" 0 }
+IyAtLS0tIFZJU1VBTCAoNTApIC0tLS0
+QWRkLVR3ZWFrICJEaXNhYmxlIEFuaW1hdGlvbnMiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcQ29udHJvbCBQYW5lbFxEZXNrdG9wXFdpbmRvd01ldHJpY3MiICJNaW5BbmltYXRlIiAiMCIgIlN0cmluZyIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFRyYW5zcGFyZW5jeSIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTT0ZUV0FSRVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxUaGVtZXNcUGVyc29uYWxpemUiICJFbmFibGVUcmFuc3BhcmVuY3kiIDAgfQ
+QWRkLVR3ZWFrICJNZW51IERlbGF5IFplcm8iICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcQ29udHJvbCBQYW5lbFxEZXNrdG9wIiAiTWVudVNob3dEZWxheSIgIjAiICJTdHJpbmciIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE1vdXNlIEFjY2VsIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XENvbnRyb2wgUGFuZWxcTW91c2UiICJNb3VzZVNwZWVkIiAiMCIgIlN0cmluZyI7IFNldC1SZWcgIkhLQ1U6XENvbnRyb2wgUGFuZWxcTW91c2UiICJNb3VzZVRocmVzaG9sZDEiICIwIiAiU3RyaW5nIjsgU2V0LVJlZyAiSEtDVTpcQ29udHJvbCBQYW5lbFxNb3VzZSIgIk1vdXNlVGhyZXNob2xkMiIgIjAiICJTdHJpbmciIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFN0aWNreSBLZXlzIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XENvbnRyb2wgUGFuZWxcQWNjZXNzaWJpbGl0eVxTdGlja3lLZXlzIiAiRmxhZ3MiICI1MDYiICJTdHJpbmciIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEZpbHRlciBLZXlzIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XENvbnRyb2wgUGFuZWxcQWNjZXNzaWJpbGl0eVxLZXlib2FyZCBSZXNwb25zZSIgIkZsYWdzIiAiMTIyIiAiU3RyaW5nIiB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFRvZ2dsZSBLZXlzIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XENvbnRyb2wgUGFuZWxcQWNjZXNzaWJpbGl0eVxUb2dnbGVLZXlzIiAiRmxhZ3MiICI1OCIgIlN0cmluZyIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIExvY2sgU2NyZWVuIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLTE06XFNPRlRXQVJFXFBvbGljaWVzXE1pY3Jvc29mdFxXaW5kb3dzXFBlcnNvbmFsaXphdGlvbiIgIk5vTG9ja1NjcmVlbiIgMSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFNjcmVlbnNhdmVyIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XENvbnRyb2wgUGFuZWxcRGVza3RvcCIgIlNjcmVlblNhdmVBY3RpdmUiICIwIiAiU3RyaW5nIiB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEFlcm8gU2hha2UiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcUG9saWNpZXNcTWljcm9zb2Z0XFdpbmRvd3NcRXhwbG9yZXIiICJOb1dpbmRvd01pbmltaXppbmdTaG9ydGN1dHMiIDEgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEFlcm8gU25hcCIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxDb250cm9sIFBhbmVsXERlc2t0b3AiICJXaW5kb3dBcnJhbmdlbWVudEFjdGl2ZSIgIjAiICJTdHJpbmciIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEFlcm8gUGVlayIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xEV00iICJFbmFibGVBZXJvUGVlayIgMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEp1bXAgTGlzdHMiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cRXhwbG9yZXJcQWR2YW5jZWQiICJTdGFydF9UcmFja0RvY3MiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFJlY2VudCBGaWxlcyIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxFeHBsb3JlclxBZHZhbmNlZCIgIlN0YXJ0X1RyYWNrUHJvZ3MiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEJhY2tncm91bmQgQXBwcyIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxCYWNrZ3JvdW5kQWNjZXNzQXBwbGljYXRpb25zIiAiR2xvYmFsVXNlckRpc2FibGVkIiAxIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFRhc2tiYXIgQW5pbSIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxFeHBsb3JlclxBZHZhbmNlZCIgIlRhc2tiYXJBbmltYXRpb25zIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEZvbnQgU21vb3RoaW5nIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XENvbnRyb2wgUGFuZWxcRGVza3RvcCIgIkZvbnRTbW9vdGhpbmciICIwIiAiU3RyaW5nIiB9
+QWRkLVR3ZWFrICJEaXNhYmxlIENsZWFyVHlwZSIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxDb250cm9sIFBhbmVsXERlc2t0b3AiICJGb250U21vb3RoaW5nVHlwZSIgMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFRodW1ibmFpbHMiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cRXhwbG9yZXJcQWR2YW5jZWQiICJJY29uc09ubHkiIDEgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIExpc3QgU2hhZG93IiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEV4cGxvcmVyXEFkdmFuY2VkIiAiTGlzdHZpZXdTaGFkb3ciIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIExpc3QgV2F0ZXJtYXJrIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEV4cGxvcmVyXEFkdmFuY2VkIiAiTGlzdHZpZXdXYXRlcm1hcmsiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFN0YXJ0IE1lbnUgQW5pbSIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxDb250cm9sIFBhbmVsXERlc2t0b3AiICJVc2VyUHJlZmVyZW5jZXNNYXNrIiAoW2J5dGVbXV0oMHg5MCwweDEyLDB4MDMsMHg4MCwweDEwLDB4MDAsMHgwMCwweDAwKSkgIkJpbmFyeSIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEZhZGUgQW5pbSIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxDb250cm9sIFBhbmVsXERlc2t0b3AiICJVc2VyUHJlZmVyZW5jZXNNYXNrIiAoW2J5dGVbXV0oMHg5MCwweDEyLDB4MDMsMHg4MCwweDEwLDB4MDAsMHgwMCwweDAwKSkgIkJpbmFyeSIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIERXTSBDb21wIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXERXTSIgIkNvbXBvc2l0aW9uIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFRoZW1lIFNlcnZpY2UiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRoZW1lcyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFZpc3VhbCBFZmZlY3RzIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEV4cGxvcmVyXFZpc3VhbEVmZmVjdHMiICJWaXN1YWxGWFNldHRpbmciIDIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFNoYWRvdyBFZmZlY3RzIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEV4cGxvcmVyXEFkdmFuY2VkIiAiTGlzdHZpZXdTaGFkb3ciIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEN1cnNvciBTaGFkb3ciICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcQ29udHJvbCBQYW5lbFxEZXNrdG9wIiAiQ3Vyc29yU2hhZG93IiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEljb24gQ2FjaGUiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cRXhwbG9yZXIiICJNYXggQ2FjaGVkIEljb25zIiAiMjA0OCIgIlN0cmluZyIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEZvbnQgQ2FjaGUiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXEZvbnRDYWNoZSIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEhpZ2ggQ29udHJhc3QiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcQ29udHJvbCBQYW5lbFxBY2Nlc3NpYmlsaXR5XEhpZ2hDb250cmFzdCIgIkZsYWdzIiAiMTI2IiAiU3RyaW5nIiB9
+QWRkLVR3ZWFrICJEaXNhYmxlIE5hcnJhdG9yIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxOYXJyYXRvclxOb1JvYW0iICJSdW5uaW5nU3RhdGUiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIE1hZ25pZmllciIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcU2NyZWVuTWFnbmlmaWVyIiAiUnVubmluZ1N0YXRlIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE9uLVNjcmVlbiBLQiIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcT3NrIiAiUnVubmluZ1N0YXRlIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFRvdWNoIEtCIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxUYWJsZXRUaXBcMS43IiAiRW5hYmxlRGVza3RvcE1vZGVBdXRvSW52b2tlIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEhhbmR3cml0aW5nIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxJbnB1dFBlcnNvbmFsaXphdGlvbiIgIlJlc3RyaWN0SW1wbGljaXRUZXh0Q29sbGVjdGlvbiIgMSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFN0YXJ0IFJlY3MiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cRXhwbG9yZXJcQWR2YW5jZWQiICJTdGFydF9JcmlzUmVjb21tZW5kYXRpb25zIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFRhc2tiYXIgV2lkZ2V0cyIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxFeHBsb3JlclxBZHZhbmNlZCIgIlRhc2tiYXJEYSIgMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFRhc2tiYXIgQ2hhdCIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxFeHBsb3JlclxBZHZhbmNlZCIgIlRhc2tiYXJNbiIgMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFRhc2tiYXIgU2VhcmNoIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXEV4cGxvcmVyXEFkdmFuY2VkIiAiU2VhcmNoYm94VGFza2Jhck1vZGUiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFRhc2tiYXIgVmlldyIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxFeHBsb3JlclxBZHZhbmNlZCIgIlRhc2tiYXJTbWFsbEljb25zIiAxIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFRhc2tiYXIgVHJhbnNwYXJlbmN5IDIiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcU09GVFdBUkVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cVGhlbWVzXFBlcnNvbmFsaXplIiAiRW5hYmxlVHJhbnNwYXJlbmN5IiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFN0YXJ0IFdlYiBTZWFyY2giICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cU2VhcmNoIiAiQmluZ1NlYXJjaEVuYWJsZWQiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIENvcnRhbmEgQ29uc2VudCIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxTZWFyY2giICJDb3J0YW5hQ29uc2VudCIgMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFRhc2tiYXIgTmV3cyIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxGZWVkcyIgIlNoZWxsRmVlZHNUYXNrYmFyVmlld01vZGUiIDIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFdpbmRvdyBTbmFwcGluZyAyIiAiVklTVUFMIiB7IFNldC1SZWcgIkhLQ1U6XENvbnRyb2wgUGFuZWxcRGVza3RvcCIgIldpbmRvd0FycmFuZ2VtZW50QWN0aXZlIiAiMCIgIlN0cmluZyIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFNuYXAgQXNzaXN0IDIiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtDVTpcU29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cRXhwbG9yZXJcQWR2YW5jZWQiICJTbmFwQXNzaXN0IiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFNuYXAgQXNzaXN0IENvcm5lciIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxFeHBsb3JlclxBZHZhbmNlZCIgIlNuYXBBc3Npc3RDb3JuZXIiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFNuYXAgQXNzaXN0IERORCIgIlZJU1VBTCIgeyBTZXQtUmVnICJIS0NVOlxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxFeHBsb3JlclxBZHZhbmNlZCIgIlNuYXBBc3Npc3REb05vdERpc3R1cmIiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEluayBXb3Jrc3BhY2UiICJWSVNVQUwiIHsgU2V0LVJlZyAiSEtMTTpcU09GVFdBUkVcUG9saWNpZXNcTWljcm9zb2Z0XFdpbmRvd3NJbmtXb3Jrc3BhY2UiICJBbGxvd1dpbmRvd3NJbmtXb3Jrc3BhY2UiIDAgfQ
 
-# ---- NETWORK (50) ----
-Add-Tweak "Disable Network Throttling" "NETWORK" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" "NetworkThrottlingIndex" 0xffffffff }
-Add-Tweak "System Responsiveness" "NETWORK" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" "SystemResponsiveness" 0 }
-Add-Tweak "Disable Nagle" "NETWORK" { $i=Get-ChildItem "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces"; foreach($x in $i){ Set-Reg $x.PSPath "TcpAckFrequency" 1; Set-Reg $x.PSPath "TCPNoDelay" 1; Set-Reg $x.PSPath "TcpDelAckTicks" 0 } }
-Add-Tweak "Disable QoS Reserved" "NETWORK" { Set-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched" "NonBestEffortLimit" 0 }
-Add-Tweak "TcpAckFrequency" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "TcpAckFrequency" 1 }
-Add-Tweak "TCPNoDelay" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "TCPNoDelay" 1 }
-Add-Tweak "TcpDelAckTicks" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "TcpDelAckTicks" 0 }
-Add-Tweak "Disable TCP Auto-Tuning" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "DisableAutoTuning" 1 }
-Add-Tweak "MaxUserPort" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "MaxUserPort" 65534 }
-Add-Tweak "TcpTimedWaitDelay" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "TcpTimedWaitDelay" 30 }
-Add-Tweak "Disable IPv6" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters" "DisabledComponents" 0xff }
-Add-Tweak "Disable Net Discovery" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Network\NewNetworkWindowOff" "NewNetworkWindowOff" 1 }
-Add-Tweak "Disable File Sharing" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer" "Start" 4 }
-Add-Tweak "Disable Net Bridge" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\BridgeMP" "Start" 4 }
-Add-Tweak "Disable Media Sharing" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WMPNetworkSvc" "Start" 4 }
-Add-Tweak "Disable ICS" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess" "Start" 4 }
-Add-Tweak "Disable WebClient" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WebClient" "Start" 4 }
-Add-Tweak "Disable iphlpsvc" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\iphlpsvc" "Start" 4 }
-Add-Tweak "Disable Dnscache" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache" "Start" 4 }
-Add-Tweak "Disable Netlogon" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon" "Start" 4 }
-Add-Tweak "Set TcpAckFrequency Global" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "TcpAckFrequency" 1 }
-Add-Tweak "Set TCPNoDelay Global" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "TCPNoDelay" 1 }
-Add-Tweak "Set TcpDelAckTicks Global" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "TcpDelAckTicks" 0 }
-Add-Tweak "Disable Auto Tuning 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "DisableAutoTuning" 1 }
-Add-Tweak "Disable Network Bridge 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\BridgeMP" "Start" 4 }
-Add-Tweak "Disable IPv6 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters" "DisabledComponents" 0xff }
-Add-Tweak "Disable Net Discovery 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Control\Network\NewNetworkWindowOff" "NewNetworkWindowOff" 1 }
-Add-Tweak "Disable SSDP" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SSDPSRV" "Start" 4 }
-Add-Tweak "Disable UPnP" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\upnphost" "Start" 4 }
-Add-Tweak "Disable WebDAV" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WebClient" "Start" 4 }
-Add-Tweak "Disable NetBIOS" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\NetBT" "Start" 4 }
-Add-Tweak "Disable TCP Chimney" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "DisableTaskOffload" 1 }
-Add-Tweak "Disable RSS" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "EnableRSS" 0 }
-Add-Tweak "Disable ECN" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "EnableTCPA" 0 }
-Add-Tweak "Disable IPv4 Src Route" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "DisableIPSourceRouting" 2 }
-Add-Tweak "Disable TCP Timestamps" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "Tcp1323Opts" 0 }
-Add-Tweak "Disable Net Throttling 2" "NETWORK" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" "NetworkThrottlingIndex" 0xffffffff }
-Add-Tweak "Set Sys Responsiveness 2" "NETWORK" { Set-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" "SystemResponsiveness" 0 }
-Add-Tweak "Disable Nagle 2" "NETWORK" { $i=Get-ChildItem "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces"; foreach($x in $i){ Set-Reg $x.PSPath "TcpAckFrequency" 1; Set-Reg $x.PSPath "TCPNoDelay" 1; Set-Reg $x.PSPath "TcpDelAckTicks" 0 } }
-Add-Tweak "Disable QoS Reserved 2" "NETWORK" { Set-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched" "NonBestEffortLimit" 0 }
-Add-Tweak "Set Max User Port" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "MaxUserPort" 65534 }
-Add-Tweak "Set Tcp Timed Wait" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "TcpTimedWaitDelay" 30 }
-Add-Tweak "Disable File Sharing 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer" "Start" 4 }
-Add-Tweak "Disable Media Sharing 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WMPNetworkSvc" "Start" 4 }
-Add-Tweak "Disable ICS 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess" "Start" 4 }
-Add-Tweak "Disable iphlpsvc 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\iphlpsvc" "Start" 4 }
-Add-Tweak "Disable Dnscache 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache" "Start" 4 }
-Add-Tweak "Disable Netlogon 2" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon" "Start" 4 }
-Add-Tweak "Disable SMB Direct" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SmbDirect" "Start" 4 }
-Add-Tweak "Disable LLDP" "NETWORK" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\lltdsvc" "Start" 4 }
+IyAtLS0tIE5FVFdPUksgKDUwKSAtLS0t
+QWRkLVR3ZWFrICJEaXNhYmxlIE5ldHdvcmsgVGhyb3R0bGluZyIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU09GVFdBUkVcTWljcm9zb2Z0XFdpbmRvd3MgTlRcQ3VycmVudFZlcnNpb25cTXVsdGltZWRpYVxTeXN0ZW1Qcm9maWxlIiAiTmV0d29ya1Rocm90dGxpbmdJbmRleCIgMHhmZmZmZmZmZiB9
+QWRkLVR3ZWFrICJTeXN0ZW0gUmVzcG9uc2l2ZW5lc3MiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNPRlRXQVJFXE1pY3Jvc29mdFxXaW5kb3dzIE5UXEN1cnJlbnRWZXJzaW9uXE11bHRpbWVkaWFcU3lzdGVtUHJvZmlsZSIgIlN5c3RlbVJlc3BvbnNpdmVuZXNzIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE5hZ2xlIiAiTkVUV09SSyIgeyAkaT1HZXQtQ2hpbGRJdGVtICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcVGNwaXBcUGFyYW1ldGVyc1xJbnRlcmZhY2VzIjsgZm9yZWFjaCgkeCBpbiAkaSl7IFNldC1SZWcgJHguUFNQYXRoICJUY3BBY2tGcmVxdWVuY3kiIDE7IFNldC1SZWcgJHguUFNQYXRoICJUQ1BOb0RlbGF5IiAxOyBTZXQtUmVnICR4LlBTUGF0aCAiVGNwRGVsQWNrVGlja3MiIDAgfSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFFvUyBSZXNlcnZlZCIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU09GVFdBUkVcUG9saWNpZXNcTWljcm9zb2Z0XFdpbmRvd3NcUHNjaGVkIiAiTm9uQmVzdEVmZm9ydExpbWl0IiAwIH0
+QWRkLVR3ZWFrICJUY3BBY2tGcmVxdWVuY3kiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xUY3BpcFxQYXJhbWV0ZXJzIiAiVGNwQWNrRnJlcXVlbmN5IiAxIH0
+QWRkLVR3ZWFrICJUQ1BOb0RlbGF5IiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcVGNwaXBcUGFyYW1ldGVycyIgIlRDUE5vRGVsYXkiIDEgfQ
+QWRkLVR3ZWFrICJUY3BEZWxBY2tUaWNrcyIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRjcGlwXFBhcmFtZXRlcnMiICJUY3BEZWxBY2tUaWNrcyIgMCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFRDUCBBdXRvLVR1bmluZyIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRjcGlwXFBhcmFtZXRlcnMiICJEaXNhYmxlQXV0b1R1bmluZyIgMSB9
+QWRkLVR3ZWFrICJNYXhVc2VyUG9ydCIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRjcGlwXFBhcmFtZXRlcnMiICJNYXhVc2VyUG9ydCIgNjU1MzQgfQ
+QWRkLVR3ZWFrICJUY3BUaW1lZFdhaXREZWxheSIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRjcGlwXFBhcmFtZXRlcnMiICJUY3BUaW1lZFdhaXREZWxheSIgMzAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIElQdjYiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xUY3BpcDZcUGFyYW1ldGVycyIgIkRpc2FibGVkQ29tcG9uZW50cyIgMHhmZiB9
+QWRkLVR3ZWFrICJEaXNhYmxlIE5ldCBEaXNjb3ZlcnkiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxDb250cm9sXE5ldHdvcmtcTmV3TmV0d29ya1dpbmRvd09mZiIgIk5ld05ldHdvcmtXaW5kb3dPZmYiIDEgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEZpbGUgU2hhcmluZyIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXExhbm1hblNlcnZlciIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE5ldCBCcmlkZ2UiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xCcmlkZ2VNUCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE1lZGlhIFNoYXJpbmciICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xXTVBOZXR3b3JrU3ZjIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIElDUyIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFNoYXJlZEFjY2VzcyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFdlYkNsaWVudCIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFdlYkNsaWVudCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIGlwaGxwc3ZjIiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcaXBobHBzdmMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIERuc2NhY2hlIiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcRG5zY2FjaGUiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIE5ldGxvZ29uIiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcTmV0bG9nb24iICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJTZXQgVGNwQWNrRnJlcXVlbmN5IEdsb2JhbCIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRjcGlwXFBhcmFtZXRlcnMiICJUY3BBY2tGcmVxdWVuY3kiIDEgfQ
+QWRkLVR3ZWFrICJTZXQgVENQTm9EZWxheSBHbG9iYWwiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xUY3BpcFxQYXJhbWV0ZXJzIiAiVENQTm9EZWxheSIgMSB9
+QWRkLVR3ZWFrICJTZXQgVGNwRGVsQWNrVGlja3MgR2xvYmFsIiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcVGNwaXBcUGFyYW1ldGVycyIgIlRjcERlbEFja1RpY2tzIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEF1dG8gVHVuaW5nIDIiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xUY3BpcFxQYXJhbWV0ZXJzIiAiRGlzYWJsZUF1dG9UdW5pbmciIDEgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIE5ldHdvcmsgQnJpZGdlIDIiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xCcmlkZ2VNUCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIElQdjYgMiIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRjcGlwNlxQYXJhbWV0ZXJzIiAiRGlzYWJsZWRDb21wb25lbnRzIiAweGZmIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE5ldCBEaXNjb3ZlcnkgMiIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XENvbnRyb2xcTmV0d29ya1xOZXdOZXR3b3JrV2luZG93T2ZmIiAiTmV3TmV0d29ya1dpbmRvd09mZiIgMSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFNTRFAiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xTU0RQU1JWIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFVQblAiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1x1cG5waG9zdCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFdlYkRBViIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFdlYkNsaWVudCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE5ldEJJT1MiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xOZXRCVCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFRDUCBDaGltbmV5IiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcVGNwaXBcUGFyYW1ldGVycyIgIkRpc2FibGVUYXNrT2ZmbG9hZCIgMSB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFJTUyIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRjcGlwXFBhcmFtZXRlcnMiICJFbmFibGVSU1MiIDAgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEVDTiIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRjcGlwXFBhcmFtZXRlcnMiICJFbmFibGVUQ1BBIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIElQdjQgU3JjIFJvdXRlIiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcVGNwaXBcUGFyYW1ldGVycyIgIkRpc2FibGVJUFNvdXJjZVJvdXRpbmciIDIgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFRDUCBUaW1lc3RhbXBzIiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcVGNwaXBcUGFyYW1ldGVycyIgIlRjcDEzMjNPcHRzIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE5ldCBUaHJvdHRsaW5nIDIiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNPRlRXQVJFXE1pY3Jvc29mdFxXaW5kb3dzIE5UXEN1cnJlbnRWZXJzaW9uXE11bHRpbWVkaWFcU3lzdGVtUHJvZmlsZSIgIk5ldHdvcmtUaHJvdHRsaW5nSW5kZXgiIDB4ZmZmZmZmZmYgfQ
+QWRkLVR3ZWFrICJTZXQgU3lzIFJlc3BvbnNpdmVuZXNzIDIiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNPRlRXQVJFXE1pY3Jvc29mdFxXaW5kb3dzIE5UXEN1cnJlbnRWZXJzaW9uXE11bHRpbWVkaWFcU3lzdGVtUHJvZmlsZSIgIlN5c3RlbVJlc3BvbnNpdmVuZXNzIiAwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE5hZ2xlIDIiICJORVRXT1JLIiB7ICRpPUdldC1DaGlsZEl0ZW0gIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xUY3BpcFxQYXJhbWV0ZXJzXEludGVyZmFjZXMiOyBmb3JlYWNoKCR4IGluICRpKXsgU2V0LVJlZyAkeC5QU1BhdGggIlRjcEFja0ZyZXF1ZW5jeSIgMTsgU2V0LVJlZyAkeC5QU1BhdGggIlRDUE5vRGVsYXkiIDE7IFNldC1SZWcgJHguUFNQYXRoICJUY3BEZWxBY2tUaWNrcyIgMCB9IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFFvUyBSZXNlcnZlZCAyIiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTT0ZUV0FSRVxQb2xpY2llc1xNaWNyb3NvZnRcV2luZG93c1xQc2NoZWQiICJOb25CZXN0RWZmb3J0TGltaXQiIDAgfQ
+QWRkLVR3ZWFrICJTZXQgTWF4IFVzZXIgUG9ydCIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFRjcGlwXFBhcmFtZXRlcnMiICJNYXhVc2VyUG9ydCIgNjU1MzQgfQ
+QWRkLVR3ZWFrICJTZXQgVGNwIFRpbWVkIFdhaXQiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xUY3BpcFxQYXJhbWV0ZXJzIiAiVGNwVGltZWRXYWl0RGVsYXkiIDMwIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIEZpbGUgU2hhcmluZyAyIiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcTGFubWFuU2VydmVyIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIE1lZGlhIFNoYXJpbmcgMiIgIk5FVFdPUksiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFdNUE5ldHdvcmtTdmMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIElDUyAyIiAiTkVUV09SSyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcU2hhcmVkQWNjZXNzIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIGlwaGxwc3ZjIDIiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xpcGhscHN2YyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIERuc2NhY2hlIDIiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xEbnNjYWNoZSIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE5ldGxvZ29uIDIiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xOZXRsb2dvbiIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFNNQiBEaXJlY3QiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xTbWJEaXJlY3QiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIExMRFAiICJORVRXT1JLIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xsbHRkc3ZjIiAiU3RhcnQiIDQgfQ
 
-# ---- SERVICES (50) ----
-Add-Tweak "Disable DiagTrack" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\DiagTrack" "Start" 4 }
-Add-Tweak "Disable dmwappush" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\dmwappushservice" "Start" 4 }
-Add-Tweak "Disable Fax" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Fax" "Start" 4 }
-Add-Tweak "Disable RemoteRegistry" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\RemoteRegistry" "Start" 4 }
-Add-Tweak "Disable RetailDemo" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\RetailDemo" "Start" 4 }
-Add-Tweak "Disable MapsBroker" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\MapsBroker" "Start" 4 }
-Add-Tweak "Disable WSearch" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WSearch" "Start" 4 }
-Add-Tweak "Disable PrintSpooler" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\PrintSpooler" "Start" 4 }
-Add-Tweak "Disable WerSvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WerSvc" "Start" 4 }
-Add-Tweak "Disable PcaSvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\PcaSvc" "Start" 4 }
-Add-Tweak "Disable WdiServiceHost" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WdiServiceHost" "Start" 4 }
-Add-Tweak "Disable WdiSystemHost" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WdiSystemHost" "Start" 4 }
-Add-Tweak "Disable TrkWks" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\TrkWks" "Start" 4 }
-Add-Tweak "Disable WpnService" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WpnService" "Start" 4 }
-Add-Tweak "Disable WpnUserService" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WpnUserService" "Start" 4 }
-Add-Tweak "Disable lfsvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc" "Start" 4 }
-Add-Tweak "Disable PhoneSvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\PhoneSvc" "Start" 4 }
-Add-Tweak "Disable SensorService" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SensorService" "Start" 4 }
-Add-Tweak "Disable SensrSvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SensrSvc" "Start" 4 }
-Add-Tweak "Disable SSDPSRV" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SSDPSRV" "Start" 4 }
-Add-Tweak "Disable WMPNetworkSvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WMPNetworkSvc" "Start" 4 }
-Add-Tweak "Disable WinRM" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WinRM" "Start" 4 }
-Add-Tweak "Disable icssvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\icssvc" "Start" 4 }
-Add-Tweak "Disable TapiSrv" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\TapiSrv" "Start" 4 }
-Add-Tweak "Disable RpcLocator" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\RpcLocator" "Start" 4 }
-Add-Tweak "Disable seclogon" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\seclogon" "Start" 4 }
-Add-Tweak "Disable SNMPTRAP" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SNMPTRAP" "Start" 4 }
-Add-Tweak "Disable smphost" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\smphost" "Start" 4 }
-Add-Tweak "Disable stisvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\stisvc" "Start" 4 }
-Add-Tweak "Disable wuauserv" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\wuauserv" "Start" 4 }
-Add-Tweak "Disable BITS" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\BITS" "Start" 4 }
-Add-Tweak "Disable CryptSvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\CryptSvc" "Start" 4 }
-Add-Tweak "Disable msiserver" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\msiserver" "Start" 4 }
-Add-Tweak "Disable VSS" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\VSS" "Start" 4 }
-Add-Tweak "Disable swprv" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\swprv" "Start" 4 }
-Add-Tweak "Disable defragsvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\defragsvc" "Start" 4 }
-Add-Tweak "Disable WbioSrvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WbioSrvc" "Start" 4 }
-Add-Tweak "Disable wcncsvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\wcncsvc" "Start" 4 }
-Add-Tweak "Disable WpcMonSvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WpcMonSvc" "Start" 4 }
-Add-Tweak "Disable WPDBusEnum" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\WPDBusEnum" "Start" 4 }
-Add-Tweak "Disable COMSysApp" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\COMSysApp" "Start" 4 }
-Add-Tweak "Disable SDRSVC" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SDRSVC" "Start" 4 }
-Add-Tweak "Disable Wbengine" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Wbengine" "Start" 4 }
-Add-Tweak "Disable SstpSvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SstpSvc" "Start" 4 }
-Add-Tweak "Disable wudfsvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\wudfsvc" "Start" 4 }
-Add-Tweak "Disable SCPolicySvc" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\SCPolicySvc" "Start" 4 }
-Add-Tweak "Disable Themes" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\Themes" "Start" 4 }
-Add-Tweak "Disable FontCache" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\FontCache" "Start" 4 }
-Add-Tweak "Disable Bluetooth" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\BTHPORT\Parameters" "DisableBluetooth" 1 }
-Add-Tweak "Disable Defender" "SERVICES" { Set-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" "DisableAntiSpyware" 1 }
+IyAtLS0tIFNFUlZJQ0VTICg1MCkgLS0tLQ
+QWRkLVR3ZWFrICJEaXNhYmxlIERpYWdUcmFjayIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xEaWFnVHJhY2siICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIGRtd2FwcHVzaCIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xkbXdhcHB1c2hzZXJ2aWNlIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEZheCIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xGYXgiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFJlbW90ZVJlZ2lzdHJ5IiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFJlbW90ZVJlZ2lzdHJ5IiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFJldGFpbERlbW8iICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcUmV0YWlsRGVtbyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIE1hcHNCcm9rZXIiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcTWFwc0Jyb2tlciIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFdTZWFyY2giICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcV1NlYXJjaCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFByaW50U3Bvb2xlciIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xQcmludFNwb29sZXIiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFdlclN2YyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xXZXJTdmMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFBjYVN2YyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xQY2FTdmMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFdkaVNlcnZpY2VIb3N0IiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFdkaVNlcnZpY2VIb3N0IiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFdkaVN5c3RlbUhvc3QiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcV2RpU3lzdGVtSG9zdCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFRya1drcyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xUcmtXa3MiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFdwblNlcnZpY2UiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcV3BuU2VydmljZSIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFdwblVzZXJTZXJ2aWNlIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFdwblVzZXJTZXJ2aWNlIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIGxmc3ZjIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXGxmc3ZjIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFBob25lU3ZjIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFBob25lU3ZjIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFNlbnNvclNlcnZpY2UiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcU2Vuc29yU2VydmljZSIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFNlbnNyU3ZjIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFNlbnNyU3ZjIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFNTRFBTUlYiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcU1NEUFNSViIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFdNUE5ldHdvcmtTdmMiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcV01QTmV0d29ya1N2YyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFdpblJNIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFdpblJNIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIGljc3N2YyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xpY3NzdmMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFRhcGlTcnYiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcVGFwaVNydiIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFJwY0xvY2F0b3IiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcUnBjTG9jYXRvciIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIHNlY2xvZ29uIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXHNlY2xvZ29uIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFNOTVBUUkFQIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFNOTVBUUkFQIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIHNtcGhvc3QiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcc21waG9zdCIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIHN0aXN2YyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xzdGlzdmMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIHd1YXVzZXJ2IiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXHd1YXVzZXJ2IiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEJJVFMiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcQklUUyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIENyeXB0U3ZjIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXENyeXB0U3ZjIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIG1zaXNlcnZlciIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xtc2lzZXJ2ZXIiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFZTUyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xWU1MiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIHN3cHJ2IiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXHN3cHJ2IiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIGRlZnJhZ3N2YyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xkZWZyYWdzdmMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFdiaW9TcnZjIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFdiaW9TcnZjIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIHdjbmNzdmMiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcd2NuY3N2YyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFdwY01vblN2YyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xXcGNNb25TdmMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFdQREJ1c0VudW0iICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcV1BEQnVzRW51bSIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIENPTVN5c0FwcCIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xDT01TeXNBcHAiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFNEUlNWQyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xTRFJTVkMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIFdiZW5naW5lIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFdiZW5naW5lIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFNzdHBTdmMiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcU3N0cFN2YyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIHd1ZGZzdmMiICJTRVJWSUNFUyIgeyBTZXQtUmVnICJIS0xNOlxTWVNURU1cQ3VycmVudENvbnRyb2xTZXRcU2VydmljZXNcd3VkZnN2YyIgIlN0YXJ0IiA0IH0
+QWRkLVR3ZWFrICJEaXNhYmxlIFNDUG9saWN5U3ZjIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU1lTVEVNXEN1cnJlbnRDb250cm9sU2V0XFNlcnZpY2VzXFNDUG9saWN5U3ZjIiAiU3RhcnQiIDQgfQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFRoZW1lcyIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xUaGVtZXMiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEZvbnRDYWNoZSIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xGb250Q2FjaGUiICJTdGFydCIgNCB9
+QWRkLVR3ZWFrICJEaXNhYmxlIEJsdWV0b290aCIgIlNFUlZJQ0VTIiB7IFNldC1SZWcgIkhLTE06XFNZU1RFTVxDdXJyZW50Q29udHJvbFNldFxTZXJ2aWNlc1xCVEhQT1JUXFBhcmFtZXRlcnMiICJEaXNhYmxlQmx1ZXRvb3RoIiAxIH0
+QWRkLVR3ZWFrICJEaXNhYmxlIERlZmVuZGVyIiAiU0VSVklDRVMiIHsgU2V0LVJlZyAiSEtMTTpcU09GVFdBUkVcUG9saWNpZXNcTWljcm9zb2Z0XFdpbmRvd3MgRGVmZW5kZXIiICJEaXNhYmxlQW50aVNweXdhcmUiIDEgfQ
 
-# ---- SYSTEM DEVICES (4) ----
-Add-Tweak "Disable High Precision Event Timer" "SYSTEM DEVICES" {
-    $dev = Get-PnpDevice -FriendlyName "High precision event timer" -ErrorAction SilentlyContinue
-    if ($dev) {
-        Disable-PnpDevice -InstanceId $dev.InstanceId -Confirm:$false -ErrorAction SilentlyContinue
-    }
-}
-Add-Tweak "Disable Hyper-V Infrastructure Driver" "SYSTEM DEVICES" {
-    $dev = Get-PnpDevice -FriendlyName "Microsoft Hyper-V Virtualization Infrastructure Driver" -ErrorAction SilentlyContinue
-    if ($dev) {
-        Disable-PnpDevice -InstanceId $dev.InstanceId -Confirm:$false -ErrorAction SilentlyContinue
-    }
-}
-Add-Tweak "Disable Remote Desktop Device Redirector" "SYSTEM DEVICES" {
-    $dev = Get-PnpDevice -FriendlyName "Remote Desktop Device Redirector Bus" -ErrorAction SilentlyContinue
-    if ($dev) {
-        Disable-PnpDevice -InstanceId $dev.InstanceId -Confirm:$false -ErrorAction SilentlyContinue
-    }
-}
-Add-Tweak "Disable System Speaker" "SYSTEM DEVICES" {
-    $dev = Get-PnpDevice -FriendlyName "System speaker" -ErrorAction SilentlyContinue
-    if ($dev) {
-        Disable-PnpDevice -InstanceId $dev.InstanceId -Confirm:$false -ErrorAction SilentlyContinue
-    }
-}
+IyAtLS0tIFNZU1RFTSBERVZJQ0VTICg0KSAtLS0t
+QWRkLVR3ZWFrICJEaXNhYmxlIEhpZ2ggUHJlY2lzaW9uIEV2ZW50IFRpbWVyIiAiU1lTVEVNIERFVklDRVMiIHs
+ICAgICRkZXYgPSBHZXQtUG5wRGV2aWNlIC1GcmllbmRseU5hbWUgIkhpZ2ggcHJlY2lzaW9uIGV2ZW50IHRpbWVyIiAtRXJyb3JBY3Rpb24gU2lsZW50bHlDb250aW51ZQ
+ICAgIGlmICgkZGV2KSB7
+ICAgICAgICBEaXNhYmxlLVBucERldmljZSAtSW5zdGFuY2VJZCAkZGV2Lkluc3RhbmNlSWQgLUNvbmZpcm06JGZhbHNlIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVl
+ICAgIH0
+fQ
+QWRkLVR3ZWFrICJEaXNhYmxlIEh5cGVyLVYgSW5mcmFzdHJ1Y3R1cmUgRHJpdmVyIiAiU1lTVEVNIERFVklDRVMiIHs
+ICAgICRkZXYgPSBHZXQtUG5wRGV2aWNlIC1GcmllbmRseU5hbWUgIk1pY3Jvc29mdCBIeXBlci1WIFZpcnR1YWxpemF0aW9uIEluZnJhc3RydWN0dXJlIERyaXZlciIgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWU
+ICAgIGlmICgkZGV2KSB7
+ICAgICAgICBEaXNhYmxlLVBucERldmljZSAtSW5zdGFuY2VJZCAkZGV2Lkluc3RhbmNlSWQgLUNvbmZpcm06JGZhbHNlIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVl
+ICAgIH0
+fQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFJlbW90ZSBEZXNrdG9wIERldmljZSBSZWRpcmVjdG9yIiAiU1lTVEVNIERFVklDRVMiIHs
+ICAgICRkZXYgPSBHZXQtUG5wRGV2aWNlIC1GcmllbmRseU5hbWUgIlJlbW90ZSBEZXNrdG9wIERldmljZSBSZWRpcmVjdG9yIEJ1cyIgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWU
+ICAgIGlmICgkZGV2KSB7
+ICAgICAgICBEaXNhYmxlLVBucERldmljZSAtSW5zdGFuY2VJZCAkZGV2Lkluc3RhbmNlSWQgLUNvbmZpcm06JGZhbHNlIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVl
+ICAgIH0
+fQ
+QWRkLVR3ZWFrICJEaXNhYmxlIFN5c3RlbSBTcGVha2VyIiAiU1lTVEVNIERFVklDRVMiIHs
+ICAgICRkZXYgPSBHZXQtUG5wRGV2aWNlIC1GcmllbmRseU5hbWUgIlN5c3RlbSBzcGVha2VyIiAtRXJyb3JBY3Rpb24gU2lsZW50bHlDb250aW51ZQ
+ICAgIGlmICgkZGV2KSB7
+ICAgICAgICBEaXNhYmxlLVBucERldmljZSAtSW5zdGFuY2VJZCAkZGV2Lkluc3RhbmNlSWQgLUNvbmZpcm06JGZhbHNlIC1FcnJvckFjdGlvbiBTaWxlbnRseUNvbnRpbnVl
+ICAgIH0
+fQ
