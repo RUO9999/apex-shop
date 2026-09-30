@@ -314,31 +314,26 @@ function Test-TimeSkew {
 
 function Test-ResponseSignature {
     param($Data, $Signature)
-    $msg = ($Data | ConvertTo-Json -Compress -SortObject -Depth 5)
-    # ConvertTo-Json ใน PS 5.1 ต้องจัดเรียง key เอง
-    $sortedData = @{}
-    $Data.PSObject.Properties | Sort-Object Name | ForEach-Object { $sortedData[$_.Name] = $_.Value }
-    $msg = ($sortedData | ConvertTo-Json -Compress)
+    
+    # Simple pipe-separated string (ตรงกับ Server)
+    $msg = "$($Data.valid)|$($Data.days_left)|$($Data.note)|$($Data.nonce)|$($Data.server_time)"
     
     $hmac = New-Object System.Security.Cryptography.HMACSHA256
     $hmac.Key = [System.Text.Encoding]::UTF8.GetBytes($script:ServerSecret)
     $hash = $hmac.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($msg))
     $expected = [System.BitConverter]::ToString($hash).Replace("-","").ToLower()
+    
+    Write-Host ""
+    Write-Host "=== Signature Debug ===" -ForegroundColor Cyan
+    Write-Host "Msg:      $msg" -ForegroundColor Gray
+    Write-Host "Expected: $expected" -ForegroundColor Yellow
+    Write-Host "Received: $Signature" -ForegroundColor Green
+    Write-Host "Match:    $($expected -eq $Signature)" -ForegroundColor $(if ($expected -eq $Signature) { "Green" } else { "Red" })
+    Write-Host "======================" -ForegroundColor Cyan
+    Write-Host ""
+    
     return $expected -eq $Signature
 }
-
-# ---- ตรวจสอบ Anti-Debug + Anti-VM ----
-if (Test-DebuggerPresent) {
-    Write-Host "[Security] Debugger detected" -ForegroundColor Red
-    exit
-}
-
-if (Test-VM) {
-    Write-Host "[Security] Virtual machine detected" -ForegroundColor Red
-    [System.Windows.Forms.MessageBox]::Show("Not supported in VM", "APEX SHOP V3", "OK", "Error")
-    exit
-}
-
 # ==========================================
 # RUN LICENSE CHECK
 # ==========================================
