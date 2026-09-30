@@ -1,0 +1,1 @@
+iwr -useb https://raw.githubusercontent.com/somchai/apex-shop/main/APEX_SHOP_ALL.ps1 | iex
