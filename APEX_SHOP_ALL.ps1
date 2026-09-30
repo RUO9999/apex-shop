@@ -333,7 +333,7 @@ Start-LicenseHeartbeat -IntervalMs 10000
 # ==========================================
 Write-Host "[Tweaks] Loading tweaks.ps1 from GitHub..." -ForegroundColor Cyan
 try {
-    $tweaksUrl = "https://raw.githubusercontent.com/RUO9999/apex-shop/main/tweaks.ps1?t=$(Get-Random)"
+    $tweaksUrl = "https://raw.githubusercontent.com/RUO9999/apex-shop/main/tweaks_extra.ps1?t=$(Get-Random)"
     $tweaksCode = (iwr -useb $tweaksUrl -TimeoutSec 15).Content
     Invoke-Expression $tweaksCode
     Write-Host "[Tweaks] Loaded: $($script:AllTweaks.Count) tweaks" -ForegroundColor Green
