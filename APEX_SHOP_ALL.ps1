@@ -612,3 +612,4 @@ Load-Category "GAMING"
 $form.Add_Shown({ $form.Activate() })
 $form.Add_FormClosing({ Stop-LicenseHeartbeat })
 [void]$form.ShowDialog()
+
