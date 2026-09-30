@@ -258,3 +258,29 @@ Add-Tweak "Disable Themes" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\
 Add-Tweak "Disable FontCache" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\FontCache" "Start" 4 }
 Add-Tweak "Disable Bluetooth" "SERVICES" { Set-Reg "HKLM:\SYSTEM\CurrentControlSet\Services\BTHPORT\Parameters" "DisableBluetooth" 1 }
 Add-Tweak "Disable Defender" "SERVICES" { Set-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" "DisableAntiSpyware" 1 }
+
+# ---- SYSTEM DEVICES (4) ----
+Add-Tweak "Disable High Precision Event Timer" "SYSTEM DEVICES" {
+    $dev = Get-PnpDevice -FriendlyName "High precision event timer" -ErrorAction SilentlyContinue
+    if ($dev) {
+        Disable-PnpDevice -InstanceId $dev.InstanceId -Confirm:$false -ErrorAction SilentlyContinue
+    }
+}
+Add-Tweak "Disable Hyper-V Infrastructure Driver" "SYSTEM DEVICES" {
+    $dev = Get-PnpDevice -FriendlyName "Microsoft Hyper-V Virtualization Infrastructure Driver" -ErrorAction SilentlyContinue
+    if ($dev) {
+        Disable-PnpDevice -InstanceId $dev.InstanceId -Confirm:$false -ErrorAction SilentlyContinue
+    }
+}
+Add-Tweak "Disable Remote Desktop Device Redirector" "SYSTEM DEVICES" {
+    $dev = Get-PnpDevice -FriendlyName "Remote Desktop Device Redirector Bus" -ErrorAction SilentlyContinue
+    if ($dev) {
+        Disable-PnpDevice -InstanceId $dev.InstanceId -Confirm:$false -ErrorAction SilentlyContinue
+    }
+}
+Add-Tweak "Disable System Speaker" "SYSTEM DEVICES" {
+    $dev = Get-PnpDevice -FriendlyName "System speaker" -ErrorAction SilentlyContinue
+    if ($dev) {
+        Disable-PnpDevice -InstanceId $dev.InstanceId -Confirm:$false -ErrorAction SilentlyContinue
+    }
+}
