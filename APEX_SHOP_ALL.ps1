@@ -17,7 +17,7 @@ if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Adm
 # ==========================================
 # GLOBALS & COLORS
 # ==========================================
-$script:LicenseServer = "http://localhost:8090"
+$script:LicenseServer = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("aHR0cDovL2xvY2FsaG9zdDo4MDkw"))
 $script:LicenseCacheFile = "$env:APPDATA\ApexShop\license_cache.json"
 $script:CacheDays = 7
 $script:HeartbeatTimer = $null
