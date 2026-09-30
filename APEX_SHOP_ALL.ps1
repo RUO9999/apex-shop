@@ -254,7 +254,7 @@ function Confirm-License {
 }
 
 function Start-LicenseHeartbeat {
-    param([int]$IntervalMs = 10000)
+    param([int]$IntervalMs = 30000)
     if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Dispose() }
     $script:HeartbeatTimer = New-Object System.Threading.Timer(
         [System.Threading.TimerCallback]{
@@ -265,27 +265,36 @@ function Start-LicenseHeartbeat {
                 $cache = Get-CachedLicense
                 if (-not $cache) { return }
                 $result = Test-LicenseKey -Key $cache.key -HWID (Get-HWID)
+                
+                # นับครั้งที่ล้มเหลว
                 if (-not $result.valid -and $result.reason -ne "Server unreachable") {
-                    $script:LicenseRevoked = $true
-                    Write-Host "[License] REVOKED: $($result.reason)" -ForegroundColor Red
-                    if ($script:MainForm -and $script:MainForm.IsHandleCreated) {
-                        try {
-                            $script:MainForm.Invoke([Action]{
-                                [System.Windows.Forms.MessageBox]::Show("License revoked: $($result.reason)", "APEX SHOP V3", "OK", "Error") | Out-Null
-                                [System.Windows.Forms.Application]::Exit()
-                            })
-                        } catch { }
+                    $script:HeartbeatFails++
+                    Write-Host "[License] Heartbeat check failed ($($script:HeartbeatFails)/5): $($result.reason)" -ForegroundColor Yellow
+                    
+                    # ถ้าล้มเหลว 5 ครั้งติดต่อกัน → ค่อยปิด
+                    if ($script:HeartbeatFails -ge 5) {
+                        $script:LicenseRevoked = $true
+                        Write-Host "[License] REVOKED after 5 failed checks" -ForegroundColor Red
+                        if ($script:MainForm -and $script:MainForm.IsHandleCreated) {
+                            try {
+                                $script:MainForm.Invoke([Action]{
+                                    [System.Windows.Forms.MessageBox]::Show("License revoked: $($result.reason)", "APEX SHOP V3", "OK", "Error") | Out-Null
+                                    [System.Windows.Forms.Application]::Exit()
+                                })
+                            } catch { }
+                        }
                     }
+                } else {
+                    # Reset counter when successful
+                    $script:HeartbeatFails = 0
                 }
-            } catch { } finally { $script:HeartbeatBusy = $false }
+            } catch {
+                # Silent fail - don't count as failure
+            } finally { $script:HeartbeatBusy = $false }
         },
         $null, $IntervalMs, $IntervalMs
     )
     Write-Host "[License] Heartbeat ON (${IntervalMs}ms)" -ForegroundColor Green
-}
-
-function Stop-LicenseHeartbeat {
-    if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Dispose(); $script:HeartbeatTimer = $null }
 }
 
 # ==========================================
