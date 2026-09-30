@@ -254,47 +254,43 @@ function Confirm-License {
 }
 
 function Start-LicenseHeartbeat {
-    param([int]$IntervalMs = 30000)
+    param([int]$IntervalMs = 60000)
+    
+    # Heartbeat แบบ Safe Mode — แค่ log ไม่ปิดโปรแกรมเด็ดขาด
     if ($script:HeartbeatTimer) { $script:HeartbeatTimer.Dispose() }
+    
     $script:HeartbeatTimer = New-Object System.Threading.Timer(
         [System.Threading.TimerCallback]{
             param($state)
-            if ($script:LicenseRevoked -or $script:HeartbeatBusy) { return }
-            $script:HeartbeatBusy = $true
             try {
-                $cache = Get-CachedLicense
-                if (-not $cache) { return }
-                $result = Test-LicenseKey -Key $cache.key -HWID (Get-HWID)
-                
-                # นับครั้งที่ล้มเหลว
-                if (-not $result.valid -and $result.reason -ne "Server unreachable") {
-                    $script:HeartbeatFails++
-                    Write-Host "[License] Heartbeat check failed ($($script:HeartbeatFails)/5): $($result.reason)" -ForegroundColor Yellow
+                if ($script:HeartbeatBusy) { return }
+                $script:HeartbeatBusy = $true
+                try {
+                    $cache = Get-CachedLicense
+                    if (-not $cache) { return }
                     
-                    # ถ้าล้มเหลว 5 ครั้งติดต่อกัน → ค่อยปิด
-                    if ($script:HeartbeatFails -ge 5) {
-                        $script:LicenseRevoked = $true
-                        Write-Host "[License] REVOKED after 5 failed checks" -ForegroundColor Red
-                        if ($script:MainForm -and $script:MainForm.IsHandleCreated) {
-                            try {
-                                $script:MainForm.Invoke([Action]{
-                                    [System.Windows.Forms.MessageBox]::Show("License revoked: $($result.reason)", "APEX SHOP V3", "OK", "Error") | Out-Null
-                                    [System.Windows.Forms.Application]::Exit()
-                                })
-                            } catch { }
-                        }
+                    # ดึงข้อมูล
+                    $result = $null
+                    try {
+                        $result = Test-LicenseKey -Key $cache.key -HWID (Get-HWID)
+                    } catch {
+                        Write-Host "[License] Heartbeat: error (ignored)" -ForegroundColor DarkGray
+                        return
                     }
-                } else {
-                    # Reset counter when successful
-                    $script:HeartbeatFails = 0
-                }
-            } catch {
-                # Silent fail - don't count as failure
-            } finally { $script:HeartbeatBusy = $false }
+                    
+                    # ⚠️ สำคัญ: แค่ log — ห้ามปิดโปรแกรม
+                    if ($result -and -not $result.valid) {
+                        Write-Host "[License] Heartbeat warning: $($result.reason)" -ForegroundColor Yellow
+                    } else {
+                        Write-Host "[License] Heartbeat OK" -ForegroundColor DarkGray
+                    }
+                } catch { }
+                finally { $script:HeartbeatBusy = $false }
+            } catch { }
         },
         $null, $IntervalMs, $IntervalMs
     )
-    Write-Host "[License] Heartbeat ON (${IntervalMs}ms)" -ForegroundColor Green
+    Write-Host "[License] Heartbeat ON (${IntervalMs}ms, safe mode)" -ForegroundColor Green
 }
 
 # ==========================================
