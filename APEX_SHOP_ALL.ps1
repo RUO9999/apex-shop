@@ -338,7 +338,9 @@ function Test-ResponseSignature {
     Write-Host "======================" -ForegroundColor Cyan
     Write-Host ""
     
-    return $expected -eq $Signature}
+    return $expected -eq $Signature
+    
+    }
 
 
 
