@@ -292,36 +292,48 @@ function Test-DebuggerPresent {
     } catch { return $false }
 }
 
-function Test-VM {
-    try {
-        $vmSigs = @("VMware","VBOX","VirtualBox","QEMU","Xen","Virtual","Parallels")
-        $cs = Get-CimInstance Win32_ComputerSystem -ErrorAction SilentlyContinue
-        $bios = Get-CimInstance Win32_BIOS -ErrorAction SilentlyContinue
-        foreach ($sig in $vmSigs) {
-            if ($cs.Manufacturer -like "*$sig*" -or $cs.Model -like "*$sig*") { return $true }
-            if ($bios.Manufacturer -like "*$sig*") { return $true }
-        }
-        return $false
-    } catch { return $false }
-}
-
 function Test-TimeSkew {
     param([long]$ServerTime)
     
-    # ใช้เวลา UTC ของ Server เป็นหลัก
-    # Server ส่ง UTC timestamp → Client คำนวณ UTC เช่นกัน
-    $epoch = [datetime]::new(1970, 1, 1, 0, 0, 0, [System.DateTimeKind]::Utc)
-    $clientTime = [long](([datetime]::UtcNow - $epoch).TotalSeconds)
-    
+    # ใช้ Unix timestamp (UTC) ทั้ง 2 ฝั่ง
+    $clientTime = [long]([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
     $diff = [Math]::Abs($clientTime - $ServerTime)
     
-    Write-Host "[TimeSkew] Client UTC: $clientTime | Server: $ServerTime | Diff: $diff" -ForegroundColor DarkGray
+    Write-Host "[TimeSkew] Client: $clientTime | Server: $ServerTime | Diff: $diff sec" -ForegroundColor DarkGray
     
-    # ยอมรับความต่างได้ 24 ชั่วโมง (86400 วินาที) เพื่อรองรับ timezone
+    # ยอมรับความต่างได้ 24 ชั่วโมง (86400 วินาที)
     return ($diff -gt 86400)
 }
 
-
+function Test-ResponseSignature {
+    param($Data, $Signature)
+    
+    # สร้าง Simple Pipe (ต้องตรงกับ Server 100%)
+    $validStr = if ($Data.valid -eq $true -or "$($Data.valid)" -eq "True" -or "$($Data.valid)" -eq "1") { "1" } else { "0" }
+    $daysStr = [string][int]$Data.days_left
+    $noteStr = [string]$Data.note
+    if ($null -eq $Data.note) { $noteStr = "" }
+    $nonceStr = [string]$Data.nonce
+    $timeStr = [string][long]$Data.server_time
+    
+    $msg = "$validStr|$daysStr|$noteStr|$nonceStr|$timeStr"
+    
+    $hmac = New-Object System.Security.Cryptography.HMACSHA256
+    $hmac.Key = [System.Text.Encoding]::UTF8.GetBytes($script:ServerSecret)
+    $hash = $hmac.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($msg))
+    $expected = [System.BitConverter]::ToString($hash).Replace("-","").ToLower()
+    
+    Write-Host ""
+    Write-Host "=== Signature Debug ===" -ForegroundColor Cyan
+    Write-Host "Msg:      [$msg]" -ForegroundColor Gray
+    Write-Host "Expected: $expected" -ForegroundColor Yellow
+    Write-Host "Received: $Signature" -ForegroundColor Green
+    Write-Host "Match:    $($expected -eq $Signature)" -ForegroundColor $(if ($expected -eq $Signature) { "Green" } else { "Red" })
+    Write-Host "======================" -ForegroundColor Cyan
+    Write-Host ""
+    
+    return $expected -eq $Signature
+}
 
 # ==========================================
 # RUN LICENSE CHECK
